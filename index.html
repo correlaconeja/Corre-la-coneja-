@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Atrapasol | Corre la Coneja</title>
+
+  <!-- Tipografía moderna y limpia con números uniformes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 15px 15px 50px;
+      font-family: 'Montserrat', sans-serif;
+      color: #2b2017;
+      background:
+        linear-gradient(
+          rgba(255, 251, 245, .35),
+          rgba(255, 251, 245, .42)
+        ),
+        url("./reflejos-atrapasol.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    /* ENCABEZADO Y MEDALLA DEL LOGO INTEGRADO */
+    .headerMarca {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .medallaLogo {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      background: #f5efe6;
+      border: 1px solid rgba(195, 165, 120, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(60, 40, 20, 0.08), 0 0 0 3px rgba(255, 255, 255, 0.3);
+    }
+
+    .logoImagen {
+      width: 130%;
+      height: 130%;
+      object-fit: contain;
+      border-radius: 50%;
+      mix-blend-mode: multiply;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin: 0 0 6px;
+      color: #24180e;
+    }
+
+    .subtitulo {
+      text-align: center;
+      font-size: 15px;
+      color: #4a3728;
+      margin-bottom: 25px;
+    }
+
+    /* CAJA DE INGRESO DE CÓDIGO */
+    .zonaCodigo {
+      background: rgba(255, 252, 246, 0.88);
+      border: 1px solid rgba(210, 185, 145, 0.8);
+      border-radius: 24px;
+      padding: 30px 20px;
+      box-shadow: 0 15px 35px rgba(60, 40, 20, 0.1);
+      backdrop-filter: blur(8px);
+    }
+
+    h2 {
+      text-align: center;
+      font-weight: 500;
+      color: #332214;
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    input {
+      display: block;
+      width: 290px;
+      max-width: 100%;
+      margin: 18px auto;
+      padding: 15px;
+      border-radius: 30px;
+      border: 1px solid #c4ae88;
+      background: rgba(255, 255, 255, 0.95);
+      text-align: center;
+      font-size: 18px;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 2px;
+      outline: none;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,.03);
+      color: #2b1e12;
+    }
+
+    input:focus {
+      border-color: #7d5730;
+    }
+
+    /* BOTÓN PRINCIPAL */
+    button {
+      display: block;
+      margin: 16px auto 5px;
+      padding: 15px 42px;
+      border: none;
+      border-radius: 35px;
+      background: #a98357;
+      color: white;
+      font-size: 16px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(130, 90, 50, 0.25);
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(130, 90, 50, 0.35);
+    }
+
+    .separador {
+      margin: 30px 0;
+      border: none;
+      border-top: 1px solid rgba(90, 60, 30, 0.18);
+    }
+
+    /* RESULTADO DE LA INTERPRETACIÓN */
+    #resultado {
+      display: none;
+      width: 100%;
+      margin: auto;
+      padding: 35px 30px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, 0.96), rgba(249, 243, 232, 0.96));
+      border-radius: 26px;
+      border: 1px solid rgba(215, 192, 155, 0.9);
+      box-shadow: 0 20px 50px rgba(80, 55, 25, 0.15);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    #resultado.visible {
+      display: block;
+    }
+
+    .mensajeTitulo {
+      text-align: center;
+      font-size: 24px;
+      color: #4a2e4d;
+      margin-bottom: 22px;
+      font-weight: 600;
+    }
+
+    /* CORRECCIÓN DE INTERLINEADO Y ESPACIADO */
+    .bloqueInterpretacion {
+      margin: 0;
+      padding: 0;
+      border: none;
+      display: inline;
+    }
+
+    /* BOTÓN DE COMPONENTES DENTRO DEL RESULTADO */
+    .cajaComponentesDestacada {
+      margin-top: 30px;
+      padding-top: 25px;
+      border-top: 1px dashed rgba(180, 150, 110, .5);
+      text-align: center;
+    }
+
+    .botonComponentesDestacado {
+      display: inline-block;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 25px;
+      background: #a98357;
+      color: white;
+      font-size: 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      box-shadow: 0 6px 18px rgba(130, 90, 50, 0.25);
+      transition: .25s;
+    }
+
+    .botonComponentesDestacado:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(130, 90, 50, 0.35);
+    }
+
+    /* BOTONES SECUNDARIOS Y REDES CON LOGOS */
+    .botonesRedes {
+      margin: 30px auto 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 400px;
+    }
+
+    .botonSecundario {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(190, 160, 115, 0.55);
+      color: #5a3e23;
+      background: linear-gradient(135deg, rgba(255, 254, 250, 0.94), rgba(246, 238, 224, 0.9));
+      font-size: 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      box-shadow: 0 5px 15px rgba(80, 55, 25, 0.08);
+      transition: .25s;
+    }
+
+    .botonSecundario:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(80, 55, 25, 0.15);
+    }
+
+    .iconoRed {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    /* PIE DE PÁGINA */
+    .piePagina {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(180, 150, 110, .25);
+      font-size: 12px;
+      color: #5c432d;
+    }
+
+    .piePagina .copy {
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .piePagina .subcopy {
+      font-style: italic;
+      opacity: .85;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="contenedor">
+
+    <!-- MARCA Y LOGO -->
+    <div class="headerMarca">
+      <div class="medallaLogo">
+        <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen" onerror="this.src='./logo.jpg'; this.onerror=function(){ this.src='./logo.png'; this.onerror=function(){ this.parentElement.style.display='none'; } }">
+      </div>
+      <h1>Mi Atrapasol</h1>
+      <div class="subtitulo">
+        Ingresá el código de tu pieza para descubrir su esencia.
+      </div>
+    </div>
+
+    <!-- INGRESO DE CÓDIGO -->
+    <div class="zonaCodigo">
+      <h2>Código de tu Atrapasol</h2>
+      <input id="codigoEntrada" type="text" placeholder="Ejemplo: SOL01">
+      <button id="verMensaje">Descubrir esencia</button>
+    </div>
+
+    <hr class="separador">
+
+    <!-- RESULTADO DE LA INTERPRETACIÓN -->
+    <div id="resultado"></div>
+
+    <!-- BOTONES DE ENLACES EXTERNOS (Mayorista y Minorista Juntos Arriba) -->
+    <div class="botonesRedes">
+      <a class="botonSecundario" href="./tienda.html">
+        <img src="./logomayo.jpg" alt="Mayorista" class="iconoRed">
+        Compra mayorista (Próximamente)
+      </a>
+      <a class="botonSecundario" href="https://wa.me/c/5492396614552" target="_blank">
+        <img src="./logowp.jpg" alt="WhatsApp" class="iconoRed">
+        Compra minorista WhatsApp
+      </a>
+      <a class="botonSecundario" href="https://www.instagram.com/correlaconeja.ok/" target="_blank">
+        <img src="./logoinst.jpg" alt="Instagram" class="iconoRed">
+        Instagram
+      </a>
+      <a class="botonSecundario" href="https://www.tiktok.com/@corre.la.coneja" target="_blank">
+        <img src="./logott.jpg" alt="TikTok" class="iconoRed">
+        TikTok
+      </a>
+    </div>
+
+    <!-- COPYRIGHT -->
+    <footer class="piePagina">
+      <div class="copy">© CORRE LA CONEJA. Todos los derechos reservados.</div>
+      <div class="subcopy">Arte, intention & luz en cada pieza.</div>
+    </footer>
+
+  </div>
+  <!-- Bibliotecas Base y Agregados -->
+  <script src="./bclccris.js"></script>
+  <script src="./bclcfiguras.js"></script>
+  <script src="./bclcflores.js"></script>
+  <script src="./bclcpirita.js"></script>
+
+  <script src="./componentesCLC.js"></script>
+  <script src="./componentesagregados.js"></script>
+  <script src="./bclcagregados.js"></script>
+
+  <!-- Diccionario y Codificador de Códigos Cortos (con ?v=2 para evitar caché) -->
+  <script src="./diccionarioCLC.js?v=2"></script>
+  <script src="./codificadorCLC.js"></script>
+
+  <script>
+    window.bclcAgregados = window.bclcAgregados || { cristales: {}, figuras: {}, flores: {} };
+    const piritaCompleta = window.combinacionesPirita || {};
+
+    const codigoEntrada = document.getElementById("codigoEntrada");
+    const verMensaje = document.getElementById("verMensaje");
+    const resultado = document.getElementById("resultado");
+
+    let textoResultado = "";
+    let codigoActual = "";
+
+    // Tokens exactos de 2 caracteres para las figuras especiales que van al final
+    const FIGURAS_ESPECIALES_TOKENS = ["OM", "SV", "FV"];
+
+    window.addEventListener("DOMContentLoaded", function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let codigoUrl = urlParams.get("codigo");
+      if (codigoUrl) {
+        codigoEntrada.value = codigoUrl;
+        procesarYMostrar(codigoUrl);
+      }
+    });
+
+    verMensaje.addEventListener("click", function () {
+      let codigo = codigoEntrada.value.trim().toUpperCase();
+
+      if (!codigo) {
+        resultado.innerHTML = "Por favor ingresá el código de tu Atrapasol.";
+        resultado.classList.add("visible");
+        resultado.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+
+      procesarYMostrar(codigo);
+    });
+
+    function procesarYMostrar(codigoIngresado) {
+      let codigoLargo = CodificadorCLC.expandir(codigoIngresado);
+
+      if (!codigoLargo) {
+        resultado.innerHTML = "No se encontró información para ese código.";
+        resultado.classList.add("visible");
+        resultado.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+
+      codigoActual = codigoLargo;
+      textoResultado = "";
+      
+      let elementosOrdenados = interpretarCodigoDinamico(codigoLargo);
+      
+      let textos = elementosOrdenados
+        .filter(item => item.texto && item.texto.trim() !== "")
+        .map(item => item.texto.trim());
+
+      textoResultado = `<div class="bloqueInterpretacion">${textos.join(" ")}</div>`;
+
+      mostrarResultado();
+      resultado.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    /**
+     * Motor de búsqueda con prioridad estricta:
+     * 1. Busca primero en bclcagregados.js (agregados del oráculo)
+     * 2. Si no lo encuentra, busca en la biblioteca base correspondiente (cristalesCLC, figurasCLC, floresCLC)
+     */
+    function buscarEnSeccionConPrioridad(seccionAgregado, seccionBase, token) {
+      let subAgregados = (window.bclcAgregados && window.bclcAgregados[seccionAgregado]) || {};
+      let subBase = window[seccionBase] || {};
+
+      // 1. Buscar primero en bclcagregados
+      for (let key of Object.keys(subAgregados)) {
+        let item = subAgregados[key];
+        if (item.codigo === token || item.codigoSecundario === token) {
+          let texto = item.principal || item.secundaria || item.mensaje || "";
+          return { tipo: seccionAgregado, texto: texto, esPrincipal: item.codigo === token };
+        }
+      }
+
+      // 2. Si no está en agregados, buscar en base
+      for (let key of Object.keys(subBase)) {
+        let item = subBase[key];
+        if (item.codigo === token || item.codigoSecundario === token) {
+          let texto = item.principal || item.secundaria || item.mensaje || "";
+          return { tipo: seccionBase, texto: texto, esPrincipal: item.codigo === token };
+        }
+      }
+
+      return null;
+    }
+
+    /**
+     * Motor dinámico de interpretación de 2 caracteres con orden jerárquico estricto (Oráculo)
+     */
+    function interpretarCodigoDinamico(codigoLargo) {
+      const tokens = [];
+      for (let i = 0; i < codigoLargo.length; i += 2) {
+        tokens.push(codigoLargo.substring(i, i + 2));
+      }
+
+      let componentesClasificados = {
+        piedraCombinada: null,
+        piedraPrincipal: null,
+        figurasEstandar: [],
+        figurasEspeciales: [],
+        piedrasSecundarias: [],
+        flores: []
+      };
+
+      tokens.forEach(token => {
+        if (token.length < 2) return;
+
+        // 1. Verificar si es Piedra Combinada (Pirita)
+        let encontradaPirita = false;
+        Object.keys(piritaCompleta).forEach(nombre => {
+          let pirita = piritaCompleta[nombre];
+          if (pirita.codigo === token) {
+            componentesClasificados.piedraCombinada = { tipo: 'pirita', texto: pirita.mensaje || "" };
+            encontradaPirita = true;
+          }
+        });
+        if (encontradaPirita) return;
+
+        // 2. Verificar si es Figura (Prioridad: bclcagregados -> figurasCLC)
+        let figuraEncontrada = buscarEnSeccionConPrioridad('figuras', 'figurasCLC', token);
+        if (figuraEncontrada) {
+          let itemFigura = { tipo: 'figura', texto: figuraEncontrada.texto };
+          if (FIGURAS_ESPECIALES_TOKENS.includes(token)) {
+            componentesClasificados.figurasEspeciales.push(itemFigura);
+          } else {
+            componentesClasificados.figurasEstandar.push(itemFigura);
+          }
+          return;
+        }
+
+        // 3. Verificar Cristales (Principal o Secundarios) (Prioridad: bclcagregados -> cristalesCLC)
+        let cristalEncontrado = buscarEnSeccionConPrioridad('cristales', 'cristalesCLC', token);
+        if (cristalEncontrado) {
+          let itemCristal = { tipo: 'cristal', texto: cristalEncontrado.texto };
+          if (!componentesClasificados.piedraPrincipal && !componentesClasificados.piedraCombinada && cristalEncontrado.esPrincipal) {
+            componentesClasificados.piedraPrincipal = itemCristal;
+          } else {
+            componentesClasificados.piedrasSecundarias.push(itemCristal);
+          }
+          return;
+        }
+
+        // 4. Verificar Flores (Prioridad: bclcagregados -> floresCLC)
+        let florEncontrada = buscarEnSeccionConPrioridad('flores', 'floresCLC', token);
+        if (florEncontrada) {
+          componentesClasificados.flores.push({ tipo: 'flor', texto: florEncontrada.texto });
+          return;
+        }
+      });
+
+      // Orden Jerárquico del Oráculo
+      let secuenciaRenderizado = [];
+
+      if (componentesClasificados.piedraCombinada) {
+        secuenciaRenderizado.push(componentesClasificados.piedraCombinada);
+        secuenciaRenderizado.push(...componentesClasificados.figurasEstandar);
+      } else if (componentesClasificados.piedraPrincipal) {
+        secuenciaRenderizado.push(componentesClasificados.piedraPrincipal);
+        secuenciaRenderizado.push(...componentesClasificados.figurasEstandar);
+      } else if (componentesClasificados.figurasEstandar.length > 0) {
+        secuenciaRenderizado.push(componentesClasificados.figurasEstandar.shift());
+        secuenciaRenderizado.push(...componentesClasificados.figurasEstandar);
+      }
+
+      secuenciaRenderizado.push(...componentesClasificados.piedrasSecundarias);
+      secuenciaRenderizado.push(...componentesClasificados.figurasEspeciales);
+      secuenciaRenderizado.push(...componentesClasificados.flores);
+
+      return secuenciaRenderizado;
+    }
+
+    function mostrarResultado() {
+      if (textoResultado) {
+        resultado.innerHTML = `
+          <div class="mensajeTitulo">✨ Esencia de tu Atrapasol ✨</div>
+          ${textoResultado}
+          <div class="cajaComponentesDestacada">
+            <a class="botonComponentesDestacado" href="./componentes.html?codigo=${codigoActual}">
+              Ver componentes y cristales de tu pieza
+            </a>
+          </div>
+        `;
+      } else {
+        resultado.innerHTML = "No se encontró información para ese código.";
+      }
+      resultado.classList.add("visible");
+    }
+  </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
