@@ -7,7 +7,7 @@
   <title>Tienda Mayorista | Corre la Coneja</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
     body {
@@ -91,6 +91,39 @@
       cursor: pointer; transition: background .2s; flex-grow: 1;
     }
     .btnAccionCard:hover { background: #8e6a43; }
+
+    /* CARTEL FLOTANTE / MODAL DE AVISO ARTESANAL (Letras ampliadas) */
+    .modalAvisoFlotante {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(43, 32, 23, 0.65); display: flex; align-items: center; justify-content: center;
+      z-index: 3000; padding: 20px; backdrop-filter: blur(4px);
+      animation: aparecerAviso .3s ease;
+    }
+    @keyframes aparecerAviso {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .contenidoAvisoFlotante {
+      background: linear-gradient(135deg, #fffefc, #f7efe2);
+      border: 1px solid #c4a470; border-radius: 22px; max-width: 480px; width: 100%;
+      padding: 35px 28px; text-align: center; position: relative;
+      box-shadow: 0 20px 40px rgba(50, 30, 15, 0.25);
+    }
+    .contenidoAvisoFlotante h3 {
+      font-family: 'Cormorant Garamond', serif; font-size: 30px; color: #3b2818;
+      margin: 0 0 14px; font-weight: 600; letter-spacing: 0.5px;
+    }
+    .contenidoAvisoFlotante p {
+      font-size: 16px; color: #5c4228; line-height: 1.6; margin: 0 0 24px;
+    }
+    .btnCerrarAviso {
+      background: #8c6239; color: white; border: none; padding: 13px 32px;
+      border-radius: 25px; font-size: 14px; font-family: 'Montserrat', sans-serif;
+      font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(130, 90, 50, 0.25);
+      transition: background .2s, transform .2s;
+    }
+    .btnCerrarAviso:hover { background: #734e2c; transform: translateY(-1px); }
+
     /* Modales */
     .modalOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -165,588 +198,615 @@
     }
   </style>
 </head>
+      <body>
 
-<body>
-  <div class="contenedor">
-    <div class="headerMarca">
-      <div class="medallaLogo">
-        <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen">
-      </div>
-      <h1>Tienda Mayorista</h1>
-      <div class="subtitulo">Seleccioná tus artículos. Descuento mayorista (25%) aplicado automáticamente. Compra mínima: $150.000.</div>
-    </div>
-
-    <div id="contenedorGrilla" class="grillaProductos"></div>
-    
-    <!-- Modal Detalle del Producto -->
-    <div id="modalProducto" class="modalOverlay" onclick="cerrarModalFuera(event)">
-      <div class="modalContenido">
-        <button class="cerrarModal" onclick="cerrarModalDetalle()">×</button>
-        
-        <div style="font-size: 11px; font-weight: 600; color: #7d5730; margin-bottom: 4px;">📸 Fotografías:</div>
-        <div class="sliderContainer" id="modalSliderContainer">
-          <img id="modalImg" src="" alt="" onclick="abrirLightboxDesdeModal()" title="Hacer clic para ampliar imagen">
-          <button class="sliderBtn sliderPrev" id="btnPrevFoto" onclick="cambiarFotoModal(-1)">‹</button>
-          <button class="sliderBtn sliderNext" id="btnNextFoto" onclick="cambiarFotoModal(1)">›</button>
-          <div class="sliderIndicador" id="modalIndicador">1 / 1</div>
+        <!-- CARTEL FLOTANTE DE AVISO ARTESANAL AL ENTRAR A LA TIENDA -->
+        <div id="avisoFlotanteTienda" class="modalAvisoFlotante" onclick="cerrarAvisoFlotanteFuera(event)">
+          <div class="contenidoAvisoFlotante">
+            <h3>✨ Tiempo y Dedicación Artesanal</h3>
+            <p>Cada pieza se elabora a mano de forma totalmente personalizada. Los pedidos cuentan con un tiempo de fabricación estimado. ¡Gracias por elegir arte con intención!</p>
+            <button class="btnCerrarAviso" onclick="cerrarAvisoFlotante()">Entendido, ver tienda</button>
+          </div>
         </div>
 
-        <div id="seccionVideosModalContainer"></div>
-
-        <h2 id="modalNombre" style="margin: 10px 0 6px; color: #332214; font-size: 18px; border:none; padding:0;"></h2>
-        <p id="modalDesc" style="font-size: 13px; color: #614a38; line-height: 1.5; margin-bottom: 12px; white-space: pre-line;"></p>
-        
-        <div style="background: rgba(215, 192, 155, 0.2); padding: 10px; border-radius: 10px; margin-bottom: 12px; display: flex; align-items: baseline; gap: 8px;">
-          <span id="modalPrecioLista" style="font-size: 12px; color: #8c735c; text-decoration: line-through;"></span>
-          <span id="modalPrecioFinal" style="font-size: 18px; color: #5a3e23; font-weight: 700;"></span>
-          <span class="badgeDescuento">25% OFF</span>
-        </div>
-        <button class="btnAccionCard" style="width: 100%; padding: 10px; font-size: 13px;" onclick="agregarDesdeModal()">Agregar al Pedido</button>
-      </div>
-    </div>
-
-    <!-- Modal Lightbox independiente -->
-    <div id="lightboxModal" onclick="cerrarLightbox()">
-      <span class="lightbox-cerrar">&times;</span>
-      <img id="lightboxImg" alt="Imagen ampliada">
-    </div>
-    <!-- Modal Checkout -->
-    <div id="modalCheckout" class="modalOverlay">
-      <div class="modalContenido">
-        <button class="cerrarModal" onclick="cerrarModalCheckout()">×</button>
-        <h2 style="margin-top: 0; color: #332214; font-size: 17px;">📦 Datos de Envío y Validación</h2>
-        
-        <div id="alertaBienvenidaContenedor" style="display: none;"></div>
-
-        <div id="contenidoCheckoutForm">
-          <div class="formGrupo">
-            <label>Nombre y Apellido</label>
-            <input type="text" id="envNombre" placeholder="Tu nombre y apellido">
-          </div>
-          <div class="formGrupo">
-            <label>Localidad</label>
-            <input type="text" id="envLocalidad" placeholder="Tu localidad">
-          </div>
-          <div class="formGrupo">
-            <label>Provincia</label>
-            <input type="text" id="envProvincia" placeholder="Tu provincia">
-          </div>
-          <div class="formGrupo">
-            <label>Teléfono</label>
-            <div style="display: flex; gap: 8px;">
-              <input type="text" id="envCaracteristica" placeholder="Ej: 1234" style="width: 35%;">
-              <input type="text" id="envNumero" placeholder="Ej: 567890" style="width: 65%;">
+        <div class="contenedor">
+          <div class="headerMarca">
+            <div class="medallaLogo">
+              <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen">
             </div>
+            <h1>Tienda Mayorista</h1>
+            <div class="subtitulo">Seleccioná tus artículos. Descuento mayorista (25%) aplicado automáticamente. Compra mínima: $150.000.</div>
           </div>
-          <div class="formGrupo">
-            <label>Correo electrónico (Opcional)</label>
-            <input type="email" id="envCorreo" placeholder="correo@ejemplo.com">
-          </div>
-          <div class="formGrupo">
-            <label>Tipo de Entrega</label>
-            <select id="tipoEntrega" onchange="cambiarTipoEntrega()">
-              <option value="domicilio">Envío a domicilio</option>
-              <option value="sucursal">Retiro por sucursal</option>
-            </select>
-          </div>
-          <div class="formGrupo" id="grupoDomicilio">
-            <label>Domicilio (Calle, Número, Piso/Depto)</label>
-            <input type="text" id="envCalle" placeholder="Ej: San Martín 456, Piso 2 B">
-          </div>
-          <div class="formGrupo">
-            <label>Código Postal</label>
-            <input type="text" id="envCp" placeholder="Ej: 3060">
-          </div>
-          <button class="btnWhatsApp" style="margin-top: 15px;" onclick="validarYEnviarPedido()">Validar y Enviar por WhatsApp</button>
-        </div>
 
-        <div id="contenidoExclusividad" style="display: none;">
-          <div class="alertaExclusividad">
-            ⚠️ <strong>Localidad con Revendedor Exclusivo</strong><br>
-            La localidad y provincia ingresadas ya cuentan con un revendedor exclusivo según nuestras políticas territoriales.
-          </div>
-          <p style="font-size: 12px; color: #614a38; text-align: center; margin-bottom: 15px;">
-            Si querés consultar por disponibilidad o condiciones para tu zona, hacé clic en el botón de abajo:
-          </p>
-          <a id="btnWhatsappExclusividad" href="#" target="_blank" class="btnWhatsApp">📱 Consultar con la Administración</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="cajaCarrito">
-      <h2>🛒 Resumen de tu Pedido</h2>
-      <div id="listaItemsCarrito"><p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p></div>
-      <div id="avisoMinimoContenedor"></div>
-      <div class="totalTexto" id="textoTotalFinal">Total Mayorista: $0</div>
-      <button id="btnEnviarWs" class="btnWhatsApp" onclick="abrirModalCheckout()" disabled>📱 Continuar con Datos de Envío</button>
-    </div>
-  </div>
-
-  <script src="./productos.js?v=1"></script>
-  <script src="./bclientes.js?v=1"></script>
-  <script>
-    let carrito = {};
-    let productoSeleccionadoModal = null;
-    let fotosModalActual = [];
-    let indiceFotoActual = 0;
-    
-    let videosModalActual = [];
-    let indiceVideoActual = 0;
-
-    const NUMERO_WHATSAPP = "5492396614552";
-
-    window.onload = function() {
-      renderizarTienda();
-    };
-
-    function renderizarTienda() {
-      const contenedor = document.getElementById('contenedorGrilla');
-      if (typeof productosMayoristas === 'undefined' || productosMayoristas.length === 0) {
-        contenedor.innerHTML = '<p style="text-align:center; grid-column: 1/-1; font-size: 13px;">No hay productos cargados todavía.</p>';
-        return;
-      }
-      let html = '';
-      productosMayoristas.forEach(prod => {
-        let precioLista = prod.precioLista;
-        let precioMayorista = Math.round(precioLista * 0.75);
-        let fotoPortada = (prod.imagenes && prod.imagenes.length > 0) ? prod.imagenes[0] : (prod.imagen || 'logo.jpeg');
-        html += `
-          <div class="tarjetaProducto">
-            <div class="imagenContenedor" onclick="abrirModalDetalle('${prod.id}')">
-              <img src="${fotoPortada}" alt="${prod.nombre}">
-              <div class="verMasOverlay">Ver fotos</div>
-            </div>
-            <div class="infoContenido">
-              <div>
-                <h3>${prod.nombre}</h3>
-                <div class="coloresStockCard">
-                  Colores: rosa, violeta, turquesa, verde, azul, lila. 
-                  <a onclick="consultarStockWhatsApp('${prod.id}')">Consultar stock</a>
-                </div>
+          <div id="contenedorGrilla" class="grillaProductos"></div>
+          
+          <!-- Modal Detalle del Producto -->
+          <div id="modalProducto" class="modalOverlay" onclick="cerrarModalFuera(event)">
+            <div class="modalContenido">
+              <button class="cerrarModal" onclick="cerrarModalDetalle()">×</button>
+              
+              <div style="font-size: 11px; font-weight: 600; color: #7d5730; margin-bottom: 4px;">📸 Fotografías:</div>
+              <div class="sliderContainer" id="modalSliderContainer">
+                <img id="modalImg" src="" alt="" onclick="abrirLightboxDesdeModal()" title="Hacer clic para ampliar imagen">
+                <button class="sliderBtn sliderPrev" id="btnPrevFoto" onclick="cambiarFotoModal(-1)">‹</button>
+                <button class="sliderBtn sliderNext" id="btnNextFoto" onclick="cambiarFotoModal(1)">›</button>
+                <div class="sliderIndicador" id="modalIndicador">1 / 1</div>
               </div>
-              <div>
-                <div class="bloquePrecios">
-                  <span class="precioListaTachado">$${precioLista.toLocaleString('es-AR')}</span>
-                  <span class="precioMayoristaFinal">$${precioMayorista.toLocaleString('es-AR')}</span>
-                  <span class="badgeDescuento">25% OFF</span>
+
+              <div id="seccionVideosModalContainer"></div>
+
+              <h2 id="modalNombre" style="margin: 10px 0 6px; color: #332214; font-size: 18px; border:none; padding:0;"></h2>
+              <p id="modalDesc" style="font-size: 13px; color: #614a38; line-height: 1.5; margin-bottom: 12px; white-space: pre-line;"></p>
+              
+              <div style="background: rgba(215, 192, 155, 0.2); padding: 10px; border-radius: 10px; margin-bottom: 12px; display: flex; align-items: baseline; gap: 8px;">
+                <span id="modalPrecioLista" style="font-size: 12px; color: #8c735c; text-decoration: line-through;"></span>
+                <span id="modalPrecioFinal" style="font-size: 18px; color: #5a3e23; font-weight: 700;"></span>
+                <span class="badgeDescuento">25% OFF</span>
+              </div>
+              <button class="btnAccionCard" style="width: 100%; padding: 10px; font-size: 13px;" onclick="agregarDesdeModal()">Agregar al Pedido</button>
+            </div>
+          </div>
+
+          <!-- Modal Lightbox independiente -->
+          <div id="lightboxModal" onclick="cerrarLightbox()">
+            <span class="lightbox-cerrar">&times;</span>
+            <img id="lightboxImg" alt="Imagen ampliada">
+          </div>
+
+          <!-- Modal Checkout -->
+          <div id="modalCheckout" class="modalOverlay">
+            <div class="modalContenido">
+              <button class="cerrarModal" onclick="cerrarModalCheckout()">×</button>
+              <h2 style="margin-top: 0; color: #332214; font-size: 17px;">📦 Datos de Envío y Validación</h2>
+              
+              <div id="alertaBienvenidaContenedor" style="display: none;"></div>
+
+              <div id="contenidoCheckoutForm">
+                <div class="formGrupo">
+                  <label>Nombre y Apellido</label>
+                  <input type="text" id="envNombre" placeholder="Tu nombre y apellido">
                 </div>
-                <div class="accionesFila">
-                  <input type="number" id="cant_${prod.id}" value="1" min="1" class="form-control">
-                  <button class="btnAccionCard" onclick="agregarAlPedido('${prod.id}')">Agregar</button>
+                <div class="formGrupo">
+                  <label>Localidad</label>
+                  <input type="text" id="envLocalidad" placeholder="Tu localidad">
                 </div>
+                <div class="formGrupo">
+                  <label>Provincia</label>
+                  <input type="text" id="envProvincia" placeholder="Tu provincia">
+                </div>
+                <div class="formGrupo">
+                  <label>Teléfono</label>
+                  <div style="display: flex; gap: 8px;">
+                    <input type="text" id="envCaracteristica" placeholder="Ej: 1234" style="width: 35%;">
+                    <input type="text" id="envNumero" placeholder="Ej: 567890" style="width: 65%;">
+                  </div>
+                </div>
+                <div class="formGrupo">
+                  <label>Correo electrónico (Opcional)</label>
+                  <input type="email" id="envCorreo" placeholder="correo@ejemplo.com">
+                </div>
+                <div class="formGrupo">
+                  <label>Tipo de Entrega</label>
+                  <select id="tipoEntrega" onchange="cambiarTipoEntrega()">
+                    <option value="domicilio">Envío a domicilio</option>
+                    <option value="sucursal">Retiro por sucursal</option>
+                  </select>
+                </div>
+                <div class="formGrupo" id="grupoDomicilio">
+                  <label>Domicilio (Calle, Número, Piso/Depto)</label>
+                  <input type="text" id="envCalle" placeholder="Ej: San Martín 456, Piso 2 B">
+                </div>
+                <div class="formGrupo">
+                  <label>Código Postal</label>
+                  <input type="text" id="envCp" placeholder="Ej: 3060">
+                </div>
+                <button class="btnWhatsApp" style="margin-top: 15px;" onclick="validarYEnviarPedido()">Validar y Enviar por WhatsApp</button>
+              </div>
+
+              <div id="contenidoExclusividad" style="display: none;">
+                <div class="alertaExclusividad">
+                  ⚠️ <strong>Localidad con Revendedor Exclusivo</strong><br>
+                  La localidad y provincia ingresadas ya cuentan con un revendedor exclusivo según nuestras políticas territoriales.
+                </div>
+                <p style="font-size: 12px; color: #614a38; text-align: center; margin-bottom: 15px;">
+                  Si querés consultar por disponibilidad o condiciones para tu zona, hacé clic en el botón de abajo:
+                </p>
+                <a id="btnWhatsappExclusividad" href="#" target="_blank" class="btnWhatsApp">📱 Consultar con la Administración</a>
               </div>
             </div>
           </div>
-        `;
-      });
-      contenedor.innerHTML = html;
-    }
 
-    function consultarStockWhatsApp(id) {
-      let prod = productosMayoristas.find(p => p.id === id);
-      if (!prod) return;
-      let textoMensaje = `¡Hola! 👋 Quisiera consultar colores y stock disponible para el producto: *${prod.nombre}*.`;
-      let url = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoMensaje);
-      window.open(url, '_blank');
-    }
-
-    function abrirModalDetalle(id) {
-      let prod = productosMayoristas.find(p => p.id === id);
-      if (!prod) return;
-      productoSeleccionadoModal = prod;
-
-      if (prod.imagenes && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
-        fotosModalActual = prod.imagenes;
-      } else {
-        fotosModalActual = [prod.imagen || 'logo.jpeg'];
-      }
-      indiceFotoActual = 0;
-
-      videosModalActual = [];
-      if (prod.videos && Array.isArray(prod.videos)) {
-        videosModalActual = prod.videos;
-      } else if (prod.videoUrl) {
-        videosModalActual = [prod.videoUrl];
-      }
-      indiceVideoActual = 0;
-
-      actualizarSliderModal();
-      actualizarSeccionVideosModal();
-
-      let precioLista = prod.precioLista;
-      let precioMayorista = Math.round(precioLista * 0.75);
-      document.getElementById('modalNombre').innerText = prod.nombre;
-      document.getElementById('modalDesc').innerText = prod.descripcion || '';
-      document.getElementById('modalPrecioLista').innerText = `$${precioLista.toLocaleString('es-AR')}`;
-      document.getElementById('modalPrecioFinal').innerText = `$${precioMayorista.toLocaleString('es-AR')}`;
-
-      let mostrarFlechasFoto = fotosModalActual.length > 1 ? 'flex' : 'none';
-      document.getElementById('btnPrevFoto').style.display = mostrarFlechasFoto;
-      document.getElementById('btnNextFoto').style.display = mostrarFlechasFoto;
-      document.getElementById('modalIndicador').style.display = fotosModalActual.length > 1 ? 'block' : 'none';
-
-      document.getElementById('modalProducto').style.display = 'flex';
-    }
-    function cambiarFotoModal(direccion) {
-      indiceFotoActual += direccion;
-      if (indiceFotoActual < 0) {
-        indiceFotoActual = fotosModalActual.length - 1;
-      } else if (indiceFotoActual >= fotosModalActual.length) {
-        indiceFotoActual = 0;
-      }
-      actualizarSliderModal();
-    }
-
-    function actualizarSliderModal() {
-      document.getElementById('modalImg').src = fotosModalActual[indiceFotoActual];
-      document.getElementById('modalIndicador').innerText = `${indiceFotoActual + 1} / ${fotosModalActual.length}`;
-    }
-
-    function actualizarSeccionVideosModal() {
-      let contenedorVideos = document.getElementById('seccionVideosModalContainer');
-      if (!videosModalActual || videosModalActual.length === 0) {
-        contenedorVideos.innerHTML = '';
-        return;
-      }
-
-      let vidUrl = videosModalActual[indiceVideoActual];
-      let embedUrl = convertirAEmbed(vidUrl);
-
-      let botonesVideoHTML = videosModalActual.length > 1 ? `
-        <button class="sliderBtn sliderPrev" onclick="cambiarVideoModal(-1)">‹</button>
-        <button class="sliderBtn sliderNext" onclick="cambiarVideoModal(1)">›</button>
-        <div class="sliderIndicador">🎥 ${indiceVideoActual + 1} / ${videosModalActual.length}</div>
-      ` : '';
-
-      contenedorVideos.innerHTML = `
-        <div style="font-size: 11px; font-weight: 600; color: #7d5730; margin: 12px 0 4px;">🎬 Videos demostrativos:</div>
-        <div class="sliderContainer">
-          <iframe src="${embedUrl}" allowfullscreen></iframe>
-          ${botonesVideoHTML}
-        </div>
-      `;
-    }
-
-    function cambiarVideoModal(direccion) {
-      indiceVideoActual += direccion;
-      if (indiceVideoActual < 0) {
-        indiceVideoActual = videosModalActual.length - 1;
-      } else if (indiceVideoActual >= videosModalActual.length) {
-        indiceVideoActual = 0;
-      }
-      actualizarSeccionVideosModal();
-    }
-
-    function convertirAEmbed(url) {
-      if (!url) return '';
-      url = url.trim();
-      if (url.includes('youtube.com/embed/')) return url;
-      let videoId = '';
-      if (url.includes('/shorts/')) {
-        let partes = url.split('/shorts/');
-        if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0];
-      } else if (url.includes('youtu.be/')) {
-        let partes = url.split('youtu.be/');
-        if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0];
-      } else {
-        let regExp = /^.*(v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        let match = url.match(regExp);
-        if (match && match[2] && match[2].length === 11) videoId = match[2];
-      }
-      return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
-    }
-
-    function abrirLightboxDesdeModal() {
-      if (!fotosModalActual || fotosModalActual.length === 0) return;
-      let imgActual = fotosModalActual[indiceFotoActual];
-      const modal = document.getElementById('lightboxModal');
-      const imgModal = document.getElementById('lightboxImg');
-      imgModal.src = imgActual;
-      modal.style.display = 'flex';
-    }
-
-    function cerrarLightbox() {
-      document.getElementById('lightboxModal').style.display = 'none';
-    }
-
-    function cerrarModalDetalle() {
-      document.getElementById('modalProducto').style.display = 'none';
-    }
-
-    function cerrarModalFuera(event) {
-      if (event.target.id === 'modalProducto') {
-        cerrarModalDetalle();
-      }
-    }
-
-    function agregarDesdeModal() {
-      if (!productoSeleccionadoModal) return;
-      let id = productoSeleccionadoModal.id;
-      if (carrito[id]) {
-        carrito[id].cantidad += 1;
-      } else {
-        carrito[id] = {
-          nombre: productoSeleccionadoModal.nombre,
-          precioLista: productoSeleccionadoModal.precioLista,
-          precioMayorista: Math.round(productoSeleccionadoModal.precioLista * 0.75),
-          cantidad: 1
-        };
-      }
-      actualizarCarritoUI();
-      cerrarModalDetalle();
-    }
-
-    function agregarAlPedido(id) {
-      let prod = productosMayoristas.find(p => p.id === id);
-      if (!prod) return;
-      let cantidadInput = document.getElementById(`cant_${id}`);
-      let cantidad = parseInt(cantidadInput.value) || 1;
-      if (carrito[id]) {
-        carrito[id].cantidad += cantidad;
-      } else {
-        carrito[id] = {
-          nombre: prod.nombre,
-          precioLista: prod.precioLista,
-          precioMayorista: Math.round(prod.precioLista * 0.75),
-          cantidad: cantidad
-        };
-      }
-      actualizarCarritoUI();
-    }
-
-    function cambiarCantidad(id, delta) {
-      if (carrito[id]) {
-        carrito[id].cantidad += delta;
-        if (carrito[id].cantidad <= 0) {
-          delete carrito[id];
-        }
-        actualizarCarritoUI();
-      }
-    }
-
-    function actualizarCarritoUI() {
-      let listaDiv = document.getElementById('listaItemsCarrito');
-      let avisoDiv = document.getElementById('avisoMinimoContenedor');
-      let totalTexto = document.getElementById('textoTotalFinal');
-      let btnWs = document.getElementById('btnEnviarWs');
-
-      let idsKeys = Object.keys(carrito);
-      if (idsKeys.length === 0) {
-        listaDiv.innerHTML = '<p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p>';
-        avisoDiv.innerHTML = '';
-        totalTexto.innerText = 'Total Mayorista: $0';
-        btnWs.disabled = true;
-        return;
-      }
-
-      let htmlItems = '';
-      let totalGeneral = 0;
-
-      idsKeys.forEach(id => {
-        let item = carrito[id];
-        let subtotal = item.precioMayorista * item.cantidad;
-        totalGeneral += subtotal;
-
-        htmlItems += `
-          <div class="itemCarrito">
-            <span><b>${item.nombre}</b> ($${item.precioMayorista.toLocaleString('es-AR')} x ${item.cantidad})</span>
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <span style="font-weight: bold;">$${subtotal.toLocaleString('es-AR')}</span>
-              <button onclick="cambiarCantidad('${id}', -1)" style="background:#d98273; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">-</button>
-              <button onclick="cambiarCantidad('${id}', 1)" style="background:#a98357; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">+</button>
-            </div>
+          <div class="cajaCarrito">
+            <h2>🛒 Resumen de tu Pedido</h2>
+            <div id="listaItemsCarrito"><p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p></div>
+            <div id="avisoMinimoContenedor"></div>
+            <div class="totalTexto" id="textoTotalFinal">Total Mayorista: $0</div>
+            <button id="btnEnviarWs" class="btnWhatsApp" onclick="abrirModalCheckout()" disabled>📱 Continuar con Datos de Envío</button>
           </div>
-        `;
-      });
+        </div>
 
-      listaDiv.innerHTML = htmlItems;
-      totalTexto.innerText = `Total Mayorista: $${totalGeneral.toLocaleString('es-AR')}`;
+        <script src="./productos.js?v=1"></script>
+        <script src="./bclientes.js?v=1"></script>
+        <script>
+          let carrito = {};
+          let productoSeleccionadoModal = null;
+          let fotosModalActual = [];
+          let indiceFotoActual = 0;
+          
+          let videosModalActual = [];
+          let indiceVideoActual = 0;
 
-      if (totalGeneral < 150000) {
-        avisoDiv.innerHTML = `<div style="background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">⚠️ Falta $${(150000 - totalGeneral).toLocaleString('es-AR')} para alcanzar la compra mínima de $150.000.</div>`;
-        btnWs.disabled = true;
-      } else {
-        avisoDiv.innerHTML = `<div style="background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">✅ ¡Compra mínima alcanzada con éxito!</div>`;
-        btnWs.disabled = false;
-      }
-    }
+          const NUMERO_WHATSAPP = "5492396614552";
 
-    function abrirModalCheckout() {
-      document.getElementById('modalCheckout').style.display = 'flex';
-      document.getElementById('contenidoCheckoutForm').style.display = 'block';
-      document.getElementById('contenidoExclusividad').style.display = 'none';
-      
-      let avisoBienvenida = document.getElementById('alertaBienvenidaContenedor');
-      if (avisoBienvenida) avisoBienvenida.style.display = 'none';
-    }
+          window.onload = function() {
+            renderizarTienda();
+            setTimeout(function() {
+              cerrarAvisoFlotante();
+            }, 6000);
+          };
 
-    function cerrarModalCheckout() {
-      document.getElementById('modalCheckout').style.display = 'none';
-    }
-
-    function cambiarTipoEntrega() {
-      let tipo = document.getElementById('tipoEntrega').value;
-      let grupoDomicilio = document.getElementById('grupoDomicilio');
-      grupoDomicilio.style.display = (tipo === 'domicilio') ? 'block' : 'none';
-    }
-
-    function limpiarTexto(texto) {
-      return (texto || "")
-        .toString()
-        .trim()
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-    }
-
-    function normalizarTelefonoAr(tel) {
-      let num = String(tel || "").replace(/\D/g, "");
-      
-      if (num.startsWith("549")) num = num.substring(3);
-      else if (num.startsWith("54")) num = num.substring(2);
-
-      if (num.startsWith("0")) num = num.substring(1);
-
-      if (num.length === 12 && num.slice(4, 6) === "15") {
-        num = num.slice(0, 4) + num.slice(6);
-      } else if (num.length === 11 && num.slice(3, 5) === "15") {
-        num = num.slice(0, 3) + num.slice(5);
-      } else if (num.length === 10 && num.slice(2, 4) === "15") {
-        num = num.slice(0, 2) + num.slice(4);
-      }
-
-      return num;
-    }
-
-    function telefonosCoinciden(tel1, tel2) {
-      let t1 = normalizarTelefonoAr(tel1);
-      let t2 = normalizarTelefonoAr(tel2);
-      if (!t1 || !t2) return false;
-      return t1 === t2 || t1.endsWith(t2) || t2.endsWith(t1);
-    }
-
-    function nombresCoinciden(n1, n2) {
-      let nom1 = limpiarTexto(n1);
-      let nom2 = limpiarTexto(n2);
-      if (!nom1 || !nom2) return false;
-
-      if (nom1 === nom2 || nom1.includes(nom2) || nom2.includes(nom1)) return true;
-
-      let palabras1 = nom1.split(" ").filter(p => p.length > 2);
-      let palabras2 = nom2.split(" ").filter(p => p.length > 2);
-      let coincidencias = palabras1.filter(p => palabras2.includes(p));
-
-      return coincidencias.length >= 2 || (palabras1.length === 1 && coincidencias.length === 1);
-    }
-
-    function validarYEnviarPedido() {
-      try {
-        let nombreInput = document.getElementById('envNombre').value.trim();
-        let localidadInput = document.getElementById('envLocalidad').value.trim();
-        let provinciaInput = document.getElementById('envProvincia').value.trim();
-        
-        let caracteristicaInput = document.getElementById('envCaracteristica').value.trim();
-        let numeroInput = document.getElementById('envNumero').value.trim();
-        let telefonoInput = caracteristicaInput + numeroInput;
-        
-        let correoInput = document.getElementById('envCorreo').value.trim();
-        let cp = document.getElementById('envCp').value.trim();
-        let tipoEntrega = document.getElementById('tipoEntrega').value;
-        let calle = document.getElementById('envCalle').value.trim();
-
-        if (!nombreInput || !localidadInput || !provinciaInput || !caracteristicaInput || !numeroInput || !cp || (tipoEntrega === 'domicilio' && !calle)) {
-          alert("Por favor, completá todos los campos requeridos para el envío y validación.");
-          return;
-        }
-
-        let localidadLimpia = limpiarTexto(localidadInput);
-        let provinciaLimpia = limpiarTexto(provinciaInput);
-
-        let regionRegistrada = false;
-        let accesoConcedido = false;
-        let clienteEncontrado = null;
-
-        if (typeof window.clientesExclusivos !== 'undefined' && Array.isArray(window.clientesExclusivos)) {
-          for (let cliente of window.clientesExclusivos) {
-            let cliLocalidad = limpiarTexto(cliente.localidad);
-            let cliProvincia = limpiarTexto(cliente.provincia);
-            let cliNombre = cliente.nombre || cliente.revendedor || cliente.cliente || "";
-            let cliTelefono = cliente.telefono || cliente.celular || cliente.tel || (String(cliente.caracteristica || "") + String(cliente.numero || ""));
-
-            if (cliLocalidad === localidadLimpia && cliProvincia === provinciaLimpia) {
-              regionRegistrada = true;
-
-              let coincidenciaNombre = nombresCoinciden(cliNombre, nombreInput);
-              let coincidenciaTel = telefonosCoinciden(cliTelefono, telefonoInput);
-
-              // Validación estricta: deben coincidir NOMBRE Y TELÉFONO
-              if (coincidenciaNombre && coincidenciaTel) {
-                accesoConcedido = true;
-                clienteEncontrado = cliente;
-                break;
-              }
+          function cerrarAvisoFlotante() {
+            const aviso = document.getElementById('avisoFlotanteTienda');
+            if (aviso) {
+              aviso.style.opacity = '0';
+              aviso.style.transition = 'opacity 0.4s ease';
+              setTimeout(() => { aviso.style.display = 'none'; }, 400);
             }
           }
-        }
 
-        if (regionRegistrada && !accesoConcedido) {
-          document.getElementById('contenidoCheckoutForm').style.display = 'none';
-          document.getElementById('contenidoExclusividad').style.display = 'block';
-          
-          let mensajeExclusividad = `Hola 👋. Quise realizar un pedido mayorista para la localidad de *${localidadInput}* (*${provinciaInput}*), pero vi que cuentan con un revendedor exclusivo en esa zona. ¿Podrían informarme sobre la disponibilidad o conditions?`;
-          let urlWhatsAppExclusividad = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensajeExclusividad);
-          document.getElementById('btnWhatsappExclusividad').href = urlWhatsAppExclusividad;
-          return;
-        }
+          function cerrarAvisoFlotanteFuera(event) {
+            if (event.target.id === 'avisoFlotanteTienda') {
+              cerrarAvisoFlotante();
+            }
+          }
 
-        let nombreParaSaludo = clienteEncontrado ? (clienteEncontrado.nombre || clienteEncontrado.revendedor || clienteEncontrado.cliente || nombreInput) : nombreInput;
+          function renderizarTienda() {
+            const contenedor = document.getElementById('contenedorGrilla');
+            if (typeof productosMayoristas === 'undefined' || productosMayoristas.length === 0) {
+              contenedor.innerHTML = '<p style="text-align:center; grid-column: 1/-1; font-size: 13px;">No hay productos cargados todavía.</p>';
+              return;
+            }
+            let html = '';
+            productosMayoristas.forEach(prod => {
+              let precioLista = prod.precioLista;
+              let precioMayorista = Math.round(precioLista * 0.75);
+              let fotoPortada = (prod.imagenes && prod.imagenes.length > 0) ? prod.imagenes[0] : (prod.imagen || 'logo.jpeg');
+              html += `
+                <div class="tarjetaProducto">
+                  <div class="imagenContenedor" onclick="abrirModalDetalle('${prod.id}')">
+                    <img src="${fotoPortada}" alt="${prod.nombre}">
+                    <div class="verMasOverlay">Ver fotos</div>
+                  </div>
+                  <div class="infoContenido">
+                    <div>
+                      <h3>${prod.nombre}</h3>
+                      <div class="coloresStockCard">
+                        Colores: rosa, violeta, turquesa, verde, azul, lila. 
+                        <a onclick="consultarStockWhatsApp('${prod.id}')">Consultar stock</a>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="bloquePrecios">
+                        <span class="precioListaTachado">$${precioLista.toLocaleString('es-AR')}</span>
+                        <span class="precioMayoristaFinal">$${precioMayorista.toLocaleString('es-AR')}</span>
+                        <span class="badgeDescuento">25% OFF</span>
+                      </div>
+                      <div class="accionesFila">
+                        <input type="number" id="cant_${prod.id}" value="1" min="1" class="form-control">
+                        <button class="btnAccionCard" onclick="agregarAlPedido('${prod.id}')">Agregar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `;
+            });
+            contenedor.innerHTML = html;
+          }
 
-        // Si fue una clienta validada exitosamente, mostramos el cartel de bienvenida en pantalla durante 2.5s antes de ir a WhatsApp
-        if (accesoConcedido) {
-          let avisoBienvenida = document.getElementById('alertaBienvenidaContenedor');
-          avisoBienvenida.className = 'alertaBienvenida';
-          avisoBienvenida.innerHTML = `🌟 ¡Hola ${nombreParaSaludo}! 👋 Qué alegría verte de nuevo.<br>Tu condición de revendedora exclusiva está confirmada.<br><br><small>Redirigiendo a WhatsApp para enviar tu pedido...</small>`;
-          avisoBienvenida.style.display = 'block';
-        }
+          function consultarStockWhatsApp(id) {
+            let prod = productosMayoristas.find(p => p.id === id);
+            if (!prod) return;
+            let textoMensaje = `¡Hola! 👋 Quisiera consultar colores y stock disponible para el producto: *${prod.nombre}*.`;
+            let url = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoMensaje);
+            window.open(url, '_blank');
+          }
 
-        let textoPedido = `¡Hola Corre la Coneja! 👋 Soy *${nombreParaSaludo}* de *${localidadInput}*. Te envío mi nuevo pedido mayorista:\n\n`;
-        textoPedido += `📦 *DATOS DEL PEDIDO Mayorista*\n`;
-        textoPedido += `👤 *Cliente:* ${nombreInput}\n`;
-        textoPedido += `📍 *Ubicación:* ${localidadInput}, ${provinciaInput} (CP: ${cp})\n`;
-        textoPedido += `📞 *Teléfono:* (${caracteristicaInput}) ${numeroInput}\n`;
-        if (correoInput) {
-          textoPedido += `✉️ *Correo:* ${correoInput}\n`;
-        }
-        textoPedido += `🚚 *Entrega:* ${tipoEntrega === 'domicilio' ? 'Envío a domicilio' : 'Retiro por sucursal'}\n`;
-        if (tipoEntrega === 'domicilio') {
-          textoPedido += `🏠 *Dirección:* ${calle}\n`;
-        }
-        textoPedido += `\n🛒 *DETALLE DEL PEDIDO:*\n`;
+          function abrirModalDetalle(id) {
+            let prod = productosMayoristas.find(p => p.id === id);
+            if (!prod) return;
+            productoSeleccionadoModal = prod;
 
-        let totalGeneral = 0;
-        Object.values(carrito).forEach(item => {
-          let subtotal = item.precioMayorista * item.cantidad;
-          totalGeneral += subtotal;
-          textoPedido += `• ${item.cantidad}x ${item.nombre} ($${subtotal.toLocaleString('es-AR')})\n`;
-        });
+            if (prod.imagenes && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
+              fotosModalActual = prod.imagenes;
+            } else {
+              fotosModalActual = [prod.imagen || 'logo.jpeg'];
+            }
+            indiceFotoActual = 0;
 
-        textoPedido += `\n💰 *TOTAL MAYORISTA: $${totalGeneral.toLocaleString('es-AR')}*`;
+            videosModalActual = [];
+            if (prod.videos && Array.isArray(prod.videos)) {
+              videosModalActual = prod.videos;
+            } else if (prod.videoUrl) {
+              videosModalActual = [prod.videoUrl];
+            }
+            indiceVideoActual = 0;
 
-        let urlFinal = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoPedido);
-        
-        let tiempoEspera = accesoConcedido ? 2300 : 300;
-        setTimeout(function() {
-          window.open(urlFinal, '_blank');
-        }, tiempoEspera);
+            actualizarSliderModal();
+            actualizarSeccionVideosModal();
 
-      } catch (error) {
-        console.error("Error en la validación:", error);
-        alert("Ocurrió un error al validar el pedido. Revisá la consola del navegador.");
-      }
-    }
-  </script>
-</body>
-</html>
+            let precioLista = prod.precioLista;
+            let precioMayorista = Math.round(precioLista * 0.75);
+            document.getElementById('modalNombre').innerText = prod.nombre;
+            document.getElementById('modalDesc').innerText = prod.descripcion || '';
+            document.getElementById('modalPrecioLista').innerText = `$${precioLista.toLocaleString('es-AR')}`;
+            document.getElementById('modalPrecioFinal').innerText = `$${precioMayorista.toLocaleString('es-AR')}`;
+
+            let mostrarFlechasFoto = fotosModalActual.length > 1 ? 'flex' : 'none';
+            document.getElementById('btnPrevFoto').style.display = mostrarFlechasFoto;
+            document.getElementById('btnNextFoto').style.display = mostrarFlechasFoto;
+            document.getElementById('modalIndicador').style.display = fotosModalActual.length > 1 ? 'block' : 'none';
+
+            document.getElementById('modalProducto').style.display = 'flex';
+          }
+
+          function cambiarFotoModal(direccion) {
+            indiceFotoActual += direccion;
+            if (indiceFotoActual < 0) {
+              indiceFotoActual = fotosModalActual.length - 1;
+            } else if (indiceFotoActual >= fotosModalActual.length) {
+              indiceFotoActual = 0;
+            }
+            actualizarSliderModal();
+          }
+
+          function actualizarSliderModal() {
+            document.getElementById('modalImg').src = fotosModalActual[indiceFotoActual];
+            document.getElementById('modalIndicador').innerText = `${indiceFotoActual + 1} / ${fotosModalActual.length}`;
+          }
+
+          function actualizarSeccionVideosModal() {
+            let contenedorVideos = document.getElementById('seccionVideosModalContainer');
+            if (!videosModalActual || videosModalActual.length === 0) {
+              contenedorVideos.innerHTML = '';
+              return;
+            }
+
+            let vidUrl = videosModalActual[indiceVideoActual];
+            let embedUrl = convertirAEmbed(vidUrl);
+
+            let botonesVideoHTML = videosModalActual.length > 1 ? `
+              <button class="sliderBtn sliderPrev" onclick="cambiarVideoModal(-1)">‹</button>
+              <button class="sliderBtn sliderNext" onclick="cambiarVideoModal(1)">›</button>
+              <div class="sliderIndicador">🎥 ${indiceVideoActual + 1} / ${videosModalActual.length}</div>
+            ` : '';
+
+            contenedorVideos.innerHTML = `
+              <div style="font-size: 11px; font-weight: 600; color: #7d5730; margin: 12px 0 4px;">🎬 Videos demostrativos:</div>
+              <div class="sliderContainer">
+                <iframe src="${embedUrl}" allowfullscreen></iframe>
+                ${botonesVideoHTML}
+              </div>
+            `;
+          }
+
+          function cambiarVideoModal(direccion) {
+            indiceVideoActual += direccion;
+            if (indiceVideoActual < 0) {
+              indiceVideoActual = videosModalActual.length - 1;
+            } else if (indiceVideoActual >= videosModalActual.length) {
+              indiceVideoActual = 0;
+            }
+            actualizarSeccionVideosModal();
+          }
+
+          function convertirAEmbed(url) {
+            if (!url) return '';
+            url = url.trim();
+            if (url.includes('youtube.com/embed/')) return url;
+            let videoId = '';
+            if (url.includes('/shorts/')) {
+              let partes = url.split('/shorts/');
+              if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0];
+            } else if (url.includes('youtu.be/')) {
+              let partes = url.split('youtu.be/');
+              if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0];
+            } else {
+              let regExp = /^.*(v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+              let match = url.match(regExp);
+              if (match && match[2] && match[2].length === 11) videoId = match[2];
+            }
+            return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+          }
+          function abrirLightboxDesdeModal() {
+            if (!fotosModalActual || fotosModalActual.length === 0) return;
+            let imgActual = fotosModalActual[indiceFotoActual];
+            const modal = document.getElementById('lightboxModal');
+            const imgModal = document.getElementById('lightboxImg');
+            imgModal.src = imgActual;
+            modal.style.display = 'flex';
+          }
+
+          function cerrarLightbox() {
+            document.getElementById('lightboxModal').style.display = 'none';
+          }
+
+          function cerrarModalDetalle() {
+            document.getElementById('modalProducto').style.display = 'none';
+          }
+
+          function cerrarModalFuera(event) {
+            if (event.target.id === 'modalProducto') {
+              cerrarModalDetalle();
+            }
+          }
+
+          function agregarDesdeModal() {
+            if (!productoSeleccionadoModal) return;
+            let id = productoSeleccionadoModal.id;
+            if (carrito[id]) {
+              carrito[id].cantidad += 1;
+            } else {
+              carrito[id] = {
+                nombre: productoSeleccionadoModal.nombre,
+                precioLista: productoSeleccionadoModal.precioLista,
+                precioMayorista: Math.round(productoSeleccionadoModal.precioLista * 0.75),
+                cantidad: 1
+              };
+            }
+            actualizarCarritoUI();
+            cerrarModalDetalle();
+          }
+
+          function agregarAlPedido(id) {
+            let prod = productosMayoristas.find(p => p.id === id);
+            if (!prod) return;
+            let cantidadInput = document.getElementById(`cant_${id}`);
+            let cantidad = parseInt(cantidadInput.value) || 1;
+            if (carrito[id]) {
+              carrito[id].cantidad += cantidad;
+            } else {
+              carrito[id] = {
+                nombre: prod.nombre,
+                precioLista: prod.precioLista,
+                precioMayorista: Math.round(prod.precioLista * 0.75),
+                cantidad: cantidad
+              };
+            }
+            actualizarCarritoUI();
+          }
+
+          function cambiarCantidad(id, delta) {
+            if (carrito[id]) {
+              carrito[id].cantidad += delta;
+              if (carrito[id].cantidad <= 0) {
+                delete carrito[id];
+              }
+              actualizarCarritoUI();
+            }
+          }
+
+          function actualizarCarritoUI() {
+            let listaDiv = document.getElementById('listaItemsCarrito');
+            let avisoDiv = document.getElementById('avisoMinimoContenedor');
+            let totalTexto = document.getElementById('textoTotalFinal');
+            let btnWs = document.getElementById('btnEnviarWs');
+
+            let idsKeys = Object.keys(carrito);
+            if (idsKeys.length === 0) {
+              listaDiv.innerHTML = '<p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p>';
+              avisoDiv.innerHTML = '';
+              totalTexto.innerText = 'Total Mayorista: $0';
+              btnWs.disabled = true;
+              return;
+            }
+
+            let htmlItems = '';
+            let totalGeneral = 0;
+
+            idsKeys.forEach(id => {
+              let item = carrito[id];
+              let subtotal = item.precioMayorista * item.cantidad;
+              totalGeneral += subtotal;
+
+              htmlItems += `
+                <div class="itemCarrito">
+                  <span><b>${item.nombre}</b> ($${item.precioMayorista.toLocaleString('es-AR')} x ${item.cantidad})</span>
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="font-weight: bold;">$${subtotal.toLocaleString('es-AR')}</span>
+                    <button onclick="cambiarCantidad('${id}', -1)" style="background:#d98273; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">-</button>
+                    <button onclick="cambiarCantidad('${id}', 1)" style="background:#a98357; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">+</button>
+                  </div>
+                </div>
+              `;
+            });
+
+            listaDiv.innerHTML = htmlItems;
+            totalTexto.innerText = `Total Mayorista: $${totalGeneral.toLocaleString('es-AR')}`;
+
+            if (totalGeneral < 150000) {
+              avisoDiv.innerHTML = `<div style="background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">⚠️ Falta $${(150000 - totalGeneral).toLocaleString('es-AR')} para alcanzar la compra mínima de $150.000.</div>`;
+              btnWs.disabled = true;
+            } else {
+              avisoDiv.innerHTML = `<div style="background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">✅ ¡Compra mínima alcanzada con éxito!</div>`;
+              btnWs.disabled = false;
+            }
+          }
+
+          function abrirModalCheckout() {
+            document.getElementById('modalCheckout').style.display = 'flex';
+            document.getElementById('contenidoCheckoutForm').style.display = 'block';
+            document.getElementById('contenidoExclusividad').style.display = 'none';
+            
+            let avisoBienvenida = document.getElementById('alertaBienvenidaContenedor');
+            if (avisoBienvenida) avisoBienvenida.style.display = 'none';
+          }
+
+          function cerrarModalCheckout() {
+            document.getElementById('modalCheckout').style.display = 'none';
+          }
+
+          function cambiarTipoEntrega() {
+            let tipo = document.getElementById('tipoEntrega').value;
+            let grupoDomicilio = document.getElementById('grupoDomicilio');
+            grupoDomicilio.style.display = (tipo === 'domicilio') ? 'block' : 'none';
+          }
+
+          function limpiarTexto(texto) {
+            return (texto || "")
+              .toString()
+              .trim()
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "");
+          }
+
+          function normalizarTelefonoAr(tel) {
+            let num = String(tel || "").replace(/\D/g, "");
+            
+            if (num.startsWith("549")) num = num.substring(3);
+            else if (num.startsWith("54")) num = num.substring(2);
+
+            if (num.startsWith("0")) num = num.substring(1);
+
+            if (num.length === 12 && num.slice(4, 6) === "15") {
+              num = num.slice(0, 4) + num.slice(6);
+            } else if (num.length === 11 && num.slice(3, 5) === "15") {
+              num = num.slice(0, 3) + num.slice(5);
+            } else if (num.length === 10 && num.slice(2, 4) === "15") {
+              num = num.slice(0, 2) + num.slice(4);
+            }
+
+            return num;
+          }
+
+          function telefonosCoinciden(tel1, tel2) {
+            let t1 = normalizarTelefonoAr(tel1);
+            let t2 = normalizarTelefonoAr(tel2);
+            if (!t1 || !t2) return false;
+            return t1 === t2 || t1.endsWith(t2) || t2.endsWith(t1);
+          }
+
+          function nombresCoinciden(n1, n2) {
+            let nom1 = limpiarTexto(n1);
+            let nom2 = limpiarTexto(n2);
+            if (!nom1 || !nom2) return false;
+
+            if (nom1 === nom2 || nom1.includes(nom2) || nom2.includes(nom1)) return true;
+
+            let palabras1 = nom1.split(" ").filter(p => p.length > 2);
+            let palabras2 = nom2.split(" ").filter(p => p.length > 2);
+            let coincidencias = palabras1.filter(p => palabras2.includes(p));
+
+            return coincidencias.length >= 2 || (palabras1.length === 1 && coincidencias.length === 1);
+          }
+
+          function validarYEnviarPedido() {
+            try {
+              let nombreInput = document.getElementById('envNombre').value.trim();
+              let localidadInput = document.getElementById('envLocalidad').value.trim();
+              let provinciaInput = document.getElementById('envProvincia').value.trim();
+              
+              let caracteristicaInput = document.getElementById('envCaracteristica').value.trim();
+              let numeroInput = document.getElementById('envNumero').value.trim();
+              let telefonoInput = caracteristicaInput + numeroInput;
+              
+              let correoInput = document.getElementById('envCorreo').value.trim();
+              let cp = document.getElementById('envCp').value.trim();
+              let tipoEntrega = document.getElementById('tipoEntrega').value;
+              let calle = document.getElementById('envCalle').value.trim();
+
+              if (!nombreInput || !localidadInput || !provinciaInput || !caracteristicaInput || !numeroInput || !cp || (tipoEntrega === 'domicilio' && !calle)) {
+                alert("Por favor, completá todos los campos requeridos para el envío y validación.");
+                return;
+              }
+
+              let localidadLimpia = limpiarTexto(localidadInput);
+              let provinciaLimpia = limpiarTexto(provinciaInput);
+
+              let regionRegistrada = false;
+              let accesoConcedido = false;
+              let clienteEncontrado = null;
+
+              if (typeof window.clientesExclusivos !== 'undefined' && Array.isArray(window.clientesExclusivos)) {
+                for (let cliente of window.clientesExclusivos) {
+                  let cliLocalidad = limpiarTexto(cliente.localidad);
+                  let cliProvincia = limpiarTexto(cliente.provincia);
+                  let cliNombre = cliente.nombre || cliente.revendedor || cliente.cliente || "";
+                  let cliTelefono = cliente.telefono || cliente.celular || cliente.tel || (String(cliente.caracteristica || "") + String(cliente.numero || ""));
+
+                  if (cliLocalidad === localidadLimpia && cliProvincia === provinciaLimpia) {
+                    regionRegistrada = true;
+
+                    let coincidenciaNombre = nombresCoinciden(cliNombre, nombreInput);
+                    let coincidenciaTel = telefonosCoinciden(cliTelefono, telefonoInput);
+
+                    if (coincidenciaNombre && coincidenciaTel) {
+                      accesoConcedido = true;
+                      clienteEncontrado = cliente;
+                      break;
+                    }
+                  }
+                }
+              }
+
+              if (regionRegistrada && !accesoConcedido) {
+                document.getElementById('contenidoCheckoutForm').style.display = 'none';
+                document.getElementById('contenidoExclusividad').style.display = 'block';
+                
+                let mensajeExclusividad = `Hola 👋. Quise realizar un pedido mayorista para la localidad de *${localidadInput}* (*${provinciaInput}*), pero vi que cuentan con un revendedor exclusivo en esa zona. ¿Podrían informarme sobre la disponibilidad o conditions?`;
+                let urlWhatsAppExclusividad = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensajeExclusividad);
+                document.getElementById('btnWhatsappExclusividad').href = urlWhatsAppExclusividad;
+                return;
+              }
+
+              let nombreParaSaludo = clienteEncontrado ? (clienteEncontrado.nombre || clienteEncontrado.revendedor || clienteEncontrado.cliente || nombreInput) : nombreInput;
+
+              if (accesoConcedido) {
+                let avisoBienvenida = document.getElementById('alertaBienvenidaContenedor');
+                avisoBienvenida.className = 'alertaBienvenida';
+                avisoBienvenida.innerHTML = `🌟 ¡Hola ${nombreParaSaludo}! 👋 Qué alegría verte de nuevo.<br>Tu condición de revendedora exclusiva está confirmada.<br><br><small>Redirigiendo a WhatsApp para enviar tu pedido...</small>`;
+                avisoBienvenida.style.display = 'block';
+              }
+
+              let textoPedido = `¡Hola Corre la Coneja! 👋 Soy *${nombreParaSaludo}* de *${localidadInput}*. Te envío mi nuevo pedido mayorista:\n\n`;
+              textoPedido += `📦 *DATOS DEL PEDIDO Mayorista*\n`;
+              textoPedido += `👤 *Cliente:* ${nombreInput}\n`;
+              textoPedido += `📍 *Ubicación:* ${localidadInput}, ${provinciaInput} (CP: ${cp})\n`;
+              textoPedido += `📞 *Teléfono:* (${caracteristicaInput}) ${numeroInput}\n`;
+              if (correoInput) {
+                textoPedido += `✉️ *Correo:* ${correoInput}\n`;
+              }
+              textoPedido += `🚚 *Entrega:* ${tipoEntrega === 'domicilio' ? 'Envío a domicilio' : 'Retiro por sucursal'}\n`;
+              if (tipoEntrega === 'domicilio') {
+                textoPedido += `🏠 *Dirección:* ${calle}\n`;
+              }
+              textoPedido += `\n🛒 *DETALLE DEL PEDIDO:*\n`;
+
+              let totalGeneral = 0;
+              Object.values(carrito).forEach(item => {
+                let subtotal = item.precioMayorista * item.cantidad;
+                totalGeneral += subtotal;
+                textoPedido += `• ${item.cantidad}x ${item.nombre} ($${subtotal.toLocaleString('es-AR')})\n`;
+              });
+
+              textoPedido += `\n💰 *TOTAL MAYORISTA: $${totalGeneral.toLocaleString('es-AR')}*`;
+
+              let urlFinal = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoPedido);
+              
+              let tiempoEspera = accesoConcedido ? 2300 : 300;
+              setTimeout(function() {
+                window.open(urlFinal, '_blank');
+              }, tiempoEspera);
+
+            } catch (error) {
+              console.error("Error en la validación:", error);
+              alert("Ocurrió un error al validar el pedido. Revisá la consola del navegador.");
+            }
+          }
+        </script>
+      </body>
+      </html>
+
 
 
 

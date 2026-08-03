@@ -6,57 +6,150 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Atrapasol | Corre la Coneja</title>
 
-  <!-- Tipografía moderna y limpia con números uniformes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
     * {
       box-sizing: border-box;
     }
 
+    /* FONDO PRINCIPAL: TU IMAGEN ORIGINAL INTACTA */
     body {
       margin: 0;
       min-height: 100vh;
       padding: 15px 15px 50px;
       font-family: 'Montserrat', sans-serif;
       color: #2b2017;
-      background:
-        linear-gradient(
-          rgba(255, 251, 245, .35),
-          rgba(255, 251, 245, .42)
-        ),
-        url("./reflejos-atrapasol.png");
+      background-image: url("./reflejos-atrapasol.png");
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* PANTALLA DE BIENVENIDA (SPLASH SCREEN) CON TU VIDEO DE FONDO */
+    .splashScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+      overflow: hidden;
+      background: #fcf9f2;
+    }
+
+    .splashScreen.oculto {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    /* Video de fondo oculto al inicio para evitar el círculo gris, luego aparece suavemente */
+    .videoFondoSplash {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      background: #fcf9f2; 
+    }
+
+    /* Clase que se activa por JS cuando el video ya cargó para mostrarlo */
+    .videoFondoSplash.listo {
+      opacity: 0.9;
+    }
+
+    /* Capa translúcida sobre el video para garantizar la legibilidad del texto */
+    .capaOverlaySplash {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 252, 247, 0.78), rgba(254, 243, 230, 0.78));
+      z-index: 2;
+      backdrop-filter: blur(1px);
+    }
+
+    .splashContenido {
+      text-align: center;
+      position: relative;
+      z-index: 3;
+      animation: abrirPortal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      padding: 20px;
+    }
+
+    .lineaLuminosa {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #c4a470, transparent);
+      margin: 0 auto 18px;
+    }
+
+    .splashContenido h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px;
+      font-weight: 400;
+      color: #382618;
+      margin: 0 0 10px;
+      letter-spacing: 3px;
+      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+    }
+
+    .splashContenido p {
+      font-size: 14px;
+      color: #7d5d3b;
+      font-style: italic;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 1px 5px rgba(255, 255, 255, 0.8);
+    }
+
+    @keyframes abrirPortal {
+      0% { opacity: 0; transform: scale(0.9) translateY(15px); filter: blur(4px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
     }
 
     .contenedor {
       width: 100%;
       max-width: 900px;
       margin: auto;
+      position: relative;
+      z-index: 1;
     }
 
     /* ENCABEZADO Y MEDALLA DEL LOGO INTEGRADO */
     .headerMarca {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     .medallaLogo {
       width: 140px;
       height: 140px;
-      margin: 0 auto 14px;
+      margin: 0 auto 16px;
       border-radius: 50%;
-      background: #f5efe6;
-      border: 1px solid rgba(195, 165, 120, 0.6);
+      background: rgba(255, 252, 246, 0.92);
+      border: 1px solid rgba(195, 165, 120, 0.7);
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(60, 40, 20, 0.08), 0 0 0 3px rgba(255, 255, 255, 0.3);
+      box-shadow: 0 10px 25px rgba(60, 40, 20, 0.12), 0 0 0 4px rgba(255, 255, 255, 0.5);
     }
 
     .logoImagen {
@@ -68,12 +161,14 @@
     }
 
     h1 {
+      font-family: 'Cormorant Garamond', serif;
       text-align: center;
-      font-size: 36px;
-      font-weight: 500;
-      letter-spacing: 1px;
+      font-size: 42px;
+      font-weight: 400;
+      letter-spacing: 2px;
       margin: 0 0 6px;
       color: #24180e;
+      text-shadow: 0 2px 10px rgba(255,255,255,0.8);
     }
 
     .subtitulo {
@@ -81,72 +176,79 @@
       font-size: 15px;
       color: #4a3728;
       margin-bottom: 25px;
+      font-style: italic;
+      text-shadow: 0 1px 5px rgba(255,255,255,0.8);
     }
 
     /* CAJA DE INGRESO DE CÓDIGO */
     .zonaCodigo {
-      background: rgba(255, 252, 246, 0.88);
-      border: 1px solid rgba(210, 185, 145, 0.8);
+      background: rgba(255, 253, 248, 0.92);
+      border: 1px solid rgba(210, 185, 145, 0.85);
       border-radius: 24px;
-      padding: 30px 20px;
-      box-shadow: 0 15px 35px rgba(60, 40, 20, 0.1);
-      backdrop-filter: blur(8px);
+      padding: 35px 25px;
+      box-shadow: 0 20px 40px rgba(60, 40, 20, 0.12);
+      backdrop-filter: blur(10px);
     }
 
-    h2 {
+    .zonaCodigo h2 {
+      font-family: 'Cormorant Garamond', serif;
       text-align: center;
       font-weight: 500;
-      color: #332214;
+      color: #2b1d11;
       margin-top: 0;
-      font-size: 20px;
+      font-size: 24px;
+      letter-spacing: 1px;
     }
 
     input {
       display: block;
-      width: 290px;
+      width: 300px;
       max-width: 100%;
-      margin: 18px auto;
-      padding: 15px;
+      margin: 20px auto;
+      padding: 16px;
       border-radius: 30px;
       border: 1px solid #c4ae88;
       background: rgba(255, 255, 255, 0.95);
       text-align: center;
       font-size: 18px;
       font-family: 'Montserrat', sans-serif;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       outline: none;
       box-shadow: inset 0 2px 5px rgba(0,0,0,.03);
       color: #2b1e12;
     }
 
     input:focus {
-      border-color: #7d5730;
+      border-color: #8c6239;
+      box-shadow: 0 0 10px rgba(169, 131, 87, 0.25);
     }
 
     /* BOTÓN PRINCIPAL */
     button {
       display: block;
-      margin: 16px auto 5px;
-      padding: 15px 42px;
+      margin: 18px auto 5px;
+      padding: 15px 45px;
       border: none;
       border-radius: 35px;
-      background: #a98357;
+      background: #8c6239;
       color: white;
-      font-size: 16px;
+      font-size: 15px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
+      letter-spacing: 1px;
       cursor: pointer;
       box-shadow: 0 6px 18px rgba(130, 90, 50, 0.25);
-      transition: transform .25s, box-shadow .25s;
+      transition: transform .25s, box-shadow .25s, background .25s;
     }
 
     button:hover {
       transform: translateY(-2px);
+      background: #734e2c;
       box-shadow: 0 10px 22px rgba(130, 90, 50, 0.35);
     }
 
     .separador {
-      margin: 30px 0;
+      margin: 35px 0;
       border: none;
       border-top: 1px solid rgba(90, 60, 30, 0.18);
     }
@@ -157,12 +259,13 @@
       width: 100%;
       margin: auto;
       padding: 35px 30px;
-      background: linear-gradient(135deg, rgba(255, 254, 250, 0.96), rgba(249, 243, 232, 0.96));
+      background: linear-gradient(135deg, rgba(255, 254, 250, 0.97), rgba(249, 243, 232, 0.97));
       border-radius: 26px;
       border: 1px solid rgba(215, 192, 155, 0.9);
       box-shadow: 0 20px 50px rgba(80, 55, 25, 0.15);
       font-size: 16px;
-      line-height: 1.6;
+      line-height: 1.7;
+      backdrop-filter: blur(10px);
     }
 
     #resultado.visible {
@@ -170,19 +273,20 @@
     }
 
     .mensajeTitulo {
+      font-family: 'Cormorant Garamond', serif;
       text-align: center;
-      font-size: 24px;
-      color: #4a2e4d;
+      font-size: 28px;
+      color: #3b233e;
       margin-bottom: 22px;
       font-weight: 600;
+      letter-spacing: 1px;
     }
 
-    /* CORRECCIÓN DE INTERLINEADO Y ESPACIADO */
+    /* Componentes seguidos uno del otro (sin margen inferior) */
     .bloqueInterpretacion {
-      margin: 0;
+      margin-bottom: 0;
       padding: 0;
       border: none;
-      display: inline;
     }
 
     /* BOTÓN DE COMPONENTES DENTRO DEL RESULTADO */
@@ -198,23 +302,25 @@
       text-decoration: none;
       padding: 14px 28px;
       border-radius: 25px;
-      background: #a98357;
+      background: #8c6239;
       color: white;
-      font-size: 15px;
+      font-size: 14px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
+      letter-spacing: 0.5px;
       box-shadow: 0 6px 18px rgba(130, 90, 50, 0.25);
       transition: .25s;
     }
 
     .botonComponentesDestacado:hover {
       transform: translateY(-2px);
+      background: #734e2c;
       box-shadow: 0 10px 22px rgba(130, 90, 50, 0.35);
     }
 
-    /* BOTONES SECUNDARIOS Y REDES CON LOGOS */
+    /* BOTONES SECUNDARIOS Y REDES */
     .botonesRedes {
-      margin: 30px auto 20px;
+      margin: 35px auto 20px;
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -232,16 +338,18 @@
       border: 1px solid rgba(190, 160, 115, 0.55);
       color: #5a3e23;
       background: linear-gradient(135deg, rgba(255, 254, 250, 0.94), rgba(246, 238, 224, 0.9));
-      font-size: 15px;
+      font-size: 14px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
       box-shadow: 0 5px 15px rgba(80, 55, 25, 0.08);
+      backdrop-filter: blur(5px);
       transition: .25s;
     }
 
     .botonSecundario:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(80, 55, 25, 0.15);
+      background: rgba(255, 255, 255, 0.98);
     }
 
     .iconoRed {
@@ -254,11 +362,12 @@
     /* PIE DE PÁGINA */
     .piePagina {
       text-align: center;
-      margin-top: 40px;
+      margin-top: 45px;
       padding-top: 20px;
       border-top: 1px solid rgba(180, 150, 110, .25);
       font-size: 12px;
-      color: #5c432d;
+      color: #4a3321;
+      text-shadow: 0 1px 5px rgba(255,255,255,0.8);
     }
 
     .piePagina .copy {
@@ -276,40 +385,48 @@
 </head>
 <body>
 
+  <div id="splashScreen" class="splashScreen">
+    <video id="videoPortada" class="videoFondoSplash" autoplay muted loop playsinline preload="auto">
+      <source src="./portada.mp4" type="video/mp4">
+    </video>
+    <div class="capaOverlaySplash"></div>
+    <div class="splashContenido">
+      <div class="lineaLuminosa"></div>
+      <h2>Corre la Coneja</h2>
+      <p>Santuario de luz y alquimia</p>
+    </div>
+  </div>
+
   <div class="contenedor">
 
-    <!-- MARCA Y LOGO -->
     <div class="headerMarca">
       <div class="medallaLogo">
         <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen" onerror="this.src='./logo.jpg'; this.onerror=function(){ this.src='./logo.png'; this.onerror=function(){ this.parentElement.style.display='none'; } }">
       </div>
       <h1>Mi Atrapasol</h1>
       <div class="subtitulo">
-        Ingresá el código de tu pieza para descubrir su esencia.
+        Revelá el mensaje de tu atrapasol ingresando su código.
       </div>
     </div>
 
-    <!-- INGRESO DE CÓDIGO -->
     <div class="zonaCodigo">
       <h2>Código de tu Atrapasol</h2>
       <input id="codigoEntrada" type="text" placeholder="Ejemplo: SOL01">
-      <button id="verMensaje">Descubrir esencia</button>
+      <button id="verMensaje">Despertar la magia</button>
     </div>
 
     <hr class="separador">
 
-    <!-- RESULTADO DE LA INTERPRETACIÓN -->
     <div id="resultado"></div>
 
-    <!-- BOTONES DE ENLACES EXTERNOS (Mayorista y Minorista Juntos Arriba) -->
     <div class="botonesRedes">
       <a class="botonSecundario" href="./tienda.html">
         <img src="./logomayo.jpg" alt="Mayorista" class="iconoRed">
-        Compra mayorista (Próximamente)
+        Tienda mayorista
       </a>
       <a class="botonSecundario" href="https://wa.me/c/5492396614552" target="_blank">
         <img src="./logowp.jpg" alt="WhatsApp" class="iconoRed">
-        Compra minorista WhatsApp
+        Catálogo minorista/consultas
       </a>
       <a class="botonSecundario" href="https://www.instagram.com/correlaconeja.ok/" target="_blank">
         <img src="./logoinst.jpg" alt="Instagram" class="iconoRed">
@@ -321,14 +438,13 @@
       </a>
     </div>
 
-    <!-- COPYRIGHT -->
     <footer class="piePagina">
       <div class="copy">© CORRE LA CONEJA. Todos los derechos reservados.</div>
       <div class="subcopy">Arte, intention & luz en cada pieza.</div>
     </footer>
 
   </div>
-  <!-- Bibliotecas Base y Agregados -->
+
   <script src="./bclccris.js"></script>
   <script src="./bclcfiguras.js"></script>
   <script src="./bclcflores.js"></script>
@@ -338,11 +454,29 @@
   <script src="./componentesagregados.js"></script>
   <script src="./bclcagregados.js"></script>
 
-  <!-- Diccionario y Codificador de Códigos Cortos (con ?v=2 para evitar caché) -->
   <script src="./diccionarioCLC.js?v=2"></script>
   <script src="./codificadorCLC.js"></script>
 
   <script>
+    const videoPortada = document.getElementById("videoPortada");
+    if (videoPortada) {
+      videoPortada.addEventListener("loadeddata", function() {
+        videoPortada.classList.add("listo");
+      });
+      if (videoPortada.readyState >= 3) {
+        videoPortada.classList.add("listo");
+      }
+    }
+
+    window.addEventListener("load", function() {
+      setTimeout(function() {
+        const splash = document.getElementById("splashScreen");
+        if (splash) {
+          splash.classList.add("oculto");
+        }
+      }, 2500);
+    });
+
     window.bclcAgregados = window.bclcAgregados || { cristales: {}, figuras: {}, flores: {} };
     const piritaCompleta = window.combinacionesPirita || {};
 
@@ -353,7 +487,6 @@
     let textoResultado = "";
     let codigoActual = "";
 
-    // Tokens exactos de 2 caracteres para las figuras especiales que van al final
     const FIGURAS_ESPECIALES_TOKENS = ["OM", "SV", "FV"];
 
     window.addEventListener("DOMContentLoaded", function() {
@@ -393,26 +526,20 @@
       
       let elementosOrdenados = interpretarCodigoDinamico(codigoLargo);
       
-      let textos = elementosOrdenados
-        .filter(item => item.texto && item.texto.trim() !== "")
-        .map(item => item.texto.trim());
-
-      textoResultado = `<div class="bloqueInterpretacion">${textos.join(" ")}</div>`;
+      elementosOrdenados.forEach(item => {
+        if (item.texto) {
+          textoResultado += `<div class="bloqueInterpretacion">${item.texto}</div>`;
+        }
+      });
 
       mostrarResultado();
       resultado.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    /**
-     * Motor de búsqueda con prioridad estricta:
-     * 1. Busca primero en bclcagregados.js (agregados del oráculo)
-     * 2. Si no lo encuentra, busca en la biblioteca base correspondiente (cristalesCLC, figurasCLC, floresCLC)
-     */
     function buscarEnSeccionConPrioridad(seccionAgregado, seccionBase, token) {
       let subAgregados = (window.bclcAgregados && window.bclcAgregados[seccionAgregado]) || {};
       let subBase = window[seccionBase] || {};
 
-      // 1. Buscar primero en bclcagregados
       for (let key of Object.keys(subAgregados)) {
         let item = subAgregados[key];
         if (item.codigo === token || item.codigoSecundario === token) {
@@ -421,7 +548,6 @@
         }
       }
 
-      // 2. Si no está en agregados, buscar en base
       for (let key of Object.keys(subBase)) {
         let item = subBase[key];
         if (item.codigo === token || item.codigoSecundario === token) {
@@ -433,9 +559,6 @@
       return null;
     }
 
-    /**
-     * Motor dinámico de interpretación de 2 caracteres con orden jerárquico estricto (Oráculo)
-     */
     function interpretarCodigoDinamico(codigoLargo) {
       const tokens = [];
       for (let i = 0; i < codigoLargo.length; i += 2) {
@@ -454,7 +577,6 @@
       tokens.forEach(token => {
         if (token.length < 2) return;
 
-        // 1. Verificar si es Piedra Combinada (Pirita)
         let encontradaPirita = false;
         Object.keys(piritaCompleta).forEach(nombre => {
           let pirita = piritaCompleta[nombre];
@@ -465,7 +587,6 @@
         });
         if (encontradaPirita) return;
 
-        // 2. Verificar si es Figura (Prioridad: bclcagregados -> figurasCLC)
         let figuraEncontrada = buscarEnSeccionConPrioridad('figuras', 'figurasCLC', token);
         if (figuraEncontrada) {
           let itemFigura = { tipo: 'figura', texto: figuraEncontrada.texto };
@@ -477,7 +598,6 @@
           return;
         }
 
-        // 3. Verificar Cristales (Principal o Secundarios) (Prioridad: bclcagregados -> cristalesCLC)
         let cristalEncontrado = buscarEnSeccionConPrioridad('cristales', 'cristalesCLC', token);
         if (cristalEncontrado) {
           let itemCristal = { tipo: 'cristal', texto: cristalEncontrado.texto };
@@ -489,7 +609,6 @@
           return;
         }
 
-        // 4. Verificar Flores (Prioridad: bclcagregados -> floresCLC)
         let florEncontrada = buscarEnSeccionConPrioridad('flores', 'floresCLC', token);
         if (florEncontrada) {
           componentesClasificados.flores.push({ tipo: 'flor', texto: florEncontrada.texto });
@@ -497,7 +616,6 @@
         }
       });
 
-      // Orden Jerárquico del Oráculo
       let secuenciaRenderizado = [];
 
       if (componentesClasificados.piedraCombinada) {
@@ -521,7 +639,7 @@
     function mostrarResultado() {
       if (textoResultado) {
         resultado.innerHTML = `
-          <div class="mensajeTitulo">✨ Esencia de tu Atrapasol ✨</div>
+          <div class="mensajeTitulo">Esencia de tu Atrapasol</div>
           ${textoResultado}
           <div class="cajaComponentesDestacada">
             <a class="botonComponentesDestacado" href="./componentes.html?codigo=${codigoActual}">
@@ -539,6 +657,9 @@
 </body>
 
 </html>
+
+
+
 
 
 
