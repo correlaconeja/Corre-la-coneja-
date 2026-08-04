@@ -89,7 +89,7 @@ window.diccionarioCLC = {
 "CC010": "CCESSV020305",
 "CC011": "CCSV020305",
 "CC012": "CCOM020305",
-"CC0013": "CCOMES020305",
+"CC013": "CCOMES020305",
 "CC013": "CCOMES0203",
 "CC014": "CCOM0203",
 "CC015": "CCSV0203",
@@ -257,7 +257,12 @@ window.diccionarioCLC = {
 "LN008": "LU2128",
 "LN009": "LU28",
 "LN010": "LU2921",
-"FV001": "FV0102"
+"FV001": "FV0102",
+"GN005": "GN0602",
+"MA033": "MA2129",
+"MA034": "MA",
+"MA034": "MA212429",
+
 // Agregá tus propias combinaciones acá abajo cuando quieras:
   // "EJEMPLO": "TUCODIGOLARGOCOMPLETO"
 };
