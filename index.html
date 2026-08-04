@@ -15,7 +15,6 @@
       box-sizing: border-box;
     }
 
-    /* FONDO PRINCIPAL: TU IMAGEN ORIGINAL INTACTA */
     body {
       margin: 0;
       min-height: 100vh;
@@ -30,7 +29,6 @@
       overflow-x: hidden;
     }
 
-    /* PANTALLA DE BIENVENIDA (SPLASH SCREEN) CON TU VIDEO DE FONDO */
     .splashScreen {
       position: fixed;
       top: 0;
@@ -51,7 +49,6 @@
       visibility: hidden;
     }
 
-    /* Video de fondo oculto al inicio para evitar el círculo gris, luego aparece suavemente */
     .videoFondoSplash {
       position: absolute;
       top: 50%;
@@ -68,12 +65,10 @@
       background: #fcf9f2; 
     }
 
-    /* Clase que se activa por JS cuando el video ya cargó para mostrarlo */
     .videoFondoSplash.listo {
       opacity: 0.9;
     }
 
-    /* Capa translúcida sobre el video para garantizar la legibilidad del texto */
     .capaOverlaySplash {
       position: absolute;
       top: 0;
@@ -132,7 +127,6 @@
       z-index: 1;
     }
 
-    /* ENCABEZADO Y MEDALLA DEL LOGO INTEGRADO */
     .headerMarca {
       text-align: center;
       margin-bottom: 25px;
@@ -180,7 +174,6 @@
       text-shadow: 0 1px 5px rgba(255,255,255,0.8);
     }
 
-    /* CAJA DE INGRESO DE CÓDIGO */
     .zonaCodigo {
       background: rgba(255, 253, 248, 0.92);
       border: 1px solid rgba(210, 185, 145, 0.85);
@@ -223,7 +216,6 @@
       box-shadow: 0 0 10px rgba(169, 131, 87, 0.25);
     }
 
-    /* BOTÓN PRINCIPAL */
     button {
       display: block;
       margin: 18px auto 5px;
@@ -253,7 +245,6 @@
       border-top: 1px solid rgba(90, 60, 30, 0.18);
     }
 
-    /* RESULTADO DE LA INTERPRETACIÓN */
     #resultado {
       display: none;
       width: 100%;
@@ -282,14 +273,12 @@
       letter-spacing: 1px;
     }
 
-    /* Componentes seguidos uno del otro (sin margen inferior) */
     .bloqueInterpretacion {
       margin-bottom: 0;
       padding: 0;
       border: none;
     }
 
-    /* BOTÓN DE COMPONENTES DENTRO DEL RESULTADO */
     .cajaComponentesDestacada {
       margin-top: 30px;
       padding-top: 25px;
@@ -318,7 +307,6 @@
       box-shadow: 0 10px 22px rgba(130, 90, 50, 0.35);
     }
 
-    /* BOTONES SECUNDARIOS Y REDES */
     .botonesRedes {
       margin: 35px auto 20px;
       display: flex;
@@ -359,7 +347,6 @@
       border-radius: 4px;
     }
 
-    /* PIE DE PÁGINA */
     .piePagina {
       text-align: center;
       margin-top: 45px;
@@ -380,23 +367,10 @@
       font-style: italic;
       opacity: .85;
     }
-
   </style>
 </head>
+
 <body>
-
-  <div id="splashScreen" class="splashScreen">
-    <video id="videoPortada" class="videoFondoSplash" autoplay muted loop playsinline preload="auto">
-      <source src="./portada.mp4" type="video/mp4">
-    </video>
-    <div class="capaOverlaySplash"></div>
-    <div class="splashContenido">
-      <div class="lineaLuminosa"></div>
-      <h2>Corre la Coneja</h2>
-      <p>Santuario de luz y alquimia</p>
-    </div>
-  </div>
-
   <div class="contenedor">
 
     <div class="headerMarca">
@@ -416,7 +390,6 @@
     </div>
 
     <hr class="separador">
-
     <div id="resultado"></div>
 
     <div class="botonesRedes">
@@ -510,7 +483,6 @@
 
       procesarYMostrar(codigo);
     });
-
     function procesarYMostrar(codigoIngresado) {
       let codigoLargo = CodificadorCLC.expandir(codigoIngresado);
 
@@ -587,17 +559,6 @@
         });
         if (encontradaPirita) return;
 
-        let figuraEncontrada = buscarEnSeccionConPrioridad('figuras', 'figurasCLC', token);
-        if (figuraEncontrada) {
-          let itemFigura = { tipo: 'figura', texto: figuraEncontrada.texto };
-          if (FIGURAS_ESPECIALES_TOKENS.includes(token)) {
-            componentesClasificados.figurasEspeciales.push(itemFigura);
-          } else {
-            componentesClasificados.figurasEstandar.push(itemFigura);
-          }
-          return;
-        }
-
         let cristalEncontrado = buscarEnSeccionConPrioridad('cristales', 'cristalesCLC', token);
         if (cristalEncontrado) {
           let itemCristal = { tipo: 'cristal', texto: cristalEncontrado.texto };
@@ -605,6 +566,17 @@
             componentesClasificados.piedraPrincipal = itemCristal;
           } else {
             componentesClasificados.piedrasSecundarias.push(itemCristal);
+          }
+          return;
+        }
+
+        let figuraEncontrada = buscarEnSeccionConPrioridad('figuras', 'figurasCLC', token);
+        if (figuraEncontrada) {
+          let itemFigura = { tipo: 'figura', texto: figuraEncontrada.texto };
+          if (FIGURAS_ESPECIALES_TOKENS.includes(token)) {
+            componentesClasificados.figurasEspeciales.push(itemFigura);
+          } else {
+            componentesClasificados.figurasEstandar.push(itemFigura);
           }
           return;
         }
@@ -657,6 +629,8 @@
 </body>
 
 </html>
+
+
 
 
 
