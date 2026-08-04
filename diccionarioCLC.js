@@ -261,7 +261,8 @@ window.diccionarioCLC = {
 "GN005": "GN0602",
 "MA033": "MA2129",
 "MA034": "MA",
-"MA034": "MA212429",
+"MA035": "MA2124",
+"ES001": "AA2123",
 
 // Agregá tus propias combinaciones acá abajo cuando quieras:
   // "EJEMPLO": "TUCODIGOLARGOCOMPLETO"
