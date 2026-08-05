@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elementos de tu Atrapasol | Corre la Coneja</title>
+  <title>Componentes del Atrapasol | Corre la Coneja</title>
 
-  <!-- Tipografía moderna y limpia con números uniformes -->
+  <script src="componentesagregados.js"></script>
+  <script src="bclcagregados.js"></script>
+  <script src="bclccris.js"></script>
+  <script src="bclcfiguras.js"></script>
+  <script src="bclcflores.js"></script>
+  <script src="bclcpirita.js"></script>
+  <script src="componentesCLC.js"></script>
+  <script src="diccionarioCLC.js?v=2"></script>
+  <script src="codificadorCLC.js"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
-      padding: 15px 15px 50px;
+      padding: 20px 15px 50px;
       font-family: 'Montserrat', sans-serif;
       color: #2b2017;
-      background:
-        linear-gradient(
-          rgba(255, 252, 247, 0.55),
-          rgba(255, 252, 247, 0.65)
-        ),
-        url("./componentes.png");
+      background-image: url("./reflejos-atrapasol.png");
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -35,399 +35,305 @@
 
     .contenedor {
       width: 100%;
-      max-width: 900px;
+      max-width: 800px;
       margin: auto;
     }
 
-    /* ENCABEZADO Y MEDALLA DEL LOGO INTEGRADO */
-    .headerMarca {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
+    .headerMarca { text-align: center; margin-bottom: 25px; }
     .medallaLogo {
-      width: 140px;
-      height: 140px;
-      margin: 0 auto 14px;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 15px;
       border-radius: 50%;
-      background: #f5efe6;
-      border: 1px solid rgba(195, 165, 120, 0.6);
+      background: rgba(255, 252, 246, 0.92);
+      border: 1px solid rgba(195, 165, 120, 0.7);
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(60, 40, 20, 0.08), 0 0 0 3px rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 20px rgba(60, 40, 20, 0.12);
     }
-
-    .logoImagen {
-      width: 130%;
-      height: 130%;
-      object-fit: contain;
-      border-radius: 50%;
-      mix-blend-mode: multiply;
-    }
+    .logoImagen { width: 130%; height: 130%; object-fit: contain; mix-blend-mode: multiply; }
 
     h1 {
-      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 36px;
-      font-weight: 500;
-      letter-spacing: 1px;
-      margin: 0 0 6px;
+      margin: 0 0 5px;
       color: #24180e;
+      text-align: center;
     }
-
     .subtitulo {
       text-align: center;
-      font-size: 15px;
-      color: #4a3728;
-      margin-bottom: 25px;
+      font-size: 14px;
+      color: #5d4632;
+      font-style: italic;
+      margin-bottom: 30px;
     }
 
-    /* TARJETAS DE COMPONENTES */
-    .tarjeta-componente {
-      background: linear-gradient(135deg, rgba(255, 254, 250, 0.96), rgba(249, 243, 232, 0.96));
-      border: 1px solid rgba(215, 192, 155, 0.9);
-      border-radius: 26px;
-      padding: 22px 26px;
-      margin-bottom: 16px;
-      box-shadow: 0 15px 35px rgba(80, 55, 25, 0.1);
+    .listaComponentes {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .desplegableComponente {
+      background: rgba(255, 253, 248, 0.95);
+      border: 1px solid rgba(210, 185, 145, 0.85);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(60, 40, 20, 0.06);
+      backdrop-filter: blur(8px);
       transition: all 0.3s ease;
     }
 
-    .tarjeta-componente:hover {
-      box-shadow: 0 20px 40px rgba(80, 55, 25, 0.14);
+    .desplegableComponente[open] {
+      box-shadow: 0 12px 30px rgba(60, 40, 20, 0.12);
     }
 
-    /* Cabecera interactiva de cada componente */
-    .titulo-componente {
-      font-size: 18px;
-      color: #332214;
+    .desplegableComponente summary {
+      padding: 18px 22px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
       font-weight: 600;
+      color: #382618;
       cursor: pointer;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       user-select: none;
+      background: rgba(255, 255, 255, 0.5);
+      transition: background 0.2s;
+      list-style: none;
     }
 
-    .flecha-toggle {
-      font-size: 14px;
-      color: #8c7355;
-      transition: transform 0.3s ease;
-    }
-
-    /* Oculto por defecto */
-    .detalles-componente {
+    .desplegableComponente summary::-webkit-details-marker {
       display: none;
-      font-size: 15px;
-      line-height: 1.7;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px dashed rgba(180, 150, 110, .5);
-      color: #4a3728;
     }
 
-    .frase-componente {
-      font-weight: 600;
-      color: #7d5730;
-      margin-bottom: 8px;
-      font-style: italic;
+    .desplegableComponente summary:hover {
+      background: rgba(255, 255, 255, 0.9);
     }
 
-    /* Mostrar al desplegar */
-    .tarjeta-componente.activa .detalles-componente {
-      display: block;
+    .flechaDesplegable {
+      font-size: 14px;
+      color: #8c6239;
+      transition: transform 0.3s ease;
+      display: inline-block;
+      margin-left: 10px;
     }
 
-    .tarjeta-componente.activa .flecha-toggle {
+    .desplegableComponente[open] .flechaDesplegable {
       transform: rotate(180deg);
     }
 
-    /* BOTÓN VOLVER */
-    .boton-volver {
-      text-decoration: none;
-      text-align: center;
-      display: block;
-      width: 100%;
-      max-width: 400px;
-      margin: 35px auto 20px;
-      padding: 16px 20px;
-      border-radius: 20px;
-      border: 1px solid rgba(190, 160, 115, 0.55);
-      color: #5a3e23;
-      background: linear-gradient(135deg, rgba(255, 254, 250, 0.94), rgba(246, 238, 224, 0.9));
-      font-size: 15px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      box-shadow: 0 5px 15px rgba(80, 55, 25, 0.08);
-      transition: .25s;
+    .contenidoDesplegable {
+      padding: 20px 22px;
+      border-top: 1px solid rgba(210, 185, 145, 0.4);
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.3);
     }
 
-    .boton-volver:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(80, 55, 25, 0.15);
+    .imagenComponente {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 5px;
+      flex-shrink: 0;
+      border: 1px solid rgba(210, 185, 145, 0.5);
     }
 
-    /* PIE DE PÁGINA */
-    .piePagina {
-      text-align: center;
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(180, 150, 110, .25);
-      font-size: 12px;
-      color: #5c432d;
+    .bloqueTexto {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
-    .piePagina .copy {
-      font-weight: 600;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-    }
-
-    .piePagina .subcopy {
+    .fraseDestacada {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
       font-style: italic;
-      opacity: .85;
+      font-weight: 600;
+      color: #8c6239;
+      line-height: 1.4;
+    }
+
+    .textoDetalle {
+      font-size: 14px;
+      color: #5a4533;
+      line-height: 1.6;
+    }
+
+    .botonVolver {
+      display: block;
+      width: fit-content;
+      margin: 30px auto 0;
+      padding: 12px 30px;
+      border-radius: 25px;
+      background: #8c6239;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: .25s;
+      box-shadow: 0 5px 15px rgba(140, 98, 57, 0.2);
+    }
+    .botonVolver:hover { background: #734e2c; transform: translateY(-2px); }
+
+    @media (max-width: 600px) {
+      .contenidoDesplegable {
+        flex-direction: column;
+        text-align: center;
+      }
     }
   </style>
 </head>
-
 <body>
-
   <div class="contenedor">
 
-    <!-- MARCA Y LOGO EN MEDALLA -->
     <div class="headerMarca">
       <div class="medallaLogo">
-        <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen" onerror="this.src='./logo.jpg'; this.onerror=function(){ this.parentElement.style.display='none'; }">
+        <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen" onerror="this.src='./logo.jpg'; this.onerror=function(){ this.src='./logo.png'; }">
       </div>
-      <h1>Elementos de tu Atrapasol</h1>
-      <div class="subtitulo">
-        Conocé en detalle los cristales y componentes que forman parte de tu pieza.
-      </div>
+      <h1 id="tituloAtrapasol">Componentes de tu Atrapasol</h1>
+      <div class="subtitulo" id="subtituloAtrapasol">Conocé cada elemento que llena de luz tu espacio</div>
     </div>
 
-    <!-- LISTA DE COMPONENTES GENERADOS -->
-    <div id="listaComponentes"></div>
+    <div id="contenedorLista" class="listaComponentes"></div>
 
-    <!-- BOTÓN VOLVER -->
-    <a id="enlaceVolver" href="./cliente.html" class="boton-volver">⬅ Volver</a>
-
-    <!-- COPYRIGHT -->
-    <footer class="piePagina">
-      <div class="copy">© CORRE LA CONEJA. Todos los derechos reservados.</div>
-      <div class="subcopy">Arte, intention & luz en cada pieza.</div>
-    </footer>
+    <a href="./index.html" class="botonVolver">← Volver al Oráculo</a>
 
   </div>
 
-  <!-- Bibliotecas Base y de Agregados -->
-  <script src="./componentesCLC.js"></script>
-  <script src="./componentesagregados.js"></script>
-  <script src="./bclcpirita.js"></script>
-
-  <!-- Diccionario y Codificador de Códigos Cortos -->
-  <script src="./diccionarioCLC.js?v=2"></script>
-  <script src="./codificadorCLC.js"></script>
-
   <script>
-    // Inicialización de estructuras separadas para priorizar agregados
-    window.componentesCLC = window.componentesCLC || { cristales: {}, figuras: {}, flores: {} };
-    window.agregadosCLC = window.agregadosCLC || { cristales: {}, figuras: {}, flores: {} };
-    const piritaCompleta = window.combinacionesPirita || {};
+    function buscarFichaComponente(token) {
+      let secciones = ['cristales', 'figuras', 'flores'];
 
-    // Tokens exactos de 2 caracteres para las figuras especiales que van al final
-    const FIGURAS_ESPECIALES_TOKENS = ["OM", "SV", "FV"];
-
-    const params = new URLSearchParams(window.location.search);
-    let codigoCrudo = (params.get('codigo') || '').trim();
-    
-    // Expande el código usando el diccionario
-    const codigoLargo = CodificadorCLC ? CodificadorCLC.expandir(codigoCrudo) : codigoCrudo.toUpperCase();
-    const listaDiv = document.getElementById('listaComponentes');
-
-    // Actualizar botón de volver manteniendo el código en la URL si existe
-    if (codigoCrudo) {
-      document.getElementById('enlaceVolver').href = `./cliente.html?codigo=${codigoCrudo}`;
-    }
-
-    if (!codigoLargo) {
-      listaDiv.innerHTML = '<div class="tarjeta-componente"><div class="titulo-componente">No se ingresó ningún código de Atrapasol.</div></div>';
-    } else {
-      let elementosOrdenados = interpretarComponentesDinamico(codigoLargo);
-      let html = '';
-
-      elementosOrdenados.forEach(item => {
-        html += renderTarjeta(item.nombre, item.frase, item.descripcion);
-      });
-
-      listaDiv.innerHTML = html || '<div class="tarjeta-componente"><div class="titulo-componente">No se encontraron componentes para este código.</div></div>';
-    }
-
-    /**
-     * Motor de búsqueda con prioridad absoluta:
-     * 1. Busca primero en componentesagregados.js
-     * 2. Si no lo encuentra, busca en componentesCLC.js (biblioteca común)
-     */
-    function buscarEnSeccionConPrioridad(seccion, token) {
-      let subSeccionAgregados = window.agregadosCLC[seccion] || {};
-      let subSeccionBase = window.componentesCLC[seccion] || {};
-
-      // 1. Buscar primero en Agregados
-      for (let key of Object.keys(subSeccionAgregados)) {
-        let item = subSeccionAgregados[key];
-        let codigos = Array.isArray(item.codigo) ? item.codigo : [item.codigo, key];
-        if (codigos.includes(token) || item.codigoSecundario === token) {
-          return { 
-            nombre: item.nombre || key, 
-            frase: item.frase || '', 
-            descripcion: item.descripcion || 'Sin detalles disponibles.' 
-          };
+      // 1. Buscar en componentesAgregadosCLC (Agregados vía Admin)
+      if (window.componentesAgregadosCLC) {
+        for (let sec of secciones) {
+          let catAgregados = window.componentesAgregadosCLC[sec] || {};
+          for (let key of Object.keys(catAgregados)) {
+            let item = catAgregados[key];
+            let c1 = Array.isArray(item.codigo) ? item.codigo[0] : item.codigo;
+            let c2 = Array.isArray(item.codigo) ? item.codigo[1] : item.codigoSecundario;
+            if (c1 === token || c2 === token || key === token) {
+              return { ...item, categoria: sec };
+            }
+          }
         }
       }
 
-      // 2. Si no está en Agregados, buscar en Base
-      for (let key of Object.keys(subSeccionBase)) {
-        let item = subSeccionBase[key];
-        let codigos = Array.isArray(item.codigo) ? item.codigo : [item.codigo, key];
-        if (codigos.includes(token) || item.codigoSecundario === token) {
-          return { 
-            nombre: item.nombre || key, 
-            frase: item.frase || '', 
-            descripcion: item.descripcion || 'Sin detalles disponibles.' 
-          };
+      // 2. Buscar en componentesCLC (Base)
+      if (window.componentesCLC) {
+        for (let sec of secciones) {
+          let catBase = window.componentesCLC[sec] || {};
+          for (let key of Object.keys(catBase)) {
+            let item = catBase[key];
+            let c1 = Array.isArray(item.codigo) ? item.codigo[0] : item.codigo;
+            let c2 = Array.isArray(item.codigo) ? item.codigo[1] : item.codigoSecundario;
+            if (c1 === token || c2 === token || key === token) {
+              return { ...item, categoria: sec };
+            }
+          }
+        }
+      }
+
+      // 3. Buscar en bibliotecas de mensajes
+      let basesMensajes = [
+        window.bclcAgregados?.cristales, window.bclcAgregados?.figuras, window.bclcAgregados?.flores,
+        window.cristalesCLC, window.figurasCLC, window.floresCLC
+      ];
+
+      for (let base of basesMensajes) {
+        if (!base) continue;
+        for (let key of Object.keys(base)) {
+          let item = base[key];
+          if (item.codigo === token || item.codigoSecundario === token) {
+            return {
+              nombre: item.nombre || key,
+              frase: item.frase || "",
+              descripcion: item.descripcion || item.principal || "",
+              categoria: item.tipo || "componente"
+            };
+          }
         }
       }
 
       return null;
     }
 
-    function interpretarComponentesDinamico(codigoLargo) {
-      const tokens = [];
+    window.addEventListener("DOMContentLoaded", function() {
+      let params = new URLSearchParams(window.location.search);
+      let codigoIngresado = params.get("codigo");
+
+      let contenedorLista = document.getElementById("contenedorLista");
+      let titulo = document.getElementById("tituloAtrapasol");
+
+      if (!codigoIngresado) {
+        contenedorLista.innerHTML = "<p style='text-align:center; width:100%;'>No se ingresó ningún código de Atrapasol.</p>";
+        return;
+      }
+
+      titulo.innerHTML = "Componentes: " + codigoIngresado.toUpperCase();
+
+      let codigoLargo = CodificadorCLC.expandir(codigoIngresado);
+      if (!codigoLargo) {
+        contenedorLista.innerHTML = "<p style='text-align:center; width:100%;'>Código de Atrapasol no encontrado.</p>";
+        return;
+      }
+
+      let tokens = [];
       for (let i = 0; i < codigoLargo.length; i += 2) {
         tokens.push(codigoLargo.substring(i, i + 2));
       }
 
-      let componentesClasificados = {
-        piedraCombinada: null,
-        piedraPrincipal: null,
-        figurasEstandar: [],
-        figurasEspeciales: [],
-        piedrasSecundarias: [],
-        flores: []
-      };
+      let desplegablesHTML = "";
+      let procesados = new Set();
 
       tokens.forEach(token => {
-        if (token.length < 2) return;
+        if (token.length < 2 || procesados.has(token)) return;
 
-        // 1. Verificar si es Piedra Combinada (Pirita)
-        let encontradaPirita = false;
-        Object.keys(piritaCompleta).forEach(nombre => {
-          let pirita = piritaCompleta[nombre];
-          if (pirita.codigo === token) {
-            componentesClasificados.piedraCombinada = { 
-              nombre: nombre, 
-              frase: pirita.frase || 'Combinación Especial', 
-              descripcion: pirita.mensaje || '' 
-            };
-            encontradaPirita = true;
-          }
-        });
-        if (encontradaPirita) return;
+        let item = buscarFichaComponente(token);
+        if (item) {
+          procesados.add(token);
+          let imgSrc = item.imagen || `./${item.nombre ? item.nombre.toLowerCase().replace(/\s+/g, '') : token}.jpg`;
 
-        // 2. Verificar si es Figura (Prioridad: Agregados -> Base)
-        let figuraEncontrada = buscarEnSeccionConPrioridad('figuras', token);
-        if (figuraEncontrada) {
-          if (FIGURAS_ESPECIALES_TOKENS.includes(token)) {
-            componentesClasificados.figurasEspeciales.push(figuraEncontrada);
-          } else {
-            componentesClasificados.figurasEstandar.push(figuraEncontrada);
-          }
-          return;
-        }
+          let fraseHTML = item.frase ? `<div class="fraseDestacada">"${item.frase}"</div>` : '';
+          let descripcionHTML = item.descripcion ? `<div class="textoDetalle">${item.descripcion}</div>` : '';
 
-        // 3. Verificar si es Cristal (Principal o Secundario) (Prioridad: Agregados -> Base)
-        let cristalEncontrado = buscarEnSeccionConPrioridad('cristales', token);
-        if (cristalEncontrado) {
-          let subAgregados = window.agregadosCLC['cristales'] || {};
-          let subBase = window.componentesCLC['cristales'] || {};
-          
-          let esPrincipalMatch = false;
-          let verificarPrincipal = (obj) => {
-            for (let k in obj) {
-              let p = obj[k];
-              let cods = Array.isArray(p.codigo) ? p.codigo : [p.codigo, k];
-              if ((p.nombre === cristalEncontrado.nombre || k === cristalEncontrado.nombre) && cods.includes(token)) {
-                return true;
-              }
-            }
-            return false;
-          };
-
-          if (verificarPrincipal(subAgregados) || verificarPrincipal(subBase)) {
-            esPrincipalMatch = true;
-          }
-
-          if (!componentesClasificados.piedraPrincipal && !componentesClasificados.piedraCombinada && esPrincipalMatch) {
-            componentesClasificados.piedraPrincipal = cristalEncontrado;
-          } else {
-            componentesClasificados.piedrasSecundarias.push(cristalEncontrado);
-          }
-          return;
-        }
-
-        // 4. Verificar si es Flor (Prioridad: Agregados -> Base)
-        let florEncontrada = buscarEnSeccionConPrioridad('flores', token);
-        if (florEncontrada) {
-          componentesClasificados.flores.push(florEncontrada);
-          return;
+          desplegablesHTML += `
+            <details class="desplegableComponente">
+              <summary>
+                <span>${item.nombre || token}</span>
+                <span class="flechaDesplegable">▼</span>
+              </summary>
+              <div class="contenidoDesplegable">
+                <img src="${imgSrc}" class="imagenComponente" alt="${item.nombre || token}" onerror="this.style.display='none'">
+                <div class="bloqueTexto">
+                  ${fraseHTML}
+                  ${descripcionHTML}
+                </div>
+              </div>
+            </details>
+          `;
         }
       });
 
-      // Orden Jerárquico del Oráculo
-      let secuenciaRenderizado = [];
-
-      if (componentesClasificados.piedraCombinada) {
-        secuenciaRenderizado.push(componentesClasificados.piedraCombinada);
-        secuenciaRenderizado.push(...componentesClasificados.figurasEstandar);
-      } else if (componentesClasificados.piedraPrincipal) {
-        secuenciaRenderizado.push(componentesClasificados.piedraPrincipal);
-        secuenciaRenderizado.push(...componentesClasificados.figurasEstandar);
-      } else if (componentesClasificados.figurasEstandar.length > 0) {
-        secuenciaRenderizado.push(componentesClasificados.figurasEstandar.shift());
-        secuenciaRenderizado.push(...componentesClasificados.figurasEstandar);
+      if (desplegablesHTML) {
+        contenedorLista.innerHTML = desplegablesHTML;
+      } else {
+        contenedorLista.innerHTML = "<p style='text-align:center; width:100%;'>No se encontraron fichas individuales para los componentes de esta pieza.</p>";
       }
-
-      secuenciaRenderizado.push(...componentesClasificados.piedrasSecundarias);
-      secuenciaRenderizado.push(...componentesClasificados.figurasEspeciales);
-      secuenciaRenderizado.push(...componentesClasificados.flores);
-
-      return secuenciaRenderizado;
-    }
-
-    function renderTarjeta(nombre, frase, desc) {
-      let contenidoFrase = frase ? `<div class="frase-componente">${frase}</div>` : '';
-      return `
-        <div class="tarjeta-componente" onclick="toggleTarjeta(this)">
-          <div class="titulo-componente">
-            <span>${nombre}</span>
-            <span class="flecha-toggle">▼</span>
-          </div>
-          <div class="detalles-componente">
-            ${contenidoFrase}
-            <div>${desc}</div>
-          </div>
-        </div>
-      `;
-    }
-
-    function toggleTarjeta(elemento) {
-      elemento.classList.toggle('activa');
-    }
+    });
   </script>
-
 </body>
-
 </html>
+
 
 
 

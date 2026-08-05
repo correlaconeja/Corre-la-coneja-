@@ -3,7 +3,7 @@
 
 <head>
   <script src="componentesagregados.js"></script>
-<script src="bclcagregados.js"></script>
+  <script src="bclcagregados.js"></script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -372,7 +372,6 @@
     }
   </style>
 </head>
-
 <body>
   <div class="contenedor">
 
@@ -486,48 +485,39 @@
 
       procesarYMostrar(codigo);
     });
-    function procesarYMostrar(codigoIngresado) {
-      let codigoLargo = CodificadorCLC.expandir(codigoIngresado);
-
-      if (!codigoLargo) {
-        resultado.innerHTML = "No se encontró información para ese código.";
-        resultado.classList.add("visible");
-        resultado.scrollIntoView({ behavior: "smooth", block: "start" });
-        return;
-      }
-
-      codigoActual = codigoLargo;
-      textoResultado = "";
-      
-      let elementosOrdenados = interpretarCodigoDinamico(codigoLargo);
-      
-      elementosOrdenados.forEach(item => {
-        if (item.texto) {
-          textoResultado += `<div class="bloqueInterpretacion">${item.texto}</div>`;
-        }
-      });
-
-      mostrarResultado();
-      resultado.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
     function buscarEnSeccionConPrioridad(seccionAgregado, seccionBase, token) {
       let subAgregados = (window.bclcAgregados && window.bclcAgregados[seccionAgregado]) || {};
       let subBase = window[seccionBase] || {};
 
       for (let key of Object.keys(subAgregados)) {
         let item = subAgregados[key];
-        if (item.codigo === token || item.codigoSecundario === token) {
+        let codPrimario = Array.isArray(item.codigo) ? item.codigo[0] : item.codigo;
+        let codSecundario = Array.isArray(item.codigo) ? item.codigo[1] : item.codigoSecundario;
+
+        if (codPrimario === token || codSecundario === token) {
           let texto = item.principal || item.secundaria || item.mensaje || "";
-          return { tipo: seccionAgregado, texto: texto, esPrincipal: item.codigo === token };
+          return { 
+            tipo: seccionAgregado, 
+            texto: texto, 
+            esPrincipal: codPrimario === token,
+            itemOriginal: item 
+          };
         }
       }
 
       for (let key of Object.keys(subBase)) {
         let item = subBase[key];
-        if (item.codigo === token || item.codigoSecundario === token) {
+        let codPrimario = Array.isArray(item.codigo) ? item.codigo[0] : item.codigo;
+        let codSecundario = Array.isArray(item.codigo) ? item.codigo[1] : item.codigoSecundario;
+
+        if (codPrimario === token || codSecundario === token) {
           let texto = item.principal || item.secundaria || item.mensaje || "";
-          return { tipo: seccionBase, texto: texto, esPrincipal: item.codigo === token };
+          return { 
+            tipo: seccionBase, 
+            texto: texto, 
+            esPrincipal: codPrimario === token,
+            itemOriginal: item 
+          };
         }
       }
 
@@ -611,6 +601,31 @@
       return secuenciaRenderizado;
     }
 
+    function procesarYMostrar(codigoIngresado) {
+      let codigoLargo = CodificadorCLC.expandir(codigoIngresado);
+
+      if (!codigoLargo) {
+        resultado.innerHTML = "No se encontró información para ese código.";
+        resultado.classList.add("visible");
+        resultado.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+
+      codigoActual = codigoIngresado.trim().toUpperCase();
+      textoResultado = "";
+      
+      let elementosOrdenados = interpretarCodigoDinamico(codigoLargo);
+      
+      elementosOrdenados.forEach(item => {
+        if (item.texto) {
+          textoResultado += `<div class="bloqueInterpretacion">${item.texto}</div>`;
+        }
+      });
+
+      mostrarResultado();
+      resultado.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
     function mostrarResultado() {
       if (textoResultado) {
         resultado.innerHTML = `
@@ -628,9 +643,7 @@
       resultado.classList.add("visible");
     }
   </script>
-
 </body>
-
 </html>
 
 
