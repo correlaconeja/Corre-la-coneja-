@@ -431,7 +431,6 @@
 
   <script src="./diccionarioCLC.js?v=2"></script>
   <script src="./codificadorCLC.js"></script>
-
   <script>
     const videoPortada = document.getElementById("videoPortada");
     if (videoPortada) {
@@ -462,7 +461,8 @@
     let textoResultado = "";
     let codigoActual = "";
 
-    const FIGURAS_ESPECIALES_TOKENS = ["OM", "SV", "FV"];
+    // Figuras especiales / de cierre y geometría sagrada
+    const FIGURAS_ESPECIALES_TOKENS = ["OM", "SV", "FV", "PD", "ES"];
 
     window.addEventListener("DOMContentLoaded", function() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -485,6 +485,7 @@
 
       procesarYMostrar(codigo);
     });
+
     function buscarEnSeccionConPrioridad(seccionAgregado, seccionBase, token) {
       let subAgregados = (window.bclcAgregados && window.bclcAgregados[seccionAgregado]) || {};
       let subBase = window[seccionBase] || {};
@@ -645,6 +646,7 @@
   </script>
 </body>
 </html>
+
 
 
 

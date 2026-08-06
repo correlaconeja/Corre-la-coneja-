@@ -1,26 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Componentes del Atrapasol | Corre la Coneja</title>
-
-  <script src="componentesagregados.js"></script>
-  <script src="bclcagregados.js"></script>
-  <script src="bclccris.js"></script>
-  <script src="bclcfiguras.js"></script>
-  <script src="bclcflores.js"></script>
-  <script src="bclcpirita.js"></script>
-  <script src="componentesCLC.js"></script>
-  <script src="diccionarioCLC.js?v=2"></script>
-  <script src="codificadorCLC.js"></script>
+  <title>Componentes | Corre la Coneja</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -31,19 +23,23 @@
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
+      position: relative;
     }
 
     .contenedor {
       width: 100%;
-      max-width: 800px;
+      max-width: 700px;
       margin: auto;
+      position: relative;
+      z-index: 1;
     }
 
-    .headerMarca { text-align: center; margin-bottom: 25px; }
+    .headerMarca { text-align: center; margin-bottom: 30px; }
+
     .medallaLogo {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 15px;
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 16px;
       border-radius: 50%;
       background: rgba(255, 252, 246, 0.92);
       border: 1px solid rgba(195, 165, 120, 0.7);
@@ -51,288 +47,281 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(60, 40, 20, 0.12);
+      box-shadow: 0 10px 25px rgba(60, 40, 20, 0.12), 0 0 0 4px rgba(255, 255, 255, 0.5);
     }
-    .logoImagen { width: 130%; height: 130%; object-fit: contain; mix-blend-mode: multiply; }
+
+    .logoImagen {
+      width: 130%;
+      height: 130%;
+      object-fit: contain;
+      border-radius: 50%;
+      mix-blend-mode: multiply;
+    }
 
     h1 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 36px;
-      margin: 0 0 5px;
-      color: #24180e;
       text-align: center;
+      font-size: 38px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      margin: 0 0 6px;
+      color: #24180e;
+      text-shadow: 0 2px 10px rgba(255,255,255,0.8);
     }
+
     .subtitulo {
       text-align: center;
       font-size: 14px;
-      color: #5d4632;
+      color: #4a3728;
+      margin-bottom: 30px;
       font-style: italic;
-      margin-bottom: 30px;
+      text-shadow: 0 1px 5px rgba(255,255,255,0.8);
     }
 
-    .listaComponentes {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    .desplegableComponente {
-      background: rgba(255, 253, 248, 0.95);
+    details {
+      background: rgba(255, 253, 248, 0.94);
       border: 1px solid rgba(210, 185, 145, 0.85);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 8px 20px rgba(60, 40, 20, 0.06);
+      border-radius: 18px;
+      margin-bottom: 15px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 20px rgba(60, 40, 20, 0.08);
       backdrop-filter: blur(8px);
       transition: all 0.3s ease;
     }
 
-    .desplegableComponente[open] {
-      box-shadow: 0 12px 30px rgba(60, 40, 20, 0.12);
+    details[open] {
+      background: rgba(255, 255, 255, 0.97);
+      border-color: #8c6239;
+      box-shadow: 0 12px 28px rgba(60, 40, 20, 0.14);
     }
 
-    .desplegableComponente summary {
-      padding: 18px 22px;
+    summary {
       font-family: 'Cormorant Garamond', serif;
       font-size: 22px;
       font-weight: 600;
-      color: #382618;
+      color: #2b1d11;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      user-select: none;
-      background: rgba(255, 255, 255, 0.5);
-      transition: background 0.2s;
       list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      outline: none;
     }
 
-    .desplegableComponente summary::-webkit-details-marker {
-      display: none;
-    }
+    summary::-webkit-details-marker { display: none; }
 
-    .desplegableComponente summary:hover {
-      background: rgba(255, 255, 255, 0.9);
-    }
-
-    .flechaDesplegable {
+    summary::after {
+      content: '✦';
       font-size: 14px;
       color: #8c6239;
       transition: transform 0.3s ease;
-      display: inline-block;
-      margin-left: 10px;
     }
 
-    .desplegableComponente[open] .flechaDesplegable {
-      transform: rotate(180deg);
-    }
+    details[open] summary::after { transform: rotate(45deg); }
 
-    .contenidoDesplegable {
-      padding: 20px 22px;
-      border-top: 1px solid rgba(210, 185, 145, 0.4);
+    .contenidoTarjeta {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(180, 150, 110, 0.25);
       display: flex;
-      gap: 20px;
+      flex-direction: column;
+      gap: 15px;
       align-items: center;
-      background: rgba(255, 255, 255, 0.3);
+    }
+
+    @media (min-width: 500px) {
+      .contenidoTarjeta {
+        flex-direction: row;
+        align-items: flex-start;
+      }
     }
 
     .imagenComponente {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 5px;
+      width: 110px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid rgba(180, 150, 110, 0.4);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
       flex-shrink: 0;
-      border: 1px solid rgba(210, 185, 145, 0.5);
     }
 
-    .bloqueTexto {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    .infoComponente { flex-grow: 1; }
 
     .fraseDestacada {
       font-family: 'Cormorant Garamond', serif;
       font-size: 18px;
       font-style: italic;
+      color: #734e2c;
+      margin-bottom: 8px;
       font-weight: 600;
-      color: #8c6239;
-      line-height: 1.4;
     }
 
-    .textoDetalle {
+    .descripcionTexto {
       font-size: 14px;
-      color: #5a4533;
       line-height: 1.6;
+      color: #382618;
+      margin: 0;
     }
 
     .botonVolver {
       display: block;
       width: fit-content;
-      margin: 30px auto 0;
+      margin: 35px auto 0;
       padding: 12px 30px;
       border-radius: 25px;
-      background: #8c6239;
-      color: white;
+      background: rgba(255, 253, 248, 0.9);
+      border: 1px solid rgba(190, 160, 115, 0.6);
+      color: #5a3e23;
       text-decoration: none;
       font-size: 14px;
       font-weight: 500;
-      transition: .25s;
-      box-shadow: 0 5px 15px rgba(140, 98, 57, 0.2);
+      box-shadow: 0 4px 12px rgba(80, 55, 25, 0.08);
+      transition: 0.25s;
     }
-    .botonVolver:hover { background: #734e2c; transform: translateY(-2px); }
 
-    @media (max-width: 600px) {
-      .contenidoDesplegable {
-        flex-direction: column;
-        text-align: center;
-      }
+    .botonVolver:hover {
+      background: #8c6239;
+      color: white;
+      transform: translateY(-2px);
     }
   </style>
 </head>
 <body>
   <div class="contenedor">
-
     <div class="headerMarca">
       <div class="medallaLogo">
-        <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen" onerror="this.src='./logo.jpg'; this.onerror=function(){ this.src='./logo.png'; }">
+        <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen" onerror="this.src='./logo.jpg'; this.onerror=function(){ this.src='./logo.png'; this.onerror=function(){ this.parentElement.style.display='none'; } }">
       </div>
-      <h1 id="tituloAtrapasol">Componentes de tu Atrapasol</h1>
-      <div class="subtitulo" id="subtituloAtrapasol">Conocé cada elemento que llena de luz tu espacio</div>
+      <h1>Componentes de tu Atrapasol</h1>
+      <div class="subtitulo">Conocé cada cristal, figura y flor que componen tu pieza.</div>
     </div>
 
-    <div id="contenedorLista" class="listaComponentes"></div>
+    <div id="contenedorTarjetas"></div>
 
-    <a href="./index.html" class="botonVolver">← Volver al Oráculo</a>
-
+    <a id="btnVolverMensaje" href="./index.html" class="botonVolver">← Volver al mensaje del Atrapasol</a>
   </div>
+  <script src="diccionarioCLC.js"></script>
+  <script src="codificadorCLC.js"></script>
+  <script src="componentesCLC.js"></script>
+  <script src="componentesagregados.js"></script>
 
   <script>
-    function buscarFichaComponente(token) {
-      let secciones = ['cristales', 'figuras', 'flores'];
+    document.addEventListener("DOMContentLoaded", function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      let codigoBuscado = (urlParams.get("codigo") || "").trim().toUpperCase();
 
-      // 1. Buscar en componentesAgregadosCLC (Agregados vía Admin)
-      if (window.componentesAgregadosCLC) {
-        for (let sec of secciones) {
-          let catAgregados = window.componentesAgregadosCLC[sec] || {};
-          for (let key of Object.keys(catAgregados)) {
-            let item = catAgregados[key];
-            let c1 = Array.isArray(item.codigo) ? item.codigo[0] : item.codigo;
-            let c2 = Array.isArray(item.codigo) ? item.codigo[1] : item.codigoSecundario;
-            if (c1 === token || c2 === token || key === token) {
-              return { ...item, categoria: sec };
-            }
-          }
+      const btnVolver = document.getElementById("btnVolverMensaje");
+      if (btnVolver && codigoBuscado) {
+        btnVolver.href = `./index.html?codigo=${encodeURIComponent(codigoBuscado)}`;
+      }
+
+      // Red de seguridad: Traducimos por diccionario o expandimos si es código corto
+      if (window.diccionarioCLC && window.diccionarioCLC[codigoBuscado]) {
+        codigoBuscado = window.diccionarioCLC[codigoBuscado];
+      } else if (codigoBuscado.length === 5 && window.CodificadorCLC) {
+        codigoBuscado = window.CodificadorCLC.expandir(codigoBuscado) || codigoBuscado;
+      }
+
+      // Cortar el código en tokens de a 2 caracteres
+      const tokens = [];
+      for (let i = 0; i < codigoBuscado.length; i += 2) {
+        const token = codigoBuscado.substr(i, 2);
+        if (token.length === 2) {
+          tokens.push(token);
         }
       }
 
-      // 2. Buscar en componentesCLC (Base)
-      if (window.componentesCLC) {
-        for (let sec of secciones) {
-          let catBase = window.componentesCLC[sec] || {};
-          for (let key of Object.keys(catBase)) {
-            let item = catBase[key];
-            let c1 = Array.isArray(item.codigo) ? item.codigo[0] : item.codigo;
-            let c2 = Array.isArray(item.codigo) ? item.codigo[1] : item.codigoSecundario;
-            if (c1 === token || c2 === token || key === token) {
-              return { ...item, categoria: sec };
-            }
-          }
-        }
-      }
+      // Unificar bibliotecas base y agregados
+      const compBase = window.componentesCLC || {};
+      const compAgregados = window.componentesAgregadosCLC || {};
 
-      // 3. Buscar en bibliotecas de mensajes
-      let basesMensajes = [
-        window.bclcAgregados?.cristales, window.bclcAgregados?.figuras, window.bclcAgregados?.flores,
-        window.cristalesCLC, window.figurasCLC, window.floresCLC
-      ];
+      const fuentes = {
+        cristales: Object.assign({}, compBase.cristales || {}, compAgregados.cristales || {}),
+        figuras: Object.assign({}, compBase.figuras || {}, compAgregados.figuras || {}),
+        flores: Object.assign({}, compBase.flores || {}, compAgregados.flores || {})
+      };
 
-      for (let base of basesMensajes) {
-        if (!base) continue;
-        for (let key of Object.keys(base)) {
-          let item = base[key];
-          if (item.codigo === token || item.codigoSecundario === token) {
-            return {
-              nombre: item.nombre || key,
-              frase: item.frase || "",
-              descripcion: item.descripcion || item.principal || "",
-              categoria: item.tipo || "componente"
-            };
-          }
-        }
-      }
+      const procesados = new Set();
+      const tarjetasCristales = [];
+      const tarjetasFiguras = [];
+      const tarjetasFlores = [];
 
-      return null;
-    }
-
-    window.addEventListener("DOMContentLoaded", function() {
-      let params = new URLSearchParams(window.location.search);
-      let codigoIngresado = params.get("codigo");
-
-      let contenedorLista = document.getElementById("contenedorLista");
-      let titulo = document.getElementById("tituloAtrapasol");
-
-      if (!codigoIngresado) {
-        contenedorLista.innerHTML = "<p style='text-align:center; width:100%;'>No se ingresó ningún código de Atrapasol.</p>";
-        return;
-      }
-
-      titulo.innerHTML = "Componentes: " + codigoIngresado.toUpperCase();
-
-      let codigoLargo = CodificadorCLC.expandir(codigoIngresado);
-      if (!codigoLargo) {
-        contenedorLista.innerHTML = "<p style='text-align:center; width:100%;'>Código de Atrapasol no encontrado.</p>";
-        return;
-      }
-
-      let tokens = [];
-      for (let i = 0; i < codigoLargo.length; i += 2) {
-        tokens.push(codigoLargo.substring(i, i + 2));
-      }
-
-      let desplegablesHTML = "";
-      let procesados = new Set();
-
+      // Evaluar cada token
       tokens.forEach(token => {
-        if (token.length < 2 || procesados.has(token)) return;
+        // A. Buscar en Cristales
+        for (const key in fuentes.cristales) {
+          const item = fuentes.cristales[key];
+          const codigos = Array.isArray(item.codigo) ? item.codigo : [item.codigo];
+          if (codigos.includes(token)) {
+            if (!procesados.has(item.nombre)) {
+              procesados.add(item.nombre);
+              tarjetasCristales.push(item);
+            }
+            return;
+          }
+        }
 
-        let item = buscarFichaComponente(token);
-        if (item) {
-          procesados.add(token);
-          let imgSrc = item.imagen || `./${item.nombre ? item.nombre.toLowerCase().replace(/\s+/g, '') : token}.jpg`;
+        // B. Buscar en Figuras
+        for (const key in fuentes.figuras) {
+          const item = fuentes.figuras[key];
+          const codigos = Array.isArray(item.codigo) ? item.codigo : [item.codigo];
+          if (codigos.includes(token)) {
+            if (!procesados.has(item.nombre)) {
+              procesados.add(item.nombre);
+              tarjetasFiguras.push(item);
+            }
+            return;
+          }
+        }
 
-          let fraseHTML = item.frase ? `<div class="fraseDestacada">"${item.frase}"</div>` : '';
-          let descripcionHTML = item.descripcion ? `<div class="textoDetalle">${item.descripcion}</div>` : '';
-
-          desplegablesHTML += `
-            <details class="desplegableComponente">
-              <summary>
-                <span>${item.nombre || token}</span>
-                <span class="flechaDesplegable">▼</span>
-              </summary>
-              <div class="contenidoDesplegable">
-                <img src="${imgSrc}" class="imagenComponente" alt="${item.nombre || token}" onerror="this.style.display='none'">
-                <div class="bloqueTexto">
-                  ${fraseHTML}
-                  ${descripcionHTML}
-                </div>
-              </div>
-            </details>
-          `;
+        // C. Buscar en Flores
+        for (const key in fuentes.flores) {
+          const item = fuentes.flores[key];
+          const codigos = Array.isArray(item.codigo) ? item.codigo : [item.codigo];
+          if (codigos.includes(token)) {
+            if (!procesados.has(item.nombre)) {
+              procesados.add(item.nombre);
+              tarjetasFlores.push(item);
+            }
+            return;
+          }
         }
       });
 
-      if (desplegablesHTML) {
-        contenedorLista.innerHTML = desplegablesHTML;
-      } else {
-        contenedorLista.innerHTML = "<p style='text-align:center; width:100%;'>No se encontraron fichas individuales para los componentes de esta pieza.</p>";
+      // Orden respetado: Cristales -> Figuras -> Flores
+      const listaFinal = [...tarjetasCristales, ...tarjetasFiguras, ...tarjetasFlores];
+
+      const contenedor = document.getElementById("contenedorTarjetas");
+      contenedor.innerHTML = "";
+
+      if (listaFinal.length === 0) {
+        contenedor.innerHTML = `<div style="text-align:center; padding: 40px; font-style: italic;">No se encontraron componentes para el código ingresado.</div>`;
+        return;
       }
+
+      listaFinal.forEach(item => {
+        const details = document.createElement("details");
+        const rutaImagen = item.imagen ? item.imagen : `./componentes/${item.nombre.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+
+        details.innerHTML = `
+          <summary>${item.nombre}</summary>
+          <div class="contenidoTarjeta">
+            <img src="${rutaImagen}" alt="${item.nombre}" class="imagenComponente" onerror="this.style.display='none'">
+            <div class="infoComponente">
+              ${item.frase ? `<div class="fraseDestacada">${item.frase}</div>` : ''}
+              <p class="descripcionTexto">${item.descripcion || ''}</p>
+            </div>
+          </div>
+        `;
+        contenedor.appendChild(details);
+      });
     });
   </script>
 </body>
 </html>
+
+
 
 
 
