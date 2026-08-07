@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <script src="componentesagregados.js"></script>
+  <script src="bclcagregados.js"></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Atrapasol | Corre la Coneja</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 15px 15px 50px;
+      font-family: 'Montserrat', sans-serif;
+      color: #2b2017;
+      background-image: url("./reflejos-atrapasol.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .splashScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+      overflow: hidden;
+      background: #fcf9f2;
+    }
+
+    .splashScreen.oculto {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .videoFondoSplash {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      background: #fcf9f2; 
+    }
+
+    .videoFondoSplash.listo {
+      opacity: 0.9;
+    }
+
+    .capaOverlaySplash {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 252, 247, 0.78), rgba(254, 243, 230, 0.78));
+      z-index: 2;
+      backdrop-filter: blur(1px);
+    }
+
+    .splashContenido {
+      text-align: center;
+      position: relative;
+      z-index: 3;
+      animation: abrirPortal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      padding: 20px;
+    }
+
+    .lineaLuminosa {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #c4a470, transparent);
+      margin: 0 auto 18px;
+    }
+
+    .splashContenido h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px;
+      font-weight: 400;
+      color: #382618;
+      margin: 0 0 10px;
+      letter-spacing: 3px;
+      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+    }
+
+    .splashContenido p {
+      font-size: 14px;
+      color: #7d5d3b;
+      font-style: italic;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 1px 5px rgba(255, 255, 255, 0.8);
+    }
+
+    @keyframes abrirPortal {
+      0% { opacity: 0; transform: scale(0.9) translateY(15px); filter: blur(4px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .headerMarca {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .medallaLogo {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: rgba(255, 252, 246, 0.92);
+      border: 1px solid rgba(195, 165, 120, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(60, 40, 20, 0.12), 0 0 0 4px rgba(255, 255, 255, 0.5);
+    }
+
+    .logoImagen {
+      width: 130%;
+      height: 130%;
+      object-fit: contain;
+      border-radius: 50%;
+      mix-blend-mode: multiply;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      text-align: center;
+      font-size: 42px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      margin: 0 0 6px;
+      color: #24180e;
+      text-shadow: 0 2px 10px rgba(255,255,255,0.8);
+    }
+
+    .subtitulo {
+      text-align: center;
+      font-size: 15px;
+      color: #4a3728;
+      margin-bottom: 25px;
+      font-style: italic;
+      text-shadow: 0 1px 5px rgba(255,255,255,0.8);
+    }
+
+    .zonaCodigo {
+      background: rgba(255, 253, 248, 0.92);
+      border: 1px solid rgba(210, 185, 145, 0.85);
+      border-radius: 24px;
+      padding: 35px 25px;
+      box-shadow: 0 20px 40px rgba(60, 40, 20, 0.12);
+      backdrop-filter: blur(10px);
+    }
+
+    .zonaCodigo h2 {
+      font-family: 'Cormorant Garamond', serif;
+      text-align: center;
+      font-weight: 500;
+      color: #2b1d11;
+      margin-top: 0;
+      font-size: 24px;
+      letter-spacing: 1px;
+    }
+
+    input {
+      display: block;
+      width: 300px;
+      max-width: 100%;
+      margin: 20px auto;
+      padding: 16px;
+      border-radius: 30px;
+      border: 1px solid #c4ae88;
+      background: rgba(255, 255, 255, 0.95);
+      text-align: center;
+      font-size: 18px;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 3px;
+      outline: none;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,.03);
+      color: #2b1e12;
+    }
+
+    input:focus {
+      border-color: #8c6239;
+      box-shadow: 0 0 10px rgba(169, 131, 87, 0.25);
+    }
+
+    button {
+      display: block;
+      margin: 18px auto 5px;
+      padding: 15px 45px;
+      border: none;
+      border-radius: 35px;
+      background: #8c6239;
+      color: white;
+      font-size: 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(130, 90, 50, 0.25);
+      transition: transform .25s, box-shadow .25s, background .25s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      background: #734e2c;
+      box-shadow: 0 10px 22px rgba(130, 90, 50, 0.35);
+    }
+
+    .separador {
+      margin: 35px 0;
+      border: none;
+      border-top: 1px solid rgba(90, 60, 30, 0.18);
+    }
+
+    #resultado {
+      display: none;
+      width: 100%;
+      margin: auto;
+      padding: 35px 30px;
+      background: linear-gradient(135deg, rgba(255, 254, 250, 0.97), rgba(249, 243, 232, 0.97));
+      border-radius: 26px;
+      border: 1px solid rgba(215, 192, 155, 0.9);
+      box-shadow: 0 20px 50px rgba(80, 55, 25, 0.15);
+      font-size: 16px;
+      line-height: 1.7;
+      backdrop-filter: blur(10px);
+    }
+
+    #resultado.visible {
+      display: block;
+    }
+
+    .mensajeTitulo {
+      font-family: 'Cormorant Garamond', serif;
+      text-align: center;
+      font-size: 28px;
+      color: #3b233e;
+      margin-bottom: 22px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .bloqueInterpretacion {
+      margin-bottom: 0;
+      padding: 0;
+      border: none;
+    }
+
+    .cajaComponentesDestacada {
+      margin-top: 30px;
+      padding-top: 25px;
+      border-top: 1px dashed rgba(180, 150, 110, .5);
+      text-align: center;
+    }
+
+    .botonComponentesDestacado {
+      display: inline-block;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 25px;
+      background: #8c6239;
+      color: white;
+      font-size: 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      box-shadow: 0 6px 18px rgba(130, 90, 50, 0.25);
+      transition: .25s;
+    }
+
+    .botonComponentesDestacado:hover {
+      transform: translateY(-2px);
+      background: #734e2c;
+      box-shadow: 0 10px 22px rgba(130, 90, 50, 0.35);
+    }
+
+    .botonesRedes {
+      margin: 35px auto 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 400px;
+    }
+
+    .botonSecundario {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(190, 160, 115, 0.55);
+      color: #5a3e23;
+      background: linear-gradient(135deg, rgba(255, 254, 250, 0.94), rgba(246, 238, 224, 0.9));
+      font-size: 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      box-shadow: 0 5px 15px rgba(80, 55, 25, 0.08);
+      backdrop-filter: blur(5px);
+      transition: .25s;
+    }
+
+    .botonSecundario:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(80, 55, 25, 0.15);
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    .iconoRed {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .piePagina {
+      text-align: center;
+      margin-top: 45px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(180, 150, 110, .25);
+      font-size: 12px;
+      color: #4a3321;
+      text-shadow: 0 1px 5px rgba(255,255,255,0.8);
+    }
+
+    .piePagina .copy {
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .piePagina .subcopy {
+      font-style: italic;
+      opacity: .85;
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+
+    <div class="headerMarca">
+      <div class="medallaLogo">
+        <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen" onerror="this.src='./logo.jpg'; this.onerror=function(){ this.src='./logo.png'; this.onerror=function(){ this.parentElement.style.display='none'; } }">
+      </div>
+      <h1>Mi Atrapasol</h1>
+      <div class="subtitulo">
+        Revelá el mensaje de tu atrapasol ingresando su código.
+      </div>
+    </div>
+
+    <div class="zonaCodigo">
+      <h2>Código de tu Atrapasol</h2>
+      <input id="codigoEntrada" type="text" placeholder="Ejemplo: SOL01">
+      <button id="verMensaje">Despertar la magia</button>
+    </div>
+
+    <hr class="separador">
+    <div id="resultado"></div>
+
+    <div class="botonesRedes">
+      <a class="botonSecundario" href="./tienda.html">
+        <img src="./logomayo.jpg" alt="Mayorista" class="iconoRed">
+        Tienda mayorista
+      </a>
+      <a class="botonSecundario" href="https://wa.me/c/5492396614552" target="_blank">
+        <img src="./logowp.jpg" alt="WhatsApp" class="iconoRed">
+        Catálogo minorista/consultas
+      </a>
+      <a class="botonSecundario" href="https://www.instagram.com/correlaconeja.ok/" target="_blank">
+        <img src="./logoinst.jpg" alt="Instagram" class="iconoRed">
+        Instagram
+      </a>
+      <a class="botonSecundario" href="https://www.tiktok.com/@corre.la.coneja" target="_blank">
+        <img src="./logott.jpg" alt="TikTok" class="iconoRed">
+        TikTok
+      </a>
+    </div>
+
+    <footer class="piePagina">
+      <div class="copy">© CORRE LA CONEJA. Todos los derechos reservados.</div>
+      <div class="subcopy">Arte, intention & luz en cada pieza.</div>
+    </footer>
+
+  </div>
+
+  <script src="./bclccris.js"></script>
+  <script src="./bclcfiguras.js"></script>
+  <script src="./bclcflores.js"></script>
+  <script src="./bclcpirita.js"></script>
+
+  <script src="./componentesCLC.js"></script>
+  <script src="./componentesagregados.js"></script>
+  <script src="./bclcagregados.js"></script>
+
+  <script src="./diccionarioCLC.js?v=2"></script>
+  <script src="./codificadorCLC.js"></script>
+  <script>
+    const videoPortada = document.getElementById("videoPortada");
+    if (videoPortada) {
+      videoPortada.addEventListener("loadeddata", function() {
+        videoPortada.classList.add("listo");
+      });
+      if (videoPortada.readyState >= 3) {
+        videoPortada.classList.add("listo");
+      }
+    }
+
+    window.addEventListener("load", function() {
+      setTimeout(function() {
+        const splash = document.getElementById("splashScreen");
+        if (splash) {
+          splash.classList.add("oculto");
+        }
+      }, 2500);
+    });
+
+    window.bclcAgregados = window.bclcAgregados || { cristales: {}, figuras: {}, flores: {} };
+    const piritaCompleta = window.combinacionesPirita || {};
+
+    const codigoEntrada = document.getElementById("codigoEntrada");
+    const verMensaje = document.getElementById("verMensaje");
+    const resultado = document.getElementById("resultado");
+
+    let textoResultado = "";
+    let codigoActual = "";
+
+    // Figuras especiales / de cierre y geometría sagrada
+    const FIGURAS_ESPECIALES_TOKENS = ["OM", "SV", "FV", "PD", "ES"];
+
+    window.addEventListener("DOMContentLoaded", function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let codigoUrl = urlParams.get("codigo");
+      if (codigoUrl) {
+        codigoEntrada.value = codigoUrl;
+        procesarYMostrar(codigoUrl);
+      }
+    });
+
+    verMensaje.addEventListener("click", function () {
+      let codigo = codigoEntrada.value.trim().toUpperCase();
+
+      if (!codigo) {
+        resultado.innerHTML = "Por favor ingresá el código de tu Atrapasol.";
+        resultado.classList.add("visible");
+        resultado.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+
+      procesarYMostrar(codigo);
+    });
+
+    function buscarEnSeccionConPrioridad(seccionAgregado, seccionBase, token) {
+      let subAgregados = (window.bclcAgregados && window.bclcAgregados[seccionAgregado]) || {};
+      let subBase = window[seccionBase] || {};
+
+      for (let key of Object.keys(subAgregados)) {
+        let item = subAgregados[key];
+        let codPrimario = Array.isArray(item.codigo) ? item.codigo[0] : item.codigo;
+        let codSecundario = Array.isArray(item.codigo) ? item.codigo[1] : item.codigoSecundario;
+
+        if (codPrimario === token || codSecundario === token) {
+          let texto = item.principal || item.secundaria || item.mensaje || "";
+          return { 
+            tipo: seccionAgregado, 
+            texto: texto, 
+            esPrincipal: codPrimario === token,
+            itemOriginal: item 
+          };
+        }
+      }
+
+      for (let key of Object.keys(subBase)) {
+        let item = subBase[key];
+        let codPrimario = Array.isArray(item.codigo) ? item.codigo[0] : item.codigo;
+        let codSecundario = Array.isArray(item.codigo) ? item.codigo[1] : item.codigoSecundario;
+
+        if (codPrimario === token || codSecundario === token) {
+          let texto = item.principal || item.secundaria || item.mensaje || "";
+          return { 
+            tipo: seccionBase, 
+            texto: texto, 
+            esPrincipal: codPrimario === token,
+            itemOriginal: item 
+          };
+        }
+      }
+
+      return null;
+    }
+
+    function interpretarCodigoDinamico(codigoLargo) {
+      const tokens = [];
+      for (let i = 0; i < codigoLargo.length; i += 2) {
+        tokens.push(codigoLargo.substring(i, i + 2));
+      }
+
+      let componentesClasificados = {
+        piedraCombinada: null,
+        piedraPrincipal: null,
+        figurasEstandar: [],
+        figurasEspeciales: [],
+        piedrasSecundarias: [],
+        flores: []
+      };
+
+      tokens.forEach(token => {
+        if (token.length < 2) return;
+
+        let encontradaPirita = false;
+        Object.keys(piritaCompleta).forEach(nombre => {
+          let pirita = piritaCompleta[nombre];
+          if (pirita.codigo === token) {
+            componentesClasificados.piedraCombinada = { tipo: 'pirita', texto: pirita.mensaje || "" };
+            encontradaPirita = true;
+          }
+        });
+        if (encontradaPirita) return;
+
+        let cristalEncontrado = buscarEnSeccionConPrioridad('cristales', 'cristalesCLC', token);
+        if (cristalEncontrado) {
+          let itemCristal = { tipo: 'cristal', texto: cristalEncontrado.texto };
+          if (!componentesClasificados.piedraPrincipal && !componentesClasificados.piedraCombinada && cristalEncontrado.esPrincipal) {
+            componentesClasificados.piedraPrincipal = itemCristal;
+          } else {
+            componentesClasificados.piedrasSecundarias.push(itemCristal);
+          }
+          return;
+        }
+
+        let figuraEncontrada = buscarEnSeccionConPrioridad('figuras', 'figurasCLC', token);
+        if (figuraEncontrada) {
+          let itemFigura = { tipo: 'figura', texto: figuraEncontrada.texto };
+          if (FIGURAS_ESPECIALES_TOKENS.includes(token)) {
+            componentesClasificados.figurasEspeciales.push(itemFigura);
+          } else {
+            componentesClasificados.figurasEstandar.push(itemFigura);
+          }
+          return;
+        }
+
+        let florEncontrada = buscarEnSeccionConPrioridad('flores', 'floresCLC', token);
+        if (florEncontrada) {
+          componentesClasificados.flores.push({ tipo: 'flor', texto: florEncontrada.texto });
+          return;
+        }
+      });
+
+      let secuenciaRenderizado = [];
+
+      if (componentesClasificados.piedraCombinada) {
+        secuenciaRenderizado.push(componentesClasificados.piedraCombinada);
+        secuenciaRenderizado.push(...componentesClasificados.figurasEstandar);
+      } else if (componentesClasificados.piedraPrincipal) {
+        secuenciaRenderizado.push(componentesClasificados.piedraPrincipal);
+        secuenciaRenderizado.push(...componentesClasificados.figurasEstandar);
+      } else if (componentesClasificados.figurasEstandar.length > 0) {
+        secuenciaRenderizado.push(componentesClasificados.figurasEstandar.shift());
+        secuenciaRenderizado.push(...componentesClasificados.figurasEstandar);
+      }
+
+      secuenciaRenderizado.push(...componentesClasificados.piedrasSecundarias);
+      secuenciaRenderizado.push(...componentesClasificados.figurasEspeciales);
+      secuenciaRenderizado.push(...componentesClasificados.flores);
+
+      return secuenciaRenderizado;
+    }
+
+    function procesarYMostrar(codigoIngresado) {
+      let codigoLargo = CodificadorCLC.expandir(codigoIngresado);
+
+      if (!codigoLargo) {
+        resultado.innerHTML = "No se encontró información para ese código.";
+        resultado.classList.add("visible");
+        resultado.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+
+      codigoActual = codigoIngresado.trim().toUpperCase();
+      textoResultado = "";
+      
+      let elementosOrdenados = interpretarCodigoDinamico(codigoLargo);
+      
+      elementosOrdenados.forEach(item => {
+        if (item.texto) {
+          textoResultado += `<div class="bloqueInterpretacion">${item.texto}</div>`;
+        }
+      });
+
+      mostrarResultado();
+      resultado.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function mostrarResultado() {
+      if (textoResultado) {
+        resultado.innerHTML = `
+          <div class="mensajeTitulo">Esencia de tu Atrapasol</div>
+          ${textoResultado}
+          <div class="cajaComponentesDestacada">
+            <a class="botonComponentesDestacado" href="./componentes.html?codigo=${codigoActual}">
+              Ver componentes y cristales de tu pieza
+            </a>
+          </div>
+        `;
+      } else {
+        resultado.innerHTML = "No se encontró información para ese código.";
+      }
+      resultado.classList.add("visible");
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

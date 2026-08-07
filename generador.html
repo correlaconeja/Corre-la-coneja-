@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Artículos | Corre la Coneja</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 15px 15px 60px;
+      font-family: 'Montserrat', sans-serif;
+      color: #2b2017;
+      background: linear-gradient(rgba(255, 251, 245, .4), rgba(255, 251, 245, .5)), url("./Tienda.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    .contenedor { width: 100%; max-width: 800px; margin: auto; }
+    .headerMarca { text-align: center; margin-bottom: 25px; }
+    .medallaLogo {
+      width: 140px; height: 140px; margin: 0 auto 14px; border-radius: 50%;
+      background: #f5efe6; border: 1px solid rgba(195, 165, 120, 0.6);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+      box-shadow: 0 8px 20px rgba(60, 40, 20, 0.08);
+    }
+    .logoImagen { width: 130%; height: 130%; object-fit: contain; border-radius: 50%; mix-blend-mode: multiply; }
+    h1 { text-align: center; font-size: 32px; font-weight: 500; margin: 0 0 6px; color: #24180e; }
+    .subtitulo { text-align: center; font-size: 15px; color: #4a3728; margin-bottom: 25px; }
+    .tarjeta {
+      background: linear-gradient(135deg, rgba(255, 254, 250, 0.96), rgba(249, 243, 232, 0.96));
+      border: 1px solid rgba(215, 192, 155, 0.9); border-radius: 26px; padding: 24px 28px;
+      margin-bottom: 20px; box-shadow: 0 15px 35px rgba(80, 55, 25, 0.1);
+    }
+    h2 { font-size: 19px; color: #332214; font-weight: 600; margin-top: 0; margin-bottom: 15px; border-bottom: 1px dashed rgba(180, 150, 110, .4); padding-bottom: 8px; }
+    .form-grupo { margin-bottom: 14px; }
+    .form-grupo label { display: block; font-size: 14px; font-weight: 500; color: #4a3728; margin-bottom: 5px; }
+    .form-control {
+      width: 100%; padding: 12px 15px; border-radius: 15px; border: 1px solid #c4ae88;
+      background: rgba(255, 255, 255, 0.95); font-family: 'Montserrat', sans-serif; font-size: 14px; color: #2b2017; outline: none;
+    }
+    .form-control:focus { border-color: #7d5730; }
+    .boton-principal {
+      display: inline-block; width: 100%; max-width: 450px; padding: 16px 20px; border: none;
+      border-radius: 35px; background: #a98357; color: white; font-size: 16px; font-family: 'Montserrat', sans-serif;
+      font-weight: 600; cursor: pointer; box-shadow: 0 6px 18px rgba(130, 90, 50, 0.25); transition: .25s;
+    }
+    .boton-principal:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(130, 90, 50, 0.35); }
+    .cajaLoteAcumulado {
+      background: #fff8f0; border: 2px solid #6f4d25; padding: 20px; border-radius: 12px; margin-top: 25px; text-align: left; max-width: 100%;
+    }
+    .cajaLoteAcumulado textarea {
+      width: 100%; height: 150px; font-family: monospace; font-size: 13px; padding: 8px; background: #fff; border: 1px solid #d8c4a4; border-radius: 6px; resize: vertical; margin-top: 8px;
+    }
+    .botonAccion {
+      background: #6f4d25; font-size: 14px; padding: 10px 18px; border-radius: 20px; border: none; color: white; cursor: pointer; transition: .2s;
+    }
+    .botonAccion:hover { background: #553919; }
+    .boton-volver {
+      text-decoration: none; text-align: center; display: block; width: 100%; max-width: 400px;
+      margin: 10px auto; padding: 15px 20px; border-radius: 20px; border: 1px solid rgba(190, 160, 115, 0.55);
+      color: #5a3e23; background: linear-gradient(135deg, rgba(255, 254, 250, 0.94), rgba(246, 238, 224, 0.9));
+      font-size: 15px; font-family: 'Montserrat', sans-serif; font-weight: 500; box-shadow: 0 5px 15px rgba(80, 55, 25, 0.08); transition: .25s;
+    }
+    .boton-volver:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(80, 55, 25, 0.15); }
+    
+    .slots-contenedor { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .slot-card {
+      flex: 1; min-width: 130px; background: rgba(255, 255, 255, 0.9);
+      border: 1px dashed #c4ae88; border-radius: 14px; padding: 12px; text-align: center;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+    }
+    .slot-preview {
+      width: 75px; height: 75px; background: #f2e9dc; border-radius: 10px; overflow: hidden;
+      border: 1px solid #c4ae88; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; position: relative;
+    }
+    .slot-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .avisoFijo {
+      background: #fdf6ec; border: 1px solid #d8c4a4; padding: 10px 14px; border-radius: 10px;
+      font-size: 12px; color: #6f4d25; margin-top: 6px; font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="contenedor">
+    <div class="headerMarca">
+      <div class="medallaLogo">
+        <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen">
+      </div>
+      <h1>Gestor de Artículos</h1>
+      <div class="subtitulo">Cargá nuevos productos o seleccioná uno existente para modificarlo.</div>
+    </div>
+    <div class="tarjeta">
+      <h2>✏️ Selector de Edición (Opcional)</h2>
+      <div class="form-grupo">
+        <label>¿Querés modificar un producto ya guardado?</label>
+        <select id="selectEditarProducto" class="form-control" onchange="cargarProductoParaModificar()">
+          <option value="">-- Nuevo producto (crear desde cero) --</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="tarjeta">
+      <h2 id="tituloSeccionForm">➕ Nuevo Artículo</h2>
+      <input type="hidden" id="editandoId" value="">
+
+      <div class="form-grupo">
+        <label>Nombre del artículo * (Requerido)</label>
+        <input type="text" id="genNombre" class="form-control" placeholder="Ej: Árbol de la abundancia">
+      </div>
+      <div class="form-grupo">
+        <label>Precio de Lista * (Requerido - solo números)</label>
+        <input type="number" id="genPrecio" class="form-control" placeholder="Ej: 35000">
+      </div>
+      
+      <div class="form-grupo">
+        <label>Imágenes del producto (Hasta 3 fotos)</label>
+        <small style="font-size: 12px; color: #614a38; display: block; margin-bottom: 8px;">Elegí cada foto en su respectivo espacio:</small>
+        
+        <div class="slots-contenedor">
+          <div class="slot-card">
+            <span style="font-size: 12px; font-weight: 600; color: #5a3e23; margin-bottom: 6px;">📸 Foto 1 (Principal)</span>
+            <div class="slot-preview">
+              <img id="prev_0" src="./logo.jpeg" alt="Foto 1">
+            </div>
+            <input type="file" id="file_0" accept="image/*" onchange="manejarSlot(0, event)" style="font-size: 11px; width: 100%; margin-bottom: 6px; cursor: pointer;">
+            <button type="button" onclick="quitarSlot(0)" style="background: none; border: none; color: #a94442; font-size: 11px; cursor: pointer; text-decoration: underline;">Quitar foto</button>
+          </div>
+
+          <div class="slot-card">
+            <span style="font-size: 12px; font-weight: 600; color: #5a3e23; margin-bottom: 6px;">📸 Foto 2</span>
+            <div class="slot-preview">
+              <img id="prev_1" src="./logo.jpeg" alt="Foto 2">
+            </div>
+            <input type="file" id="file_1" accept="image/*" onchange="manejarSlot(1, event)" style="font-size: 11px; width: 100%; margin-bottom: 6px; cursor: pointer;">
+            <button type="button" onclick="quitarSlot(1)" style="background: none; border: none; color: #a94442; font-size: 11px; cursor: pointer; text-decoration: underline;">Quitar foto</button>
+          </div>
+
+          <div class="slot-card">
+            <span style="font-size: 12px; font-weight: 600; color: #5a3e23; margin-bottom: 6px;">📸 Foto 3</span>
+            <div class="slot-preview">
+              <img id="prev_2" src="./logo.jpeg" alt="Foto 3">
+            </div>
+            <input type="file" id="file_2" accept="image/*" onchange="manejarSlot(2, event)" style="font-size: 11px; width: 100%; margin-bottom: 6px; cursor: pointer;">
+            <button type="button" onclick="quitarSlot(2)" style="background: none; border: none; color: #a94442; font-size: 11px; cursor: pointer; text-decoration: underline;">Quitar foto</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAMPO DE VIDEOS MÚLTIPLES (ÁREA DE TEXTO) -->
+      <div class="form-grupo">
+        <label>Enlaces de Video (Opcional - un link por renglón)</label>
+        <textarea id="genVideos" class="form-control" style="height: 80px; resize: vertical;" placeholder="https://www.youtube.com/watch?v=...&#10;https://www.youtube.com/watch?v=..."></textarea>
+      </div>
+
+      <div class="form-grupo" style="margin-bottom: 20px; margin-top: 15px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+          <label style="margin-bottom: 0;">Descripción (Opcional)</label>
+          <button type="button" onclick="limpiarDescripcion()" style="background: none; border: none; color: #a94442; font-size: 12px; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 500; text-decoration: underline;">🗑️ Borrar contenido</button>
+        </div>
+        <textarea id="genDesc" class="form-control" style="height: 80px; resize: vertical;" placeholder="Detalles particulares de la pieza..."></textarea>
+        
+        <div class="avisoFijo">
+          💡 <strong>Nota institucional automática:</strong> El sistema agregará automáticamente al final de la descripción: <br><em>"CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE."</em>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin: 20px 0 10px;">
+        <button class="boton-principal" onclick="guardarOActualizarProducto()">💾 Guardar cambios en el lote</button>
+        <button type="button" class="botonAccion" style="background: #a94442; margin-top: 10px; display: none;" id="btnCancelarEdicion" onclick="cancelarEdicion()">❌ Cancelar edición</button>
+      </div>
+
+      <div class="cajaLoteAcumulado">
+        <span style="font-size: 15px; display:block; margin-bottom:4px; font-weight: bold; color: #6f4d25;">📦 Archivo <code>productos.js</code> actualizado (<span id="contadorLote">0</span> productos):</span>
+        <textarea id="textareaLote" readonly></textarea>
+        <br>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 8px;">
+          <button class="botonAccion" onclick="copiarLoteProductos()">📋 Copiar todo el archivo</button>
+          <button class="botonAccion" onclick="resetearLote()" style="background: #9c6444;">🔄 Recargar originales</button>
+        </div>
+      </div>
+    </div>
+
+    <a href="./crear.html" class="boton-volver">⬅ Volver al Panel</a>
+  </div>
+  <script src="./productos.js?v=1"></script>
+
+  <script>
+    let listaEnMemoria = [];
+    let slotsFotos = [null, null, null];
+    const TEXTO_INSTITUCIONAL = "CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.";
+
+    window.onload = function() {
+      if (typeof productosMayoristas !== 'undefined') {
+        listaEnMemoria = JSON.parse(JSON.stringify(productosMayoristas));
+      }
+      poblarSelectEdicion();
+      actualizarVistaLote();
+      sincronizarSlotsUI();
+    };
+
+    function poblarSelectEdicion() {
+      const select = document.getElementById('selectEditarProducto');
+      select.innerHTML = '<option value="">-- Nuevo producto (crear desde cero) --</option>';
+      
+      listaEnMemoria.forEach(prod => {
+        let opt = document.createElement('option');
+        opt.value = prod.id;
+        opt.textContent = `${prod.nombre} ($${prod.precioLista})`;
+        select.appendChild(opt);
+      });
+    }
+
+    function cargarProductoParaModificar() {
+      const idSeleccionado = document.getElementById('selectEditarProducto').value;
+      if (!idSeleccionado) {
+        cancelarEdicion();
+        return;
+      }
+
+      const prod = listaEnMemoria.find(p => p.id === idSeleccionado);
+      if (!prod) return;
+
+      document.getElementById('editandoId').value = prod.id;
+      document.getElementById('genNombre').value = prod.nombre;
+      document.getElementById('genPrecio').value = prod.precioLista;
+      
+      let listaVideos = [];
+      if (prod.videos && Array.isArray(prod.videos)) {
+        listaVideos = prod.videos;
+      } else if (prod.videoUrl) {
+        listaVideos = [prod.videoUrl];
+      }
+      document.getElementById('genVideos').value = listaVideos.join('\n');
+      
+      let descLimpia = prod.descripcion || '';
+      descLimpia = descLimpia.replace(TEXTO_INSTITUCIONAL, '').trim();
+      document.getElementById('genDesc').value = descLimpia;
+      
+      slotsFotos = [null, null, null];
+
+      let listaImgs = [];
+      if (prod.imagenes && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
+        listaImgs = prod.imagenes;
+      } else if (prod.imagen) {
+        listaImgs = [prod.imagen];
+      }
+
+      listaImgs.forEach((imgRuta, idx) => {
+        if (idx < 3) {
+          let rutaLimpia = imgRuta.startsWith('./') ? imgRuta : './' + imgRuta;
+          slotsFotos[idx] = {
+            nombreArchivo: rutaLimpia,
+            urlVisual: rutaLimpia
+          };
+        }
+      });
+
+      sincronizarSlotsUI();
+      document.getElementById('tituloSeccionForm').innerText = '✏️ Modificar Artículo: ' + prod.nombre;
+      document.getElementById('btnCancelarEdicion').style.display = 'inline-block';
+    }
+
+    function cancelarEdicion() {
+      document.getElementById('editandoId').value = '';
+      document.getElementById('genNombre').value = '';
+      document.getElementById('genPrecio').value = '';
+      document.getElementById('genVideos').value = '';
+      document.getElementById('genDesc').value = '';
+      
+      slotsFotos = [null, null, null];
+      sincronizarSlotsUI();
+
+      document.getElementById('selectEditarProducto').value = '';
+      document.getElementById('tituloSeccionForm').innerText = '➕ Nuevo Artículo';
+      document.getElementById('btnCancelarEdicion').style.display = 'none';
+    }
+
+    function limpiarDescripcion() {
+      document.getElementById('genDesc').value = '';
+      document.getElementById('genDesc').focus();
+    }
+
+    function manejarSlot(index, event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          slotsFotos[index] = {
+            nombreArchivo: './' + file.name,
+            urlVisual: e.target.result
+          };
+          sincronizarSlotsUI();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function quitarSlot(index) {
+      slotsFotos[index] = null;
+      document.getElementById('file_' + index).value = '';
+      sincronizarSlotsUI();
+    }
+
+    function sincronizarSlotsUI() {
+      for (let i = 0; i < 3; i++) {
+        let imgElem = document.getElementById('prev_' + i);
+        if (slotsFotos[i] && slotsFotos[i].urlVisual) {
+          imgElem.src = slotsFotos[i].urlVisual;
+        } else {
+          imgElem.src = './logo.jpeg';
+        }
+      }
+    }
+
+    function guardarOActualizarProducto() {
+      const idEditando = document.getElementById('editandoId').value;
+      const nombre = document.getElementById('genNombre').value.trim();
+      const precio = parseFloat(document.getElementById('genPrecio').value);
+      
+      const textoVideos = document.getElementById('genVideos').value;
+      const videosFinales = textoVideos
+        .split('\n')
+        .map(v => v.trim())
+        .filter(v => v.length > 0);
+      
+      let descUsuario = document.getElementById('genDesc').value.trim();
+      let descFinal = descUsuario ? (descUsuario + "\n\n" + TEXTO_INSTITUCIONAL) : TEXTO_INSTITUCIONAL;
+
+      if (!nombre || isNaN(precio)) {
+        alert('Por favor completá el Nombre y un Precio válido.');
+        return;
+      }
+
+      let imagenesFinales = [];
+      slotsFotos.forEach(slot => {
+        if (slot && slot.nombreArchivo) {
+          imagenesFinales.push(slot.nombreArchivo);
+        }
+      });
+
+      if (imagenesFinales.length === 0) {
+        imagenesFinales.push('./logo.jpeg');
+      }
+
+      if (idEditando) {
+        let index = listaEnMemoria.findIndex(p => p.id === idEditando);
+        if (index !== -1) {
+          listaEnMemoria[index].nombre = nombre;
+          listaEnMemoria[index].precioLista = precio;
+          listaEnMemoria[index].imagenes = imagenesFinales;
+          delete listaEnMemoria[index].imagen;
+          listaEnMemoria[index].descripcion = descFinal;
+          
+          if (videosFinales.length > 0) {
+            listaEnMemoria[index].videos = videosFinales;
+          } else {
+            delete listaEnMemoria[index].videos;
+          }
+          delete listaEnMemoria[index].videoUrl;
+
+          alert('¡Producto modificado con éxito en el lote!');
+        }
+      } else {
+        const nuevoId = 'prod_' + nombre.toLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]/g, '_')
+          .replace(/_+/g, '_')
+          .substring(0, 20);
+
+        if (listaEnMemoria.some(p => p.id === nuevoId)) {
+          alert('Ya existe un producto con un nombre similar. Intentá ajustar ligeramente el nombre.');
+          return;
+        }
+
+        const nuevoProd = {
+          id: nuevoId,
+          nombre: nombre,
+          descripcion: descFinal,
+          precioLista: precio,
+          imagenes: imagenesFinales,
+          ...(videosFinales.length > 0 && { videos: videosFinales })
+        };
+
+        listaEnMemoria.push(nuevoProd);
+        alert('¡Nuevo producto agregado con éxito al lote!');
+      }
+
+      cancelarEdicion();
+      poblarSelectEdicion();
+      actualizarVistaLote();
+    }
+
+    function actualizarVistaLote() {
+      let textareaLote = document.getElementById("textareaLote");
+      let contadorLote = document.getElementById("contadorLote");
+      
+      let objetosFormateados = listaEnMemoria.map(prod => {
+        let listaImgs = (prod.imagenes && Array.isArray(prod.imagenes)) ? prod.imagenes : [prod.imagen || 'logo.jpeg'];
+        let arrayImagenesFormateado = "[\n      " + listaImgs.map(img => `'${img}'`).join(",\n      ") + "\n    ]";
+        let descripcionEscapada = (prod.descripcion || '').replace(/`/g, '\\`').replace(/\$/g, '\\$');
+        
+        let videosLinea = '';
+        if (prod.videos && Array.isArray(prod.videos) && prod.videos.length > 0) {
+          let arrayVideosFormateado = "[\n      " + prod.videos.map(v => `'${v.replace(/'/g, "\\'")}'`).join(",\n      ") + "\n    ]";
+          videosLinea = `,\n    videos: ${arrayVideosFormateado}`;
+        } else if (prod.videoUrl) {
+          videosLinea = `,\n    videos: ['${prod.videoUrl.replace(/'/g, "\\'")}']`;
+        }
+
+        return `  {\n    id: '${prod.id}',\n    nombre: '${prod.nombre.replace(/'/g, "\\'")}',\n    descripcion: \`${descripcionEscapada}\`,\n    precioLista: ${prod.precioLista},\n    imagenes:${arrayImagenesFormateado}${videosLinea}\n  }`;
+      });
+
+      let contenidoCompleto = "const productosMayoristas = [\n" + objetosFormateados.join(",\n") + "\n];";
+      textareaLote.value = contenidoCompleto;
+      contadorLote.innerText = listaEnMemoria.length;
+    }
+
+    function copiarLoteProductos() {
+      let textarea = document.getElementById("textareaLote");
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        alert('¡Código de productos.js copiado al portapapeles! Ya podés pegarlo en tu archivo.');
+      });
+    }
+
+    function resetearLote() {
+      if (confirm("¿Querés recargar la lista original desde el archivo productos.js?")) {
+        if (typeof productosMayoristas !== 'undefined') {
+          listaEnMemoria = JSON.parse(JSON.stringify(productosMayoristas));
+          poblarSelectEdicion();
+          cancelarEdicion();
+          actualizarVistaLote();
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
+
+
+
+
+
+
