@@ -315,6 +315,14 @@ codigo: ["28"],
 nombre: "Margarita",
 frase: "Alegría · Inocencia · Comienzos",
 descripcion: "Simboliza la alegría, la frescura y la energía de los nuevos comienzos."
+},
+
+
+29: {
+codigo: ["29"],
+nombre: "Verbena",
+frase: "Sanación · Protección · Encanto",
+descripcion: "Simboliza la sanación del alma, la protección energética y la fuerza para restaurar la paz y el equilibrio interior."
 }
 
 
@@ -323,3 +331,4 @@ descripcion: "Simboliza la alegría, la frescura y la energía de los nuevos com
 };
 
 window.componentesCLC = componentesCLC;
+
