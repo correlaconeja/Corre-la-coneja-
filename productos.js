@@ -3,7 +3,6 @@
 // ==========================================
 // Acá podés modificar precios, nombres, descripciones 
 // o agregar nuevos productos fácilmente.
-
 const productosMayoristas = [
   {
     id: 'prod_arbol_de_la_abundanc',
@@ -332,5 +331,68 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     videos: [
       'https://youtube.com/shorts/PjENaBqcFlo?si=-apFoSq0nQb4MOGy'
     ]
+  },
+  {
+    id: 'prod_colibri_minimalista',
+    nombre: 'Colibrí minimalista',
+    descripcion: `Colibrí minimalista
+Atrapasol con colibrí de resina epóxica y flores naturales 
+Cristal de roca que aumenta la cantidad de reflejos y destellos.
+Podes elegir entre los siguientes colores.
+- Rosa
+- Lila
+- Violeta 
+- Celeste 
+- Azul
+- Verde
+
+CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
+    precioLista: 19000,
+    imagenes:[
+      './1000245702.png',
+      './1000245708.png'
+    ]
+  },
+  {
+    id: 'prod_pequenas_estrellas',
+    nombre: 'Pequeñas estrellas',
+    descripcion: `Pequeñas estrellas.
+
+Estrellas de resina epóxica y flores naturales.
+Cristal de roca para potenciar la cantidad de reflejos y destellos.
+Podes elegir entre los siguientes colores:
+- Rosa
+- Lila
+- Violeta 
+- Celeste 
+- Azul
+- Verde
+
+CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
+    precioLista: 16000,
+    imagenes:[
+      './1000244754.png'
+    ]
+  },
+  {
+    id: 'prod_mariposa_minimalista',
+    nombre: 'Mariposa minimalista',
+    descripcion: `Colibrí minimalista
+Atrapasol con colibrí de resina epóxica y flores naturales 
+Cristal de roca que aumenta la cantidad de reflejos y destellos.
+Podes elegir entre los siguientes colores.
+- Rosa
+- Lila
+- Violeta 
+- Celeste 
+- Azul
+- Verde
+
+CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
+    precioLista: 19000,
+    imagenes:[
+      './1000245709.png'
+    ]
   }
 ];
+
