@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +19,7 @@
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
+      overflow-x: hidden;
     }
     .contenedor { width: 100%; max-width: 950px; margin: auto; }
     .headerMarca { text-align: center; margin-bottom: 20px; }
@@ -31,16 +31,13 @@
     }
     .logoImagen { width: 130%; height: 130%; object-fit: contain; border-radius: 50%; mix-blend-mode: multiply; }
     h1 { text-align: center; font-size: 26px; font-weight: 500; margin: 0 0 4px; color: #24180e; }
-    .subtitulo { text-align: center; font-size: 13px; color: #4a3728; margin-bottom: 20px; }
+    .subtitulo { text-align: center; font-size: 13px; color: #4a3728; margin-bottom: 20px; padding: 0 10px; }
     
     .grillaProductos {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 14px;
       margin-bottom: 25px;
-    }
-    @media (max-width: 500px) {
-      .grillaProductos { grid-template-columns: 1fr; }
     }
 
     .tarjetaProducto {
@@ -65,6 +62,14 @@
       border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
     }
 
+    /* Insignia o cartel visual de Sin Stock */
+    .badgeSinStock {
+      position: absolute; top: 8px; left: 8px; background: #d98273;
+      color: white; font-size: 9px; font-weight: 700; padding: 2px 6px;
+      border-radius: 4px; text-transform: uppercase; z-index: 2;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
     .infoContenido { padding: 12px 14px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; overflow: hidden; }
     .infoContenido h3 { font-size: 15px; margin: 0 0 4px; color: #332214; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     
@@ -77,10 +82,8 @@
     }
     .coloresStockCard a:hover { color: #25d366; }
 
-    .bloquePrecios { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; }
-    .precioListaTachado { font-size: 11px; color: #8c735c; text-decoration: line-through; }
-    .precioMayoristaFinal { font-size: 15px; color: #5a3e23; font-weight: 700; }
-    .badgeDescuento { background: #6f4d25; color: white; font-size: 9px; font-weight: 600; padding: 1px 4px; border-radius: 4px; }
+    .bloquePrecios { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+    .precioMayoristaFinal { font-size: 16px; color: #5a3e23; font-weight: 700; }
 
     .accionesFila { display: flex; gap: 6px; align-items: center; }
     .form-control { width: 50px; padding: 5px; border-radius: 8px; border: 1px solid #c4ae88; text-align: center; font-size: 12px; }
@@ -91,12 +94,15 @@
       cursor: pointer; transition: background .2s; flex-grow: 1;
     }
     .btnAccionCard:hover { background: #8e6a43; }
+    .btnAccionCard:disabled {
+      background: #b8ac9c !important; cursor: not-allowed; opacity: 0.7;
+    }
 
     /* CARTEL FLOTANTE / MODAL DE AVISO ARTESANAL */
     .modalAvisoFlotante {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(43, 32, 23, 0.65); display: flex; align-items: center; justify-content: center;
-      z-index: 3000; padding: 20px; backdrop-filter: blur(4px);
+      z-index: 3000; padding: 10px; backdrop-filter: blur(4px);
       animation: aparecerAviso .3s ease;
     }
     @keyframes aparecerAviso {
@@ -105,21 +111,22 @@
     }
     .contenidoAvisoFlotante {
       background: linear-gradient(135deg, #fffefc, #f7efe2);
-      border: 1px solid #c4a470; border-radius: 22px; max-width: 480px; width: 100%;
-      padding: 35px 28px; text-align: center; position: relative;
-      box-shadow: 0 20px 40px rgba(50, 30, 15, 0.25);
+      border: 1px solid #c4a470; border-radius: 16px; max-width: 380px; width: 92%;
+      padding: 16px 14px; text-align: center; position: relative;
+      box-shadow: 0 15px 30px rgba(50, 30, 15, 0.25);
+      max-height: 85vh; overflow-y: auto;
     }
     .contenidoAvisoFlotante h3 {
-      font-family: 'Cormorant Garamond', serif; font-size: 30px; color: #3b2818;
-      margin: 0 0 14px; font-weight: 600; letter-spacing: 0.5px;
+      font-family: 'Cormorant Garamond', serif; font-size: 19px; color: #3b2818;
+      margin: 0 0 6px; font-weight: 600; letter-spacing: 0.5px;
     }
     .contenidoAvisoFlotante p {
-      font-size: 16px; color: #5c4228; line-height: 1.6; margin: 0 0 24px;
+      font-size: 11.5px; color: #5c4228; line-height: 1.4; margin: 0 0 12px; text-align: left;
     }
     .btnCerrarAviso {
-      background: #8c6239; color: white; border: none; padding: 13px 32px;
-      border-radius: 25px; font-size: 14px; font-family: 'Montserrat', sans-serif;
-      font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(130, 90, 50, 0.25);
+      background: #8c6239; color: white; border: none; padding: 8px 20px;
+      border-radius: 20px; font-size: 12px; font-family: 'Montserrat', sans-serif;
+      font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(130, 90, 50, 0.25);
       transition: background .2s, transform .2s;
     }
     .btnCerrarAviso:hover { background: #734e2c; transform: translateY(-1px); }
@@ -128,12 +135,12 @@
     .modalOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(43, 32, 23, 0.6); display: none; align-items: center; justify-content: center;
-      z-index: 1000; padding: 20px; backdrop-filter: blur(3px);
+      z-index: 1000; padding: 15px; backdrop-filter: blur(3px);
     }
     .modalContenido {
       background: linear-gradient(135deg, #fffefa, #f6eee0);
-      border: 1px solid #d7c09b; border-radius: 20px; max-width: 480px; width: 100%;
-      padding: 20px; position: relative; box-shadow: 0 15px 30px rgba(40, 25, 10, 0.2);
+      border: 1px solid #d7c09b; border-radius: 20px; max-width: 440px; width: 92%;
+      padding: 18px; position: relative; box-shadow: 0 15px 30px rgba(40, 25, 10, 0.2);
       max-height: 90vh; overflow-y: auto;
     }
     .cerrarModal { position: absolute; top: 12px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #5a3e23; font-weight: bold; z-index: 10; }
@@ -159,7 +166,7 @@
     /* Lightbox para ampliar imagen en el modal */
     #lightboxModal {
       display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 20px;
+      background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 15px;
     }
     #lightboxImg { max-width: 90%; max-height: 90%; border-radius: 12px; object-fit: contain; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
     .lightbox-cerrar {
@@ -197,7 +204,6 @@
       border-radius: 10px; font-size: 13px; text-align: center; margin-bottom: 15px; line-height: 1.4; font-weight: 600;
     }
   </style>
-  <!-- Vista previa para redes sociales -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://correlaconeja.github.io/Corre-la-coneja-/tienda.html" />
   <meta property="og:title" content="Tienda Mayorista | Corre la Coneja" />
@@ -212,7 +218,7 @@
   <div id="avisoFlotanteTienda" class="modalAvisoFlotante" onclick="cerrarAvisoFlotanteFuera(event)">
     <div class="contenidoAvisoFlotante">
       <h3>✨ Tiempo y Dedicación Artesanal</h3>
-      <p>Cada pieza se elabora a mano de forma totalmente personalizada. Los pedidos cuentan con un tiempo de fabricación estimado. ¡Gracias por elegir arte con intención!</p>
+      <p>Cada pieza se elabora a mano de forma totalmente personalizada. Aquí no vas a encontrar producciones de fábrica; todo está hecho a mano y con amor, iniciando desde las flores encapsuladas en cada pieza que cultivo, cosecho y deseco por mí misma. No esperes encontrar lo que se ve en todos lados, pues cada pieza es única e irrepetible.<br><br>Debido a su carácter artesanal, <strong>consultanos los tiempos de fabricación y entrega</strong>. ¡Gracias por elegir arte con intención!</p>
       <button class="btnCerrarAviso" onclick="cerrarAvisoFlotante()">Entendido, ver tienda</button>
     </div>
   </div>
@@ -223,9 +229,8 @@
         <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen">
       </div>
       <h1>Tienda Mayorista</h1>
-      <div class="subtitulo">Seleccioná tus artículos. Descuentos mayoristas aplicados automáticamente (25% o 30% en piezas de más de $20.000). Compra mínima: $150.000.</div>
+      <div class="subtitulo">Seleccioná tus artículos. Descuentos mayoristas aplicados automáticamente. Compra mínima: $150.000.</div>
     </div>
-
     <div id="contenedorGrilla" class="grillaProductos"></div>
     
     <!-- Modal Detalle del Producto -->
@@ -247,11 +252,9 @@
         <p id="modalDesc" style="font-size: 13px; color: #614a38; line-height: 1.5; margin-bottom: 12px; white-space: pre-line;"></p>
         
         <div style="background: rgba(215, 192, 155, 0.2); padding: 10px; border-radius: 10px; margin-bottom: 12px; display: flex; align-items: baseline; gap: 8px;">
-          <span id="modalPrecioLista" style="font-size: 12px; color: #8c735c; text-decoration: line-through;"></span>
           <span id="modalPrecioFinal" style="font-size: 18px; color: #5a3e23; font-weight: 700;"></span>
-          <span id="modalBadgeDescuento" class="badgeDescuento">25% OFF</span>
         </div>
-        <button class="btnAccionCard" style="width: 100%; padding: 10px; font-size: 13px;" onclick="agregarDesdeModal()">Agregar al Pedido</button>
+        <button id="btnModalAgregar" class="btnAccionCard" style="width: 100%; padding: 10px; font-size: 13px;" onclick="agregarDesdeModal()">Agregar al Pedido</button>
       </div>
     </div>
 
@@ -323,7 +326,6 @@
         </div>
       </div>
     </div>
-
     <div class="cajaCarrito">
       <h2>🛒 Resumen de tu Pedido</h2>
       <div id="listaItemsCarrito"><p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p></div>
@@ -345,16 +347,11 @@
 
     const NUMERO_WHATSAPP = "5492396614552";
 
-    // Función de cálculo de descuento escalonado
     function calcularPrecioMayorista(precioLista) {
       if (precioLista > 20000) {
-        return Math.round(precioLista * 0.70); // 30% descuento si es mayor a 20.000
+        return Math.round(precioLista * 0.70);
       }
-      return Math.round(precioLista * 0.75); // 25% descuento por defecto
-    }
-
-    function obtenerEtiquetaDescuento(precioLista) {
-      return (precioLista > 20000) ? "30% OFF" : "25% OFF";
+      return Math.round(precioLista * 0.75);
     }
 
     window.onload = function() {
@@ -385,15 +382,22 @@
         contenedor.innerHTML = '<p style="text-align:center; grid-column: 1/-1; font-size: 13px;">No hay productos cargados todavía.</p>';
         return;
       }
+
+      let productosOrdenados = [...productosMayoristas].sort((a, b) => {
+        return calcularPrecioMayorista(a.precioLista) - calcularPrecioMayorista(b.precioLista);
+      });
+
       let html = '';
-      productosMayoristas.forEach(prod => {
+      productosOrdenados.forEach(prod => {
         let precioLista = prod.precioLista;
         let precioMayorista = calcularPrecioMayorista(precioLista);
-        let etiquetaDescuento = obtenerEtiquetaDescuento(precioLista);
         let fotoPortada = (prod.imagenes && prod.imagenes.length > 0) ? prod.imagenes[0] : (prod.imagen || 'logo.jpeg');
+        let esSinStock = prod.sinStock === true;
+        
         html += `
           <div class="tarjetaProducto">
             <div class="imagenContenedor" onclick="abrirModalDetalle('${prod.id}')">
+              ${esSinStock ? '<div class="badgeSinStock">Sin Stock</div>' : ''}
               <img src="${fotoPortada}" alt="${prod.nombre}">
               <div class="verMasOverlay">Ver fotos</div>
             </div>
@@ -407,13 +411,13 @@
               </div>
               <div>
                 <div class="bloquePrecios">
-                  <span class="precioListaTachado">$${precioLista.toLocaleString('es-AR')}</span>
                   <span class="precioMayoristaFinal">$${precioMayorista.toLocaleString('es-AR')}</span>
-                  <span class="badgeDescuento">${etiquetaDescuento}</span>
                 </div>
                 <div class="accionesFila">
-                  <input type="number" id="cant_${prod.id}" value="1" min="1" class="form-control">
-                  <button class="btnAccionCard" onclick="agregarAlPedido('${prod.id}')">Agregar</button>
+                  <input type="number" id="cant_${prod.id}" value="1" min="1" class="form-control" ${esSinStock ? 'disabled' : ''}>
+                  <button class="btnAccionCard" onclick="agregarAlPedido('${prod.id}')" ${esSinStock ? 'disabled' : ''}>
+                    ${esSinStock ? 'Agotado' : 'Agregar'}
+                  </button>
                 </div>
               </div>
             </div>
@@ -456,13 +460,19 @@
 
       let precioLista = prod.precioLista;
       let precioMayorista = calcularPrecioMayorista(precioLista);
-      let etiquetaDescuento = obtenerEtiquetaDescuento(precioLista);
 
       document.getElementById('modalNombre').innerText = prod.nombre;
       document.getElementById('modalDesc').innerText = prod.descripcion || '';
-      document.getElementById('modalPrecioLista').innerText = `$${precioLista.toLocaleString('es-AR')}`;
       document.getElementById('modalPrecioFinal').innerText = `$${precioMayorista.toLocaleString('es-AR')}`;
-      document.getElementById('modalBadgeDescuento').innerText = etiquetaDescuento;
+
+      let btnModal = document.getElementById('btnModalAgregar');
+      if (prod.sinStock) {
+        btnModal.disabled = true;
+        btnModal.innerText = 'Sin Stock';
+      } else {
+        btnModal.disabled = false;
+        btnModal.innerText = 'Agregar al Pedido';
+      }
 
       let mostrarFlechasFoto = fotosModalActual.length > 1 ? 'flex' : 'none';
       document.getElementById('btnPrevFoto').style.display = mostrarFlechasFoto;
@@ -563,8 +573,9 @@
         cerrarModalDetalle();
       }
     }
+
     function agregarDesdeModal() {
-      if (!productoSeleccionadoModal) return;
+      if (!productoSeleccionadoModal || productoSeleccionadoModal.sinStock) return;
       let id = productoSeleccionadoModal.id;
       if (carrito[id]) {
         carrito[id].cantidad += 1;
@@ -582,7 +593,7 @@
 
     function agregarAlPedido(id) {
       let prod = productosMayoristas.find(p => p.id === id);
-      if (!prod) return;
+      if (!prod || prod.sinStock) return;
       let cantidadInput = document.getElementById(`cant_${id}`);
       let cantidad = parseInt(cantidadInput.value) || 1;
       if (carrito[id]) {
@@ -654,7 +665,6 @@
         btnWs.disabled = false;
       }
     }
-
     function abrirModalCheckout() {
       document.getElementById('modalCheckout').style.display = 'flex';
       document.getElementById('contenidoCheckoutForm').style.display = 'block';
@@ -776,7 +786,7 @@
           document.getElementById('contenidoCheckoutForm').style.display = 'none';
           document.getElementById('contenidoExclusividad').style.display = 'block';
           
-          let mensajeExclusividad = `Hola 👋. Quise realizar un pedido mayorista para la localidad de *${localidadInput}* (*${provinciaInput}*), pero vi que cuentan con un revendedor exclusivo en esa zona. ¿Podrían informarme sobre la disponibilidad o conditions?`;
+          let mensajeExclusividad = `Hola 👋. Quise realizar un pedido mayorista para la localidad de *${localidadInput}* (*${provinciaInput}*), pero vi que cuentan con un revendedor exclusivo en esa zona. ¿Podrían informarme sobre la disponibilidad o condiciones?`;
           let urlWhatsAppExclusividad = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensajeExclusividad);
           document.getElementById('btnWhatsappExclusividad').href = urlWhatsAppExclusividad;
           return;
@@ -829,6 +839,12 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+   
 
 
 
