@@ -349,8 +349,8 @@ Podes elegir entre los siguientes colores.
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 19000,
     imagenes:[
-      './1000245787.png',
-      './1000245785.png'
+      './coliminimalista.png',
+      './coliminimalista2.png'
     ]
   },
   {
@@ -371,7 +371,7 @@ Podes elegir entre los siguientes colores:
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 16000,
     imagenes:[
-      './1000245789.png'
+      './estrellas.png'
     ]
   },
   {
@@ -391,7 +391,7 @@ Podes elegir entre los siguientes colores.
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 19000,
     imagenes:[
-      './1000245783.png'
+      './mariminimalista.png'
     ]
   }
 ];
