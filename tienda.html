@@ -62,10 +62,16 @@
       border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
     }
 
-    /* Insignia o cartel visual de Sin Stock */
+    /* Insignias o carteles visuales */
     .badgeSinStock {
       position: absolute; top: 8px; left: 8px; background: #d98273;
       color: white; font-size: 9px; font-weight: 700; padding: 2px 6px;
+      border-radius: 4px; text-transform: uppercase; z-index: 2;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .badgeDocena {
+      position: absolute; top: 8px; left: 8px; background: #2e7d32;
+      color: white; font-size: 8.5px; font-weight: 700; padding: 3px 6px;
       border-radius: 4px; text-transform: uppercase; z-index: 2;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
@@ -82,22 +88,38 @@
     }
     .coloresStockCard a:hover { color: #25d366; }
 
-    .bloquePrecios { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+    .bloquePrecios { display: flex; flex-direction: column; gap: 2px; margin-bottom: 6px; }
     .precioMayoristaFinal { font-size: 16px; color: #5a3e23; font-weight: 700; }
+    .precioOpcionTexto { font-size: 10px; color: #7d5730; font-weight: 600; }
+
+    /* Checkbox de Docena */
+    .opcionDocenaCheck {
+      display: flex; align-items: center; gap: 6px; font-size: 11px;
+      color: #332214; font-weight: 600; margin-bottom: 6px; cursor: pointer;
+    }
+    .opcionDocenaCheck input { accent-color: #2e7d32; width: 14px; height: 14px; cursor: pointer; }
+
+    /* Control de cantidad con botones + y - */
+    .controlCantidad { display: flex; align-items: center; gap: 3px; }
+    .btnCantidad {
+      width: 22px; height: 26px; border: 1px solid #c4ae88; background: #e8dccb;
+      color: #332214; font-weight: bold; border-radius: 6px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 12px;
+    }
+    .btnCantidad:hover { background: #d7c5ac; }
 
     .accionesFila { display: flex; gap: 6px; align-items: center; }
-    .form-control { width: 50px; padding: 5px; border-radius: 8px; border: 1px solid #c4ae88; text-align: center; font-size: 12px; }
+    .form-control { width: 36px; padding: 4px 2px; border-radius: 6px; border: 1px solid #c4ae88; text-align: center; font-size: 12px; font-weight: 600; }
     
     .btnAccionCard {
-      padding: 6px 12px; border: none; border-radius: 8px; background: #a98357;
-      color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px;
+      padding: 6px 10px; border: none; border-radius: 8px; background: #a98357;
+      color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px;
       cursor: pointer; transition: background .2s; flex-grow: 1;
     }
     .btnAccionCard:hover { background: #8e6a43; }
     .btnAccionCard:disabled {
       background: #b8ac9c !important; cursor: not-allowed; opacity: 0.7;
     }
-
     /* CARTEL FLOTANTE / MODAL DE AVISO ARTESANAL */
     .modalAvisoFlotante {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -214,7 +236,7 @@
 </head>
 <body>
 
-  <!-- CARTEL FLOTANTE DE AVISO ARTESANAL AL ENTRAR A LA TIENDA -->
+  <!-- CARTEL FLOTANTE DE AVISO ARTESANAL -->
   <div id="avisoFlotanteTienda" class="modalAvisoFlotante" onclick="cerrarAvisoFlotanteFuera(event)">
     <div class="contenidoAvisoFlotante">
       <h3>✨ Tiempo y Dedicación Artesanal</h3>
@@ -226,116 +248,161 @@
   <div class="contenedor">
     <div class="headerMarca">
       <div class="medallaLogo">
-        <img src="./logo.jpeg" alt="Corre la Coneja" class="logoImagen">
+        <img src="logo.jpeg" alt="Logo Corre la Coneja" class="logoImagen">
       </div>
       <h1>Tienda Mayorista</h1>
-      <div class="subtitulo">Seleccioná tus artículos. Descuentos mayoristas aplicados automáticamente. Compra mínima: $150.000.</div>
+      <div class="subtitulo">Seleccioná los productos para armar tu pedido. Mínimo de compra: $150.000</div>
     </div>
+
+    <!-- Grilla de productos -->
     <div id="contenedorGrilla" class="grillaProductos"></div>
-    
-    <!-- Modal Detalle del Producto -->
-    <div id="modalProducto" class="modalOverlay" onclick="cerrarModalFuera(event)">
-      <div class="modalContenido">
-        <button class="cerrarModal" onclick="cerrarModalDetalle()">×</button>
-        
-        <div style="font-size: 11px; font-weight: 600; color: #7d5730; margin-bottom: 4px;">📸 Fotografías:</div>
-        <div class="sliderContainer" id="modalSliderContainer">
-          <img id="modalImg" src="" alt="" onclick="abrirLightboxDesdeModal()" title="Hacer clic para ampliar imagen">
-          <button class="sliderBtn sliderPrev" id="btnPrevFoto" onclick="cambiarFotoModal(-1)">‹</button>
-          <button class="sliderBtn sliderNext" id="btnNextFoto" onclick="cambiarFotoModal(1)">›</button>
-          <div class="sliderIndicador" id="modalIndicador">1 / 1</div>
-        </div>
 
-        <div id="seccionVideosModalContainer"></div>
-
-        <h2 id="modalNombre" style="margin: 10px 0 6px; color: #332214; font-size: 18px; border:none; padding:0;"></h2>
-        <p id="modalDesc" style="font-size: 13px; color: #614a38; line-height: 1.5; margin-bottom: 12px; white-space: pre-line;"></p>
-        
-        <div style="background: rgba(215, 192, 155, 0.2); padding: 10px; border-radius: 10px; margin-bottom: 12px; display: flex; align-items: baseline; gap: 8px;">
-          <span id="modalPrecioFinal" style="font-size: 18px; color: #5a3e23; font-weight: 700;"></span>
-        </div>
-        <button id="btnModalAgregar" class="btnAccionCard" style="width: 100%; padding: 10px; font-size: 13px;" onclick="agregarDesdeModal()">Agregar al Pedido</button>
-      </div>
-    </div>
-
-    <!-- Modal Lightbox independiente -->
-    <div id="lightboxModal" onclick="cerrarLightbox()">
-      <span class="lightbox-cerrar">&times;</span>
-      <img id="lightboxImg" alt="Imagen ampliada">
-    </div>
-
-    <!-- Modal Checkout -->
-    <div id="modalCheckout" class="modalOverlay">
-      <div class="modalContenido">
-        <button class="cerrarModal" onclick="cerrarModalCheckout()">×</button>
-        <h2 style="margin-top: 0; color: #332214; font-size: 17px;">📦 Datos de Envío y Validación</h2>
-        
-        <div id="alertaBienvenidaContenedor" style="display: none;"></div>
-
-        <div id="contenidoCheckoutForm">
-          <div class="formGrupo">
-            <label>Nombre y Apellido</label>
-            <input type="text" id="envNombre" placeholder="Tu nombre y apellido">
-          </div>
-          <div class="formGrupo">
-            <label>Localidad</label>
-            <input type="text" id="envLocalidad" placeholder="Tu localidad">
-          </div>
-          <div class="formGrupo">
-            <label>Provincia</label>
-            <input type="text" id="envProvincia" placeholder="Tu provincia">
-          </div>
-          <div class="formGrupo">
-            <label>Teléfono</label>
-            <div style="display: flex; gap: 8px;">
-              <input type="text" id="envCaracteristica" placeholder="Ej: 1234" style="width: 35%;">
-              <input type="text" id="envNumero" placeholder="Ej: 567890" style="width: 65%;">
-            </div>
-          </div>
-          <div class="formGrupo">
-            <label>Correo electrónico (Opcional)</label>
-            <input type="email" id="envCorreo" placeholder="correo@ejemplo.com">
-          </div>
-          <div class="formGrupo">
-            <label>Tipo de Entrega</label>
-            <select id="tipoEntrega" onchange="cambiarTipoEntrega()">
-              <option value="domicilio">Envío a domicilio</option>
-              <option value="sucursal">Retiro por sucursal</option>
-            </select>
-          </div>
-          <div class="formGrupo" id="grupoDomicilio">
-            <label>Domicilio (Calle, Número, Piso/Depto)</label>
-            <input type="text" id="envCalle" placeholder="Ej: San Martín 456, Piso 2 B">
-          </div>
-          <div class="formGrupo">
-            <label>Código Postal</label>
-            <input type="text" id="envCp" placeholder="Ej: 3060">
-          </div>
-          <button class="btnWhatsApp" style="margin-top: 15px;" onclick="validarYEnviarPedido()">Validar y Enviar por WhatsApp</button>
-        </div>
-
-        <div id="contenidoExclusividad" style="display: none;">
-          <div class="alertaExclusividad">
-            ⚠️ <strong>Localidad con Revendedor Exclusivo</strong><br>
-            La localidad y provincia ingresadas ya cuentan con un revendedor exclusivo según nuestras políticas territoriales.
-          </div>
-          <p style="font-size: 12px; color: #614a38; text-align: center; margin-bottom: 15px;">
-            Si querés consultar por disponibilidad o condiciones para tu zona, hacé clic en el botón de abajo:
-          </p>
-          <a id="btnWhatsappExclusividad" href="#" target="_blank" class="btnWhatsApp">📱 Consultar con la Administración</a>
-        </div>
-      </div>
-    </div>
+    <!-- Caja del Carrito -->
     <div class="cajaCarrito">
-      <h2>🛒 Resumen de tu Pedido</h2>
-      <div id="listaItemsCarrito"><p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p></div>
+      <h2>🛒 Tu Pedido Mayorista</h2>
+      <div id="listaItemsCarrito">
+        <p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p>
+      </div>
+      
       <div id="avisoMinimoContenedor"></div>
+      
       <div class="totalTexto" id="textoTotalFinal">Total Mayorista: $0</div>
-      <button id="btnEnviarWs" class="btnWhatsApp" onclick="abrirModalCheckout()" disabled>📱 Continuar con Datos de Envío</button>
+      
+      <button id="btnEnviarWs" class="btnWhatsApp" onclick="abrirModalCheckout()" disabled>
+        Confirmar y Enviar Pedido por WhatsApp
+      </button>
     </div>
   </div>
-  <script src="./productos.js?v=1"></script>
-  <script src="./bclientes.js?v=1"></script>
+  <!-- MODAL DE DETALLE DEL PRODUCTO -->
+  <div id="modalProducto" class="modalOverlay" onclick="cerrarModalFuera(event)">
+    <div class="modalContenido">
+      <button class="cerrarModal" onclick="cerrarModalDetalle()">×</button>
+      
+      <!-- Carrusel de fotos -->
+      <div class="sliderContainer">
+        <img id="modalImg" src="" alt="Producto" onclick="abrirLightboxDesdeModal()">
+        <button id="btnPrevFoto" class="sliderBtn sliderPrev" onclick="cambiarFotoModal(-1)">‹</button>
+        <button id="btnNextFoto" class="sliderBtn sliderNext" onclick="cambiarFotoModal(1)">›</button>
+        <div id="modalIndicador" class="sliderIndicador">1 / 1</div>
+      </div>
+
+      <h3 id="modalNombre" style="margin: 0 0 6px; font-size: 18px; color: #332214;"></h3>
+      <p id="modalDesc" style="font-size: 12px; color: #5a3e23; margin-bottom: 12px; line-height: 1.4;"></p>
+      
+      <!-- Contenedor para videos demostrativos -->
+      <div id="seccionVideosModalContainer"></div>
+
+      <!-- Opción de Docena en Modal (se oculta si no aplica) -->
+      <label class="opcionDocenaCheck" id="modalContenedorDocena" style="margin-top: 10px; display: none;">
+        <input type="checkbox" id="modalCheckDocena" onchange="actualizarPrecioModalUI()">
+        <span id="modalTextoCheckDocena">Oferta docena</span>
+      </label>
+
+      <div style="margin-bottom: 15px; background: rgba(215, 192, 155, 0.2); padding: 8px; border-radius: 8px;">
+        <div id="modalPrecioFinal" style="font-size: 18px; font-weight: 700; color: #5a3e23;">$0</div>
+        <div id="modalSubtextoPrecio" style="font-size: 11px; color: #7d5730; font-weight: 600;">precio por unidad</div>
+      </div>
+
+      <button id="btnModalAgregar" class="btnAccionCard" style="width: 100%; padding: 10px; font-size: 13px;" onclick="agregarDesdeModal()">
+        Agregar al Pedido
+      </button>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX PARA AMPLIAR FOTOS -->
+  <div id="lightboxModal" onclick="cerrarLightbox()">
+    <span class="lightbox-cerrar">&times;</span>
+    <img id="lightboxImg" src="" alt="Imagen Ampliada">
+  </div>
+
+  <!-- MODAL DE CHECKOUT / DATOS DE ENVÍO -->
+  <div id="modalCheckout" class="modalOverlay">
+    <div class="modalContenido">
+      <button class="cerrarModal" onclick="cerrarModalCheckout()">×</button>
+      
+      <div id="alertaBienvenidaContenedor" style="display: none;"></div>
+
+      <div id="contenidoCheckoutForm">
+        <h3 style="margin-top: 0; color: #332214; font-size: 16px; border-bottom: 1px solid #d7c09b; padding-bottom: 8px;">
+          📍 Datos para el Envío y Validación
+        </h3>
+        
+        <div class="formGrupo">
+          <label>Nombre y Apellido *</label>
+          <input type="text" id="envNombre" placeholder="Tu nombre completo">
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <div class="formGrupo" style="flex: 1;">
+            <label>Localidad *</label>
+            <input type="text" id="envLocalidad" placeholder="Ej: Trenque Lauquen">
+          </div>
+          <div class="formGrupo" style="flex: 1;">
+            <label>Provincia *</label>
+            <input type="text" id="envProvincia" placeholder="Ej: Buenos Aires">
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <div class="formGrupo" style="width: 35%;">
+            <label>Cód. Área *</label>
+            <input type="number" id="envCaracteristica" placeholder="2396">
+          </div>
+          <div class="formGrupo" style="width: 65%;">
+            <label>Teléfono *</label>
+            <input type="number" id="envNumero" placeholder="614552">
+          </div>
+        </div>
+
+        <div class="formGrupo">
+          <label>Correo Electrónico (opcional)</label>
+          <input type="email" id="envCorreo" placeholder="tu@email.com">
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <div class="formGrupo" style="width: 40%;">
+            <label>Cód. Postal *</label>
+            <input type="text" id="envCp" placeholder="6400">
+          </div>
+          <div class="formGrupo" style="width: 60%;">
+            <label>Tipo de Entrega *</label>
+            <select id="tipoEntrega" onchange="cambiarTipoEntrega()">
+              <option value="sucursal">Retiro por Sucursal</option>
+              <option value="domicilio">Envío a Domicilio</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formGrupo" id="grupoDomicilio" style="display: none;">
+          <label>Calle y Número *</label>
+          <input type="text" id="envCalle" placeholder="Ej: Av. San Martín 123">
+        </div>
+
+        <button class="btnWhatsApp" style="margin-top: 10px;" onclick="validarYEnviarPedido()">
+          Enviar Pedido por WhatsApp
+        </button>
+      </div>
+
+      <!-- Pantalla de bloqueo de exclusividad -->
+      <div id="contenidoExclusividad" style="display: none;">
+        <div class="alertaExclusividad">
+          <strong>⚠️ Zona con Revendedora Exclusiva</strong><br><br>
+          Detectamos que tu localidad ya cuenta con un punto de venta o revendedor exclusivo registrado.
+        </div>
+        <p style="font-size: 12px; color: #5a3e23; text-align: center; margin-bottom: 15px;">
+          Podés consultar con nosotros vía WhatsApp para verificar disponibilidad de zona o conocer los datos de tu revendedora más cercana.
+        </p>
+        <a id="btnWhatsappExclusividad" href="#" target="_blank" class="btnWhatsApp" style="text-decoration: none; display: block;">
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carga de Bases de Datos -->
+  <script src="clientes_exclusivos.js"></script>
+  <script src="productos.js"></script>
+  
   <script>
     let carrito = {};
     let productoSeleccionadoModal = null;
@@ -347,11 +414,22 @@
 
     const NUMERO_WHATSAPP = "5492396614552";
 
-    function calcularPrecioMayorista(precioLista) {
-      if (precioLista > 20000) {
-        return Math.round(precioLista * 0.70);
+    // CÁLCULO DE PRECIO MAYORISTA CON DESCUENTO POR MONTO Y PRECIO DOCENA MANUAL
+    function obtenerPrecioProducto(prod, tipo = 'unidad') {
+      let precioBase = prod.precioLista || prod.precio || 0;
+
+      // Si pide docena y tiene un precio cargado manualmente para docena, usa ese.
+      if (tipo === 'docena' && (prod.precioDocena || prod.ofertaDocena)) {
+        let precioDocenaTotal = prod.precioDocena || (prod.ofertaDocena ? prod.ofertaDocena.precio : null);
+        if (precioDocenaTotal) {
+          return Math.round(precioDocenaTotal / 12);
+        }
       }
-      return Math.round(precioLista * 0.75);
+
+      // Regla de descuento mayorista automática:
+      // < $20.000 -> 25% OFF | >= $20.000 -> 30% OFF
+      let porcentajeDescuento = precioBase < 20000 ? 0.25 : 0.30;
+      return Math.round(precioBase * (1 - porcentajeDescuento));
     }
 
     window.onload = function() {
@@ -384,20 +462,23 @@
       }
 
       let productosOrdenados = [...productosMayoristas].sort((a, b) => {
-        return calcularPrecioMayorista(a.precioLista) - calcularPrecioMayorista(b.precioLista);
+        return obtenerPrecioProducto(a, 'unidad') - obtenerPrecioProducto(b, 'unidad');
       });
 
       let html = '';
       productosOrdenados.forEach(prod => {
-        let precioLista = prod.precioLista;
-        let precioMayorista = calcularPrecioMayorista(precioLista);
+        let precioUnidad = obtenerPrecioProducto(prod, 'unidad');
+        let precioDocenaTotal = prod.precioDocena || (prod.ofertaDocena ? prod.ofertaDocena.precio : null);
+        let tieneDocena = precioDocenaTotal !== null && precioDocenaTotal !== undefined;
+        let precioUnidDocena = tieneDocena ? Math.round(precioDocenaTotal / 12) : 0;
+        
         let fotoPortada = (prod.imagenes && prod.imagenes.length > 0) ? prod.imagenes[0] : (prod.imagen || 'logo.jpeg');
         let esSinStock = prod.sinStock === true;
         
         html += `
           <div class="tarjetaProducto">
             <div class="imagenContenedor" onclick="abrirModalDetalle('${prod.id}')">
-              ${esSinStock ? '<div class="badgeSinStock">Sin Stock</div>' : ''}
+              ${esSinStock ? '<div class="badgeSinStock">Sin Stock</div>' : (tieneDocena ? '<div class="badgeDocena">Oferta por docena</div>' : '')}
               <img src="${fotoPortada}" alt="${prod.nombre}">
               <div class="verMasOverlay">Ver fotos</div>
             </div>
@@ -410,11 +491,24 @@
                 </div>
               </div>
               <div>
+                ${tieneDocena ? `
+                <label class="opcionDocenaCheck">
+                  <input type="checkbox" id="checkDocena_${prod.id}" onchange="toggleDocenaCard('${prod.id}')" ${esSinStock ? 'disabled' : ''}>
+                  <span>Oferta docena ($${precioUnidDocena.toLocaleString('es-AR')} c/u)</span>
+                </label>
+                ` : ''}
+
                 <div class="bloquePrecios">
-                  <span class="precioMayoristaFinal">$${precioMayorista.toLocaleString('es-AR')}</span>
+                  <span id="precioCard_${prod.id}" class="precioMayoristaFinal">$${precioUnidad.toLocaleString('es-AR')}</span>
+                  <span id="subtextoCard_${prod.id}" class="precioOpcionTexto">precio x 1 unidad</span>
                 </div>
+
                 <div class="accionesFila">
-                  <input type="number" id="cant_${prod.id}" value="1" min="1" class="form-control" ${esSinStock ? 'disabled' : ''}>
+                  <div class="controlCantidad">
+                    <button class="btnCantidad" onclick="modificarCantidadInput('${prod.id}', -1)" ${esSinStock ? 'disabled' : ''}>-</button>
+                    <input type="number" id="cant_${prod.id}" value="1" min="1" class="form-control" readonly ${esSinStock ? 'disabled' : ''}>
+                    <button class="btnCantidad" onclick="modificarCantidadInput('${prod.id}', 1)" ${esSinStock ? 'disabled' : ''}>+</button>
+                  </div>
                   <button class="btnAccionCard" onclick="agregarAlPedido('${prod.id}')" ${esSinStock ? 'disabled' : ''}>
                     ${esSinStock ? 'Agotado' : 'Agregar'}
                   </button>
@@ -425,6 +519,52 @@
         `;
       });
       contenedor.innerHTML = html;
+    }
+    function toggleDocenaCard(id) {
+      let prod = productosMayoristas.find(p => p.id === id);
+      if (!prod) return;
+
+      let checkDocena = document.getElementById(`checkDocena_${id}`);
+      let isDocena = checkDocena ? checkDocena.checked : false;
+      let inputCant = document.getElementById(`cant_${id}`);
+
+      inputCant.value = isDocena ? 12 : 1;
+      actualizarPrecioCardUI(id);
+    }
+
+    function modificarCantidadInput(id, delta) {
+      let prod = productosMayoristas.find(p => p.id === id);
+      if (!prod) return;
+
+      let checkDocena = document.getElementById(`checkDocena_${id}`);
+      let isDocena = checkDocena ? checkDocena.checked : false;
+      let inputCant = document.getElementById(`cant_${id}`);
+      let valActual = parseInt(inputCant.value) || 1;
+
+      let paso = isDocena ? 12 : 1;
+      let minVal = isDocena ? 12 : 1;
+
+      let nuevoVal = valActual + (delta * paso);
+      if (nuevoVal < minVal) nuevoVal = minVal;
+
+      inputCant.value = nuevoVal;
+      actualizarPrecioCardUI(id);
+    }
+
+    function actualizarPrecioCardUI(id) {
+      let prod = productosMayoristas.find(p => p.id === id);
+      if (!prod) return;
+
+      let checkDocena = document.getElementById(`checkDocena_${id}`);
+      let isDocena = checkDocena ? checkDocena.checked : false;
+      let cant = parseInt(document.getElementById(`cant_${id}`).value) || 1;
+      
+      let tipo = isDocena ? 'docena' : 'unidad';
+      let precioUnid = obtenerPrecioProducto(prod, tipo);
+      let totalCalculado = precioUnid * cant;
+      
+      document.getElementById(`precioCard_${id}`).innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
+      document.getElementById(`subtextoCard_${id}`).innerText = isDocena ? `total por ${cant} u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : `total por ${cant} u.`;
     }
 
     function consultarStockWhatsApp(id) {
@@ -440,39 +580,45 @@
       if (!prod) return;
       productoSeleccionadoModal = prod;
 
-      if (prod.imagenes && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
-        fotosModalActual = prod.imagenes;
-      } else {
-        fotosModalActual = [prod.imagen || 'logo.jpeg'];
-      }
+      fotosModalActual = (prod.imagenes && prod.imagenes.length > 0) ? prod.imagenes : [prod.imagen || 'logo.jpeg'];
       indiceFotoActual = 0;
 
-      videosModalActual = [];
-      if (prod.videos && Array.isArray(prod.videos)) {
-        videosModalActual = prod.videos;
-      } else if (prod.videoUrl) {
-        videosModalActual = [prod.videoUrl];
-      }
+      videosModalActual = prod.videos || (prod.videoUrl ? [prod.videoUrl] : []);
       indiceVideoActual = 0;
 
       actualizarSliderModal();
       actualizarSeccionVideosModal();
 
-      let precioLista = prod.precioLista;
-      let precioMayorista = calcularPrecioMayorista(precioLista);
-
       document.getElementById('modalNombre').innerText = prod.nombre;
       document.getElementById('modalDesc').innerText = prod.descripcion || '';
-      document.getElementById('modalPrecioFinal').innerText = `$${precioMayorista.toLocaleString('es-AR')}`;
+      
+      let precioDocenaTotal = prod.precioDocena || (prod.ofertaDocena ? prod.ofertaDocena.precio : null);
+      let tieneDocena = precioDocenaTotal !== null && precioDocenaTotal !== undefined;
+      let contenedorDocena = document.getElementById('modalContenedorDocena');
+
+      if (tieneDocena) {
+        let precioUnidDocena = Math.round(precioDocenaTotal / 12);
+        
+        // Mantener cartel de porcentaje si existe
+        if (prod.descuentoDocenaPorcentaje || prod.porcentajeOferta) {
+          let pct = prod.descuentoDocenaPorcentaje || prod.porcentajeOferta;
+          document.getElementById('modalTextoCheckDocena').innerText = `Oferta docena -${pct}% OFF ($${precioUnidDocena.toLocaleString('es-AR')} c/u)`;
+        } else {
+          document.getElementById('modalTextoCheckDocena').innerText = `Oferta docena ($${precioUnidDocena.toLocaleString('es-AR')} c/u)`;
+        }
+        
+        contenedorDocena.style.display = 'flex';
+      } else {
+        contenedorDocena.style.display = 'none';
+      }
+      
+      let checkModal = document.getElementById('modalCheckDocena');
+      checkModal.checked = false;
+      actualizarPrecioModalUI();
 
       let btnModal = document.getElementById('btnModalAgregar');
-      if (prod.sinStock) {
-        btnModal.disabled = true;
-        btnModal.innerText = 'Sin Stock';
-      } else {
-        btnModal.disabled = false;
-        btnModal.innerText = 'Agregar al Pedido';
-      }
+      btnModal.disabled = prod.sinStock === true;
+      btnModal.innerText = prod.sinStock ? 'Sin Stock' : 'Agregar al Pedido';
 
       let mostrarFlechasFoto = fotosModalActual.length > 1 ? 'flex' : 'none';
       document.getElementById('btnPrevFoto').style.display = mostrarFlechasFoto;
@@ -480,6 +626,18 @@
       document.getElementById('modalIndicador').style.display = fotosModalActual.length > 1 ? 'block' : 'none';
 
       document.getElementById('modalProducto').style.display = 'flex';
+    }
+
+    function actualizarPrecioModalUI() {
+      if (!productoSeleccionadoModal) return;
+      let isDocena = document.getElementById('modalCheckDocena').checked;
+      let tipo = isDocena ? 'docena' : 'unidad';
+      let cantidad = isDocena ? 12 : 1;
+      let precioUnid = obtenerPrecioProducto(productoSeleccionadoModal, tipo);
+      let totalCalculado = precioUnid * cantidad;
+
+      document.getElementById('modalPrecioFinal').innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
+      document.getElementById('modalSubtextoPrecio').innerText = isDocena ? `total por 12 u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : 'precio por 1 unidad';
     }
 
     function cambiarFotoModal(direccion) {
@@ -573,47 +731,62 @@
         cerrarModalDetalle();
       }
     }
-
     function agregarDesdeModal() {
       if (!productoSeleccionadoModal || productoSeleccionadoModal.sinStock) return;
       let id = productoSeleccionadoModal.id;
-      if (carrito[id]) {
-        carrito[id].cantidad += 1;
-      } else {
-        carrito[id] = {
-          nombre: productoSeleccionadoModal.nombre,
-          precioLista: productoSeleccionadoModal.precioLista,
-          precioMayorista: calcularPrecioMayorista(productoSeleccionadoModal.precioLista),
-          cantidad: 1
-        };
-      }
-      actualizarCarritoUI();
+      let isDocena = document.getElementById('modalCheckDocena').checked;
+      let tipo = isDocena ? 'docena' : 'unidad';
+      let cantidad = isDocena ? 12 : 1;
+
+      agregarItemAlCarrito(id, tipo, cantidad);
       cerrarModalDetalle();
     }
 
     function agregarAlPedido(id) {
       let prod = productosMayoristas.find(p => p.id === id);
       if (!prod || prod.sinStock) return;
+      let checkDocena = document.getElementById(`checkDocena_${id}`);
+      let isDocena = checkDocena ? checkDocena.checked : false;
+      let tipo = isDocena ? 'docena' : 'unidad';
       let cantidadInput = document.getElementById(`cant_${id}`);
       let cantidad = parseInt(cantidadInput.value) || 1;
-      if (carrito[id]) {
-        carrito[id].cantidad += cantidad;
+
+      agregarItemAlCarrito(id, tipo, cantidad);
+    }
+
+    function agregarItemAlCarrito(id, tipo, cantidad) {
+      let prod = productosMayoristas.find(p => p.id === id);
+      if (!prod) return;
+
+      let keyCarrito = `${id}_${tipo}`;
+      let precioUnitario = obtenerPrecioProducto(prod, tipo);
+
+      // Descuento porcentual si aplica a la oferta
+      let dctoPct = (tipo === 'docena') ? (prod.descuentoDocenaPorcentaje || prod.porcentajeOferta || 0) : 0;
+      let sufijoNombre = (tipo === 'docena') ? (dctoPct > 0 ? ` (Oferta Docena -${dctoPct}%)` : ' (Oferta Docena)') : '';
+
+      if (carrito[keyCarrito]) {
+        carrito[keyCarrito].cantidad += cantidad;
       } else {
-        carrito[id] = {
-          nombre: prod.nombre,
-          precioLista: prod.precioLista,
-          precioMayorista: calcularPrecioMayorista(prod.precioLista),
+        carrito[keyCarrito] = {
+          idOriginal: prod.id,
+          nombre: prod.nombre + sufijoNombre,
+          precioLista: prod.precioLista || prod.precio,
+          precioMayorista: precioUnitario,
+          tipoPrecio: tipo,
+          descuentoPorcentaje: dctoPct,
           cantidad: cantidad
         };
       }
       actualizarCarritoUI();
     }
 
-    function cambiarCantidad(id, delta) {
-      if (carrito[id]) {
-        carrito[id].cantidad += delta;
-        if (carrito[id].cantidad <= 0) {
-          delete carrito[id];
+    function cambiarCantidad(keyCarrito, delta) {
+      if (carrito[keyCarrito]) {
+        let paso = carrito[keyCarrito].tipoPrecio === 'docena' ? 12 : 1;
+        carrito[keyCarrito].cantidad += (delta * paso);
+        if (carrito[keyCarrito].cantidad <= 0) {
+          delete carrito[keyCarrito];
         }
         actualizarCarritoUI();
       }
@@ -637,18 +810,18 @@
       let htmlItems = '';
       let totalGeneral = 0;
 
-      idsKeys.forEach(id => {
-        let item = carrito[id];
+      idsKeys.forEach(key => {
+        let item = carrito[key];
         let subtotal = item.precioMayorista * item.cantidad;
         totalGeneral += subtotal;
 
         htmlItems += `
           <div class="itemCarrito">
-            <span><b>${item.nombre}</b> ($${item.precioMayorista.toLocaleString('es-AR')} x ${item.cantidad})</span>
+            <span><b>${item.nombre}</b> ($${item.precioMayorista.toLocaleString('es-AR')} x ${item.cantidad} u.)</span>
             <div style="display: flex; align-items: center; gap: 6px;">
               <span style="font-weight: bold;">$${subtotal.toLocaleString('es-AR')}</span>
-              <button onclick="cambiarCantidad('${id}', -1)" style="background:#d98273; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">-</button>
-              <button onclick="cambiarCantidad('${id}', 1)" style="background:#a98357; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">+</button>
+              <button onclick="cambiarCantidad('${key}', -1)" style="background:#d98273; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">-</button>
+              <button onclick="cambiarCantidad('${key}', 1)" style="background:#a98357; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">+</button>
             </div>
           </div>
         `;
@@ -665,6 +838,7 @@
         btnWs.disabled = false;
       }
     }
+
     function abrirModalCheckout() {
       document.getElementById('modalCheckout').style.display = 'flex';
       document.getElementById('contenidoCheckoutForm').style.display = 'block';
@@ -695,7 +869,6 @@
 
     function normalizarTelefonoAr(tel) {
       let num = String(tel || "").replace(/\D/g, "");
-      
       if (num.startsWith("549")) num = num.substring(3);
       else if (num.startsWith("54")) num = num.substring(2);
 
@@ -802,7 +975,7 @@
         }
 
         let textoPedido = `¡Hola Corre la Coneja! 👋 Soy *${nombreParaSaludo}* de *${localidadInput}*. Te envío mi nuevo pedido mayorista:\n\n`;
-        textoPedido += `📦 *DATOS DEL PEDIDO Mayorista*\n`;
+        textoPedido += `📦 *DATOS DEL PEDIDO MAYORISTA*\n`;
         textoPedido += `👤 *Cliente:* ${nombreInput}\n`;
         textoPedido += `📍 *Ubicación:* ${localidadInput}, ${provinciaInput} (CP: ${cp})\n`;
         textoPedido += `📞 *Teléfono:* (${caracteristicaInput}) ${numeroInput}\n`;
