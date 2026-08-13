@@ -5,6 +5,81 @@
 // o agregar nuevos productos fácilmente.
 const productosMayoristas = [
   {
+    id: 'prod_atrapasoles_mini',
+    nombre: 'Atrapasoles mini',
+    descripcion: `Pequeños atrapasoles de 30 cm de largo, pensados especialmente para colgar en el auto, aunque también pueden usarse como detalle decorativo en la cartera, mochila, celular o donde quieras llevar un pequeño destello de luz.
+Hay diferentes diseños, como gatitos, colibríes, angelitos y mariposas, disponibles en distintos colores.
+
+CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
+    precioLista: 6000,
+    ofertaDocena: {
+      cantidad: 12,
+      precio: 50000
+    },
+    imagenes:[
+      './auto1.png',
+      './auto2.png',
+      './auto3.png'
+    ]
+  },
+  {
+    id: 'prod_angelitos',
+    nombre: 'Angelitos',
+    descripcion: `Delicados angelitos con cristal facetado, ideales para sumar un detalle especial y luminoso a cualquier espacio. Una pieza liviana, encantadora y fácil de ofrecer como regalo.
+Perfectos para tiendas, regalerías y emprendimientos que buscan incorporar productos artesanales con un toque diferente. 🌈
+Colores disponibles: azul celeste, rosa, lila, violeta, blanco y verde.
+
+CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
+    precioLista: 6666,
+    ofertaDocena: {
+      cantidad: 12,
+      precio: 50000
+    },
+    imagenes:[
+      './ange1.png',
+      './ange2.png',
+      './ange3.png',
+      './ange4.png',
+      './ange5.png',
+      './ange7.png'
+    ]
+  },
+  {
+    id: 'prod_alas_de_luz',
+    nombre: 'Alas de Luz',
+    descripcion: `Delicadas mariposas de resina con flores naturales y pequeños cristales que capturan la luz creando sutiles destellos. Un diseño sencillo y encantador, ideal para sumar un toque natural y luminoso a cualquier espacio.
+Colores disponibles: azul celeste, rosa, lila, violeta, blanco y verde. 🌸
+
+CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
+    precioLista: 8000,
+    ofertaDocena: {
+      cantidad: 12,
+      precio: 60000
+    },
+    imagenes:[
+      './maribarateza1.png',
+      './maribarateza2.png'
+    ]
+  },
+  {
+    id: 'prod_luz_astral',
+    nombre: 'Luz Astral',
+    descripcion: `Delicada estrella de resina con flores naturales y pequeños cristales que capturan la luz y proyectan sutiles destellos. Un diseño sencillo y luminoso, ideal para sumar un detalle especial a cualquier espacio.
+Colores disponibles: azul celeste, rosa, lila, violeta, blanco y verde. 🌈
+Ideal para tiendas, regalerías y emprendimientos.
+
+CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
+    precioLista: 8000,
+    ofertaDocena: {
+      cantidad: 12,
+      precio: 60000
+    },
+    imagenes:[
+      './estrebarateza3.png',
+      './estrebarateza1.png'
+    ]
+  },
+  {
     id: 'prod_pequenas_mariposas',
     nombre: 'Pequeñas Mariposas',
     descripcion: `Disponibles en Varios colores
@@ -81,6 +156,10 @@ Podes elegir entre los siguientes colores.
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 19000,
+    ofertaDocena: {
+      cantidad: 12,
+      precio: 150000
+    },
     imagenes:[
       './coliminimalista.png',
       './coliminimalista2.png'
@@ -102,6 +181,10 @@ Podes elegir entre los siguientes colores.
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 19000,
+    ofertaDocena: {
+      cantidad: 12,
+      precio: 150000
+    },
     imagenes:[
       './mariminimalista.png'
     ]
@@ -396,4 +479,5 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     ]
   }
 ];
+
 
