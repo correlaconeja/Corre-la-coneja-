@@ -9,7 +9,9 @@ const productosMayoristas = [
     nombre: 'Atrapasoles mini',
     descripcion: `Pequeños atrapasoles de 30 cm de largo, pensados especialmente para colgar en el auto, aunque también pueden usarse como detalle decorativo en la cartera, mochila, celular o donde quieras llevar un pequeño destello de luz.
 Hay diferentes diseños, como gatitos, colibríes, angelitos y mariposas, etc disponibles en distintos colores, con flores naturales o glitter.
-EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+EN LAS OFERTAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+
+LAS OFERTAS POR DOCENA NO INCLUYEN PACKAGING INDIVIDUAL NI CÓDIGO DE ORÁCULO.
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 6000,
@@ -30,7 +32,9 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
 Perfectos para tiendas, regalerías y emprendimientos que buscan incorporar productos artesanales con un toque diferente. 🌈
 Colores disponibles: azul celeste, rosa, lila, violeta, blanco y verde.
 
-EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+EN LAS OFERTAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+
+LAS OFERTAS POR DOCENA NO INCLUYEN PACKAGING INDIVIDUAL NI CÓDIGO DE ORÁCULO.
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 6666,
@@ -53,9 +57,9 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     descripcion: `Delicadas mariposas de resina con flores naturales y pequeños cristales que capturan la luz creando sutiles destellos. Un diseño sencillo y encantador, ideal para sumar un toque natural y luminoso a cualquier espacio.
 Colores disponibles: azul celeste, rosa, lila, violeta, blanco y verdez con Flores naturales o glitter.
 
-EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+EN LAS OFERTAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
 
-CADA PIEZA ES ÚNICA. CONSULTAR
+LAS OFERTAS POR DOCENA NO INCLUYEN PACKAGING INDIVIDUAL NI CÓDIGO DE ORÁCULO.
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 8000,
@@ -76,9 +80,9 @@ Colores disponibles: azul celeste, rosa, lila, violeta, blanco y verde. 🌈
 Ideal para tiendas, regalerías y emprendimientos.
 Las estrellas pueden ser con flores naturales o con glitter 
 
-EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+EN LAS OFERTAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
 
-CADA PIEZA ES ÚNICA. CONSULTAR
+LAS OFERTAS POR DOCENA NO INCLUYEN PACKAGING INDIVIDUAL NI CÓDIGO DE ORÁCULO.
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 8000,
@@ -166,9 +170,9 @@ Podes elegir entre los siguientes colores.
 - Azul
 - Verde
 Pueden ser con flores naturales o glitter.
-EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+EN LAS OFERTAS S POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
 
-CADA PIEZA ES ÚNICA. CONSULTAR
+LAS OFERTAS POR DOCENA NO INCLUYEN PACKAGING INDIVIDUAL NI CÓDIGO DE ORÁCULO.
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 19000,
@@ -195,7 +199,9 @@ Podes elegir entre los siguientes colores.
 - Azul
 - Verde
 
-EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+EN LAS OFERTAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN).
+
+LAS OFERTAS POR DOCENA NO INCLUYEN PACKAGING INDIVIDUAL NI CÓDIGO DE ORÁCULO.
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 19000,
