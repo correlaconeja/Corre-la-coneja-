@@ -8,7 +8,8 @@ const productosMayoristas = [
     id: 'prod_atrapasoles_mini',
     nombre: 'Atrapasoles mini',
     descripcion: `Pequeños atrapasoles de 30 cm de largo, pensados especialmente para colgar en el auto, aunque también pueden usarse como detalle decorativo en la cartera, mochila, celular o donde quieras llevar un pequeño destello de luz.
-Hay diferentes diseños, como gatitos, colibríes, angelitos y mariposas, disponibles en distintos colores.
+Hay diferentes diseños, como gatitos, colibríes, angelitos y mariposas, etc disponibles en distintos colores, con flores naturales o glitter.
+EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 6000,
@@ -29,6 +30,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
 Perfectos para tiendas, regalerías y emprendimientos que buscan incorporar productos artesanales con un toque diferente. 🌈
 Colores disponibles: azul celeste, rosa, lila, violeta, blanco y verde.
 
+EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 6666,
     ofertaDocena: {
@@ -48,7 +51,11 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     id: 'prod_alas_de_luz',
     nombre: 'Alas de Luz',
     descripcion: `Delicadas mariposas de resina con flores naturales y pequeños cristales que capturan la luz creando sutiles destellos. Un diseño sencillo y encantador, ideal para sumar un toque natural y luminoso a cualquier espacio.
-Colores disponibles: azul celeste, rosa, lila, violeta, blanco y verde. 🌸
+Colores disponibles: azul celeste, rosa, lila, violeta, blanco y verdez con Flores naturales o glitter.
+
+EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+
+CADA PIEZA ES ÚNICA. CONSULTAR
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 8000,
@@ -67,6 +74,11 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     descripcion: `Delicada estrella de resina con flores naturales y pequeños cristales que capturan la luz y proyectan sutiles destellos. Un diseño sencillo y luminoso, ideal para sumar un detalle especial a cualquier espacio.
 Colores disponibles: azul celeste, rosa, lila, violeta, blanco y verde. 🌈
 Ideal para tiendas, regalerías y emprendimientos.
+Las estrellas pueden ser con flores naturales o con glitter 
+
+EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+
+CADA PIEZA ES ÚNICA. CONSULTAR
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 8000,
@@ -153,6 +165,10 @@ Podes elegir entre los siguientes colores.
 - Celeste 
 - Azul
 - Verde
+Pueden ser con flores naturales o glitter.
+EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
+
+CADA PIEZA ES ÚNICA. CONSULTAR
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 19000,
@@ -168,8 +184,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
   {
     id: 'prod_mariposa_minimalista',
     nombre: 'Mariposa minimalista',
-    descripcion: `Colibrí minimalista
-Atrapasol con colibrí de resina epóxica y flores naturales 
+    descripcion: `Mariposa minimalista
+Atrapasol con maripsoa de resina epóxica y flores naturales o glitter 
 Cristal de roca que aumenta la cantidad de reflejos y destellos.
 Podes elegir entre los siguientes colores.
 - Rosa
@@ -178,6 +194,8 @@ Podes elegir entre los siguientes colores.
 - Celeste 
 - Azul
 - Verde
+
+EN LAS COMPRAS POR DOCENA COLORES Y DISEÑOS SON SURTIDOS SEGÚN STOCK (SIN ELECCIÓN)
 
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 19000,
