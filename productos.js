@@ -52,6 +52,43 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     ]
   },
   {
+    id: 'prod_piedras_naturales_mi',
+    nombre: 'Piedras naturales mini',
+    descripcion: `Atrapasoles con piedras naturales
+Cada atrapasol está elaborado con piedras naturales, por lo que el tamaño, la forma, las tonalidades y las pequeñas características de cada piedra pueden variar. Al tratarse de materiales naturales, cada pieza es única e irregular, haciendo que no existan dos exactamente iguales.
+
+MEDIDA APROXIMADA: 30 cm
+
+Podés elegir entre diferentes piedras naturales:
+Cuarzo rosa
+Amatista
+Pirita
+Cuarzo cristal
+Selenita azul
+Turmalina
+Citrino
+Los cristales y piedras se combinan con piezas cuidadosamente seleccionadas para crear un atrapasol delicado y lleno de luz. Al recibir los rayos del sol, el cristal facetado inferior proyecta pequeños reflejos y arcoíris sobre el ambiente.
+IMPORTANTE — OFERTAS POR DOCENA
+EN LAS OFERTAS POR DOCENA, LOS COLORES Y LAS PIEDRAS SON SURTIDOS SIN ELECCIÓN.
+Las piezas se envían combinadas de acuerdo con la disponibilidad, por lo que no es posible seleccionar individualmente el color o la piedra de cada atrapasol.
+
+CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
+    precioLista: 7333,
+    ofertaDocena: {
+      cantidad: 12,
+      precio: 55000
+    },
+    imagenes:[
+      './minicristal.png',
+      './miniamatista.png',
+      './miniturma.png',
+      './minicitrino.png',
+      './minipirita.png',
+      './minicelenita.png',
+      './minirodocrosita.png'
+    ]
+  },
+  {
     id: 'prod_alas_de_luz',
     nombre: 'Alas de Luz',
     descripcion: `Delicadas mariposas de resina con flores naturales y pequeños cristales que capturan la luz creando sutiles destellos. Un diseño sencillo y encantador, ideal para sumar un toque natural y luminoso a cualquier espacio.
