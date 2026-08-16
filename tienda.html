@@ -10,16 +10,9 @@
   <style>
     * { box-sizing: border-box; }
     body {
-      margin: 0;
-      min-height: 100vh;
-      padding: 15px 15px 80px;
-      font-family: 'Montserrat', sans-serif;
-      color: #2b2017;
-      background: linear-gradient(rgba(255, 251, 245, .4), rgba(255, 251, 245, .5)), url("./tienda.png");
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      overflow-x: hidden;
+      margin: 0; min-height: 100vh; padding: 15px 15px 80px; font-family: 'Montserrat', sans-serif;
+      color: #2b2017; background: linear-gradient(rgba(255, 251, 245, .4), rgba(255, 251, 245, .5)), url("./tienda.png");
+      background-size: cover; background-position: center; background-attachment: fixed; overflow-x: hidden;
     }
     .contenedor { width: 100%; max-width: 950px; margin: auto; }
     .headerMarca { text-align: center; margin-bottom: 20px; }
@@ -32,211 +25,88 @@
     .logoImagen { width: 130%; height: 130%; object-fit: contain; border-radius: 50%; mix-blend-mode: multiply; }
     h1 { text-align: center; font-size: 26px; font-weight: 500; margin: 0 0 4px; color: #24180e; }
     .subtitulo { text-align: center; font-size: 13px; color: #4a3728; margin-bottom: 20px; padding: 0 10px; }
-    
-    .grillaProductos {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 14px;
-      margin-bottom: 25px;
-    }
-
+    .grillaProductos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 25px; }
     .tarjetaProducto {
-      background: rgba(255, 254, 250, 0.95);
-      border: 1px solid rgba(215, 192, 155, 0.8); border-radius: 14px; overflow: hidden;
-      display: flex; flex-direction: row; align-items: stretch;
-      box-shadow: 0 4px 12px rgba(80, 55, 25, 0.05);
-      transition: all .2s;
+      background: rgba(255, 254, 250, 0.95); border: 1px solid rgba(215, 192, 155, 0.8); border-radius: 14px; overflow: hidden;
+      display: flex; flex-direction: row; align-items: stretch; box-shadow: 0 4px 12px rgba(80, 55, 25, 0.05); transition: all .2s;
     }
     .tarjetaProducto:hover { border-color: #a98357; transform: translateY(-2px); }
-    
     .imagenContenedor {
       width: 115px; min-width: 115px; background: #f2e9dc; overflow: hidden; cursor: pointer;
-      position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-      padding: 6px;
+      position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 6px;
     }
     .imagenContenedor img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px; }
-    
     .verMasOverlay {
       position: absolute; bottom: 6px; left: 6px; right: 6px; background: rgba(51, 34, 20, 0.75);
-      color: white; font-size: 9px; text-align: center; padding: 3px 0; font-weight: 500;
-      border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
+      color: white; font-size: 9px; text-align: center; padding: 3px 0; font-weight: 500; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
     }
-
-    /* Insignias o carteles visuales */
     .badgeSinStock {
       position: absolute; top: 8px; left: 8px; background: #d98273;
       color: white; font-size: 9px; font-weight: 700; padding: 2px 6px;
-      border-radius: 4px; text-transform: uppercase; z-index: 2;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border-radius: 4px; text-transform: uppercase; z-index: 2; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     .badgeDocena {
       position: absolute; top: 8px; left: 8px; background: #2e7d32;
       color: white; font-size: 8.5px; font-weight: 700; padding: 3px 6px;
-      border-radius: 4px; text-transform: uppercase; z-index: 2;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border-radius: 4px; text-transform: uppercase; z-index: 2; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
-
+    .badgeEconomica {
+      position: absolute; top: 28px; left: 8px; background: #8b263e;
+      color: #fdfbf7; font-size: 8.5px; font-weight: 700; padding: 3px 6px;
+      border-radius: 4px; text-transform: uppercase; z-index: 2; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
     .infoContenido { padding: 12px 14px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; overflow: hidden; }
     .infoContenido h3 { font-size: 15px; margin: 0 0 4px; color: #332214; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    
-    .coloresStockCard {
-      font-size: 10px; color: #614a38; margin-bottom: 6px; background: rgba(215, 192, 155, 0.2);
-      padding: 5px 8px; border-radius: 6px; line-height: 1.3;
-    }
-    .coloresStockCard a {
-      color: #7d5730; font-weight: 600; text-decoration: underline; cursor: pointer;
-    }
+    .coloresStockCard { font-size: 10px; color: #614a38; margin-bottom: 6px; background: rgba(215, 192, 155, 0.2); padding: 5px 8px; border-radius: 6px; line-height: 1.3; }
+    .coloresStockCard a { color: #7d5730; font-weight: 600; text-decoration: underline; cursor: pointer; }
     .coloresStockCard a:hover { color: #25d366; }
-
     .bloquePrecios { display: flex; flex-direction: column; gap: 2px; margin-bottom: 6px; }
     .precioMayoristaFinal { font-size: 16px; color: #5a3e23; font-weight: 700; }
     .precioOpcionTexto { font-size: 10px; color: #7d5730; font-weight: 600; }
-
-    /* Checkbox de Docena */
-    .opcionDocenaCheck {
-      display: flex; align-items: center; gap: 6px; font-size: 11px;
-      color: #332214; font-weight: 600; margin-bottom: 6px; cursor: pointer;
-    }
+    .opcionDocenaCheck { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #332214; font-weight: 600; margin-bottom: 6px; cursor: pointer; }
     .opcionDocenaCheck input { accent-color: #2e7d32; width: 14px; height: 14px; cursor: pointer; }
-
-    /* Control de cantidad con botones + y - */
     .controlCantidad { display: flex; align-items: center; gap: 3px; }
-    .btnCantidad {
-      width: 22px; height: 26px; border: 1px solid #c4ae88; background: #e8dccb;
-      color: #332214; font-weight: bold; border-radius: 6px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; font-size: 12px;
-    }
+    .btnCantidad { width: 22px; height: 26px; border: 1px solid #c4ae88; background: #e8dccb; color: #332214; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
     .btnCantidad:hover { background: #d7c5ac; }
-
     .accionesFila { display: flex; gap: 6px; align-items: center; }
     .form-control { width: 36px; padding: 4px 2px; border-radius: 6px; border: 1px solid #c4ae88; text-align: center; font-size: 12px; font-weight: 600; }
-    
-    .btnAccionCard {
-      padding: 6px 10px; border: none; border-radius: 8px; background: #a98357;
-      color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px;
-      cursor: pointer; transition: background .2s; flex-grow: 1;
-    }
+    .btnAccionCard { padding: 6px 10px; border: none; border-radius: 8px; background: #a98357; color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px; cursor: pointer; transition: background .2s; flex-grow: 1; }
     .btnAccionCard:hover { background: #8e6a43; }
-    .btnAccionCard:disabled {
-      background: #b8ac9c !important; cursor: not-allowed; opacity: 0.7;
-    }
-    /* CARTEL FLOTANTE / MODAL DE AVISO ARTESANAL */
-    .modalAvisoFlotante {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(43, 32, 23, 0.65); display: flex; align-items: center; justify-content: center;
-      z-index: 3000; padding: 10px; backdrop-filter: blur(4px);
-      animation: aparecerAviso .3s ease;
-    }
-    @keyframes aparecerAviso {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    .contenidoAvisoFlotante {
-      background: linear-gradient(135deg, #fffefc, #f7efe2);
-      border: 1px solid #c4a470; border-radius: 16px; max-width: 380px; width: 92%;
-      padding: 16px 14px; text-align: center; position: relative;
-      box-shadow: 0 15px 30px rgba(50, 30, 15, 0.25);
-      max-height: 85vh; overflow-y: auto;
-    }
-    .contenidoAvisoFlotante h3 {
-      font-family: 'Cormorant Garamond', serif; font-size: 19px; color: #3b2818;
-      margin: 0 0 6px; font-weight: 600; letter-spacing: 0.5px;
-    }
-    .contenidoAvisoFlotante p {
-      font-size: 11.5px; color: #5c4228; line-height: 1.4; margin: 0 0 12px; text-align: left;
-    }
-    .btnCerrarAviso {
-      background: #8c6239; color: white; border: none; padding: 8px 20px;
-      border-radius: 20px; font-size: 12px; font-family: 'Montserrat', sans-serif;
-      font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(130, 90, 50, 0.25);
-      transition: background .2s, transform .2s;
-    }
+    .btnAccionCard:disabled { background: #b8ac9c !important; cursor: not-allowed; opacity: 0.7; }
+    .modalAvisoFlotante { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(43, 32, 23, 0.65); display: flex; align-items: center; justify-content: center; z-index: 3000; padding: 10px; backdrop-filter: blur(4px); animation: aparecerAviso .3s ease; }
+    @keyframes aparecerAviso { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .contenidoAvisoFlotante { background: linear-gradient(135deg, #fffefc, #f7efe2); border: 1px solid #c4a470; border-radius: 16px; max-width: 380px; width: 92%; padding: 16px 14px; text-align: center; position: relative; box-shadow: 0 15px 30px rgba(50, 30, 15, 0.25); max-height: 85vh; overflow-y: auto; }
+    .contenidoAvisoFlotante h3 { font-family: 'Cormorant Garamond', serif; font-size: 19px; color: #3b2818; margin: 0 0 6px; font-weight: 600; letter-spacing: 0.5px; }
+    .contenidoAvisoFlotante p { font-size: 11.5px; color: #5c4228; line-height: 1.4; margin: 0 0 12px; text-align: left; }
+    .btnCerrarAviso { background: #8c6239; color: white; border: none; padding: 8px 20px; border-radius: 20px; font-size: 12px; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(130, 90, 50, 0.25); transition: background .2s, transform .2s; }
     .btnCerrarAviso:hover { background: #734e2c; transform: translateY(-1px); }
-
-    /* Modales */
-    .modalOverlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(43, 32, 23, 0.6); display: none; align-items: center; justify-content: center;
-      z-index: 1000; padding: 15px; backdrop-filter: blur(3px);
-    }
-    .modalContenido {
-      background: linear-gradient(135deg, #fffefa, #f6eee0);
-      border: 1px solid #d7c09b; border-radius: 20px; max-width: 440px; width: 92%;
-      padding: 18px; position: relative; box-shadow: 0 15px 30px rgba(40, 25, 10, 0.2);
-      max-height: 90vh; overflow-y: auto;
-    }
+    .modalOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(43, 32, 23, 0.6); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; backdrop-filter: blur(3px); }
+    .modalContenido { background: linear-gradient(135deg, #fffefa, #f6eee0); border: 1px solid #d7c09b; border-radius: 20px; max-width: 440px; width: 92%; padding: 18px; position: relative; box-shadow: 0 15px 30px rgba(40, 25, 10, 0.2); max-height: 90vh; overflow-y: auto; }
     .cerrarModal { position: absolute; top: 12px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #5a3e23; font-weight: bold; z-index: 10; }
-    
-    /* Carruseles dentro del Modal de Detalle */
     .sliderContainer { position: relative; width: 100%; height: 260px; background: #f2e9dc; border-radius: 12px; overflow: hidden; margin-bottom: 12px; border: 1px solid #d8c4a4; }
     .sliderContainer img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
     .sliderContainer iframe { width: 100%; height: 100%; border: none; }
-    
-    .sliderBtn {
-      position: absolute; top: 50%; transform: translateY(-50%); background: rgba(51, 34, 20, 0.7);
-      color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer;
-      font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background .2s; z-index: 5;
-    }
+    .sliderBtn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(51, 34, 20, 0.7); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background .2s; z-index: 5; }
     .sliderBtn:hover { background: rgba(51, 34, 20, 0.95); }
-    .sliderPrev { left: 8px; }
-    .sliderNext { right: 8px; }
-    .sliderIndicador {
-      position: absolute; bottom: 8px; right: 8px;
-      background: rgba(0,0,0,0.6); color: white; font-size: 11px; padding: 2px 8px; border-radius: 10px; z-index: 5;
-    }
-
-    /* Lightbox para ampliar imagen en el modal */
-    #lightboxModal {
-      display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 15px;
-    }
+    .sliderPrev { left: 8px; } .sliderNext { right: 8px; }
+    .sliderIndicador { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; font-size: 11px; padding: 2px 8px; border-radius: 10px; z-index: 5; }
+    #lightboxModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 15px; }
     #lightboxImg { max-width: 90%; max-height: 90%; border-radius: 12px; object-fit: contain; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
-    .lightbox-cerrar {
-      position: absolute; top: 20px; right: 30px; color: #fff; font-size: 35px; font-weight: bold; cursor: pointer;
-    }
-
-    .cajaCarrito {
-      background: rgba(255, 254, 250, 0.98);
-      border: 1px solid #6f4d25; border-radius: 16px; padding: 16px; margin-top: 25px;
-      box-shadow: 0 10px 25px rgba(80, 55, 25, 0.1);
-    }
+    .lightbox-cerrar { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 35px; font-weight: bold; cursor: pointer; }
+    .cajaCarrito { background: rgba(255, 254, 250, 0.98); border: 1px solid #6f4d25; border-radius: 16px; padding: 16px; margin-top: 25px; box-shadow: 0 10px 25px rgba(80, 55, 25, 0.1); }
     .cajaCarrito h2 { font-size: 16px; color: #332214; margin-top: 0; border-bottom: 1px dashed rgba(180, 150, 110, 0.4); padding-bottom: 6px; }
     .itemCarrito { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 6px 0; border-bottom: 1px solid rgba(215, 192, 155, 0.3); }
     .totalTexto { font-size: 15px; font-weight: bold; color: #5a3e23; margin: 12px 0; text-align: right; }
-    
-    .btnWhatsApp {
-      display: block; width: 100%; padding: 12px; border: none; border-radius: 25px;
-      background: #25d366; color: white; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600;
-      text-align: center; text-decoration: none; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-    }
+    .btnWhatsApp { display: block; width: 100%; padding: 12px; border: none; border-radius: 25px; background: #25d366; color: white; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; text-align: center; text-decoration: none; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
     .btnWhatsApp:disabled { background: #b0c4de; cursor: not-allowed; box-shadow: none; opacity: 0.7; }
-
     .formGrupo { margin-bottom: 12px; }
     .formGrupo label { display: block; font-size: 12px; font-weight: 600; color: #5a3e23; margin-bottom: 4px; }
-    .formGrupo input, .formGrupo select {
-      width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #c4ae88;
-      font-family: 'Montserrat', sans-serif; font-size: 12px; background: #fff;
-    }
-    .alertaExclusividad {
-      background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 12px;
-      border-radius: 10px; font-size: 12px; text-align: center; margin-bottom: 15px; line-height: 1.4;
-    }
-    .alertaBienvenida {
-      background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 12px;
-      border-radius: 10px; font-size: 13px; text-align: center; margin-bottom: 15px; line-height: 1.4; font-weight: 600;
-    }
+    .formGrupo input, .formGrupo select { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #c4ae88; font-family: 'Montserrat', sans-serif; font-size: 12px; background: #fff; }
+    .alertaExclusividad { background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 12px; border-radius: 10px; font-size: 12px; text-align: center; margin-bottom: 15px; line-height: 1.4; }
+    .alertaBienvenida { background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 12px; border-radius: 10px; font-size: 13px; text-align: center; margin-bottom: 15px; line-height: 1.4; font-weight: 600; }
   </style>
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://correlaconeja.github.io/Corre-la-coneja-/tienda.html" />
-  <meta property="og:title" content="Tienda Mayorista | Corre la Coneja" />
-  <meta property="og:description" content="Cada pieza se elabora a mano de forma totalmente personalizada." />
-  <meta property="og:image" content="https://correlaconeja.github.io/Corre-la-coneja-/portada.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
 </head>
 <body>
-
-  <!-- CARTEL FLOTANTE DE AVISO ARTESANAL -->
   <div id="avisoFlotanteTienda" class="modalAvisoFlotante" onclick="cerrarAvisoFlotanteFuera(event)">
     <div class="contenidoAvisoFlotante">
       <h3>✨ Tiempo y Dedicación Artesanal</h3>
@@ -244,251 +114,134 @@
       <button class="btnCerrarAviso" onclick="cerrarAvisoFlotante()">Entendido, ver tienda</button>
     </div>
   </div>
-
   <div class="contenedor">
     <div class="headerMarca">
-      <div class="medallaLogo">
-        <img src="logo.jpeg" alt="Logo Corre la Coneja" class="logoImagen">
-      </div>
+      <div class="medallaLogo"><img src="logo.jpeg" alt="Logo Corre la Coneja" class="logoImagen"></div>
       <h1>Tienda Mayorista</h1>
       <div class="subtitulo">Seleccioná los productos para armar tu pedido. Mínimo de compra: $150.000</div>
     </div>
-
-    <!-- Grilla de productos -->
     <div id="contenedorGrilla" class="grillaProductos"></div>
-
-    <!-- Caja del Carrito -->
     <div class="cajaCarrito">
       <h2>🛒 Tu Pedido Mayorista</h2>
-      <div id="listaItemsCarrito">
-        <p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p>
-      </div>
-      
+      <div id="listaItemsCarrito"><p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p></div>
       <div id="avisoMinimoContenedor"></div>
-      
       <div class="totalTexto" id="textoTotalFinal">Total Mayorista: $0</div>
-      
-      <button id="btnEnviarWs" class="btnWhatsApp" onclick="abrirModalCheckout()" disabled>
-        Confirmar y Enviar Pedido por WhatsApp
-      </button>
+      <button id="btnEnviarWs" class="btnWhatsApp" onclick="abrirModalCheckout()" disabled>Confirmar y Enviar Pedido por WhatsApp</button>
     </div>
   </div>
-  <!-- MODAL DE DETALLE DEL PRODUCTO -->
   <div id="modalProducto" class="modalOverlay" onclick="cerrarModalFuera(event)">
     <div class="modalContenido">
       <button class="cerrarModal" onclick="cerrarModalDetalle()">×</button>
-      
-      <!-- Carrusel de fotos -->
       <div class="sliderContainer">
         <img id="modalImg" src="" alt="Producto" onclick="abrirLightboxDesdeModal()">
         <button id="btnPrevFoto" class="sliderBtn sliderPrev" onclick="cambiarFotoModal(-1)">‹</button>
         <button id="btnNextFoto" class="sliderBtn sliderNext" onclick="cambiarFotoModal(1)">›</button>
         <div id="modalIndicador" class="sliderIndicador">1 / 1</div>
       </div>
-
       <h3 id="modalNombre" style="margin: 0 0 6px; font-size: 18px; color: #332214;"></h3>
       <p id="modalDesc" style="font-size: 12px; color: #5a3e23; margin-bottom: 12px; line-height: 1.4;"></p>
-      
-      <!-- Contenedor para videos demostrativos -->
       <div id="seccionVideosModalContainer"></div>
-
-      <!-- Opción de Docena en Modal (se oculta si no aplica) -->
       <label class="opcionDocenaCheck" id="modalContenedorDocena" style="margin-top: 10px; display: none;">
         <input type="checkbox" id="modalCheckDocena" onchange="actualizarPrecioModalUI()">
         <span id="modalTextoCheckDocena">Oferta docena</span>
       </label>
-
       <div style="margin-bottom: 15px; background: rgba(215, 192, 155, 0.2); padding: 8px; border-radius: 8px;">
         <div id="modalPrecioFinal" style="font-size: 18px; font-weight: 700; color: #5a3e23;">$0</div>
         <div id="modalSubtextoPrecio" style="font-size: 11px; color: #7d5730; font-weight: 600;">precio por unidad</div>
       </div>
-
-      <button id="btnModalAgregar" class="btnAccionCard" style="width: 100%; padding: 10px; font-size: 13px;" onclick="agregarDesdeModal()">
-        Agregar al Pedido
-      </button>
+      <button id="btnModalAgregar" class="btnAccionCard" style="width: 100%; padding: 10px; font-size: 13px;" onclick="agregarDesdeModal()">Agregar al Pedido</button>
     </div>
   </div>
-
-  <!-- LIGHTBOX PARA AMPLIAR FOTOS -->
   <div id="lightboxModal" onclick="cerrarLightbox()">
     <span class="lightbox-cerrar">&times;</span>
     <img id="lightboxImg" src="" alt="Imagen Ampliada">
   </div>
-
-  <!-- MODAL DE CHECKOUT / DATOS DE ENVÍO -->
   <div id="modalCheckout" class="modalOverlay">
     <div class="modalContenido">
       <button class="cerrarModal" onclick="cerrarModalCheckout()">×</button>
-      
       <div id="alertaBienvenidaContenedor" style="display: none;"></div>
-
       <div id="contenidoCheckoutForm">
-        <h3 style="margin-top: 0; color: #332214; font-size: 16px; border-bottom: 1px solid #d7c09b; padding-bottom: 8px;">
-          📍 Datos para el Envío y Validación
-        </h3>
-        
-        <div class="formGrupo">
-          <label>Nombre y Apellido *</label>
-          <input type="text" id="envNombre" placeholder="Tu nombre completo">
-        </div>
-
-        <div style="display: flex; gap: 8px;">
-          <div class="formGrupo" style="flex: 1;">
-            <label>Localidad *</label>
-            <input type="text" id="envLocalidad" placeholder="Ej: Trenque Lauquen">
-          </div>
-          <div class="formGrupo" style="flex: 1;">
-            <label>Provincia *</label>
-            <input type="text" id="envProvincia" placeholder="Ej: Buenos Aires">
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 8px;">
-          <div class="formGrupo" style="width: 35%;">
-            <label>Cód. Área *</label>
-            <input type="number" id="envCaracteristica" placeholder="2396">
-          </div>
-          <div class="formGrupo" style="width: 65%;">
-            <label>Teléfono *</label>
-            <input type="number" id="envNumero" placeholder="614552">
-          </div>
-        </div>
-
-        <div class="formGrupo">
-          <label>Correo Electrónico (opcional)</label>
-          <input type="email" id="envCorreo" placeholder="tu@email.com">
-        </div>
-
-        <div style="display: flex; gap: 8px;">
-          <div class="formGrupo" style="width: 40%;">
-            <label>Cód. Postal *</label>
-            <input type="text" id="envCp" placeholder="6400">
-          </div>
-          <div class="formGrupo" style="width: 60%;">
-            <label>Tipo de Entrega *</label>
-            <select id="tipoEntrega" onchange="cambiarTipoEntrega()">
-              <option value="sucursal">Retiro por Sucursal</option>
-              <option value="domicilio">Envío a Domicilio</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="formGrupo" id="grupoDomicilio" style="display: none;">
-          <label>Calle y Número *</label>
-          <input type="text" id="envCalle" placeholder="Ej: Av. San Martín 123">
-        </div>
-
-        <button class="btnWhatsApp" style="margin-top: 10px;" onclick="validarYEnviarPedido()">
-          Enviar Pedido por WhatsApp
-        </button>
+        <h3 style="margin-top: 0; color: #332214; font-size: 16px; border-bottom: 1px solid #d7c09b; padding-bottom: 8px;">📍 Datos para el Envío y Validación</h3>
+        <div class="formGrupo"><label>Nombre y Apellido *</label><input type="text" id="envNombre" placeholder="Tu nombre completo"></div>
+        <div style="display: flex; gap: 8px;"><div class="formGrupo" style="flex: 1;"><label>Localidad *</label><input type="text" id="envLocalidad" placeholder="Ej: Trenque Lauquen"></div><div class="formGrupo" style="flex: 1;"><label>Provincia *</label><input type="text" id="envProvincia" placeholder="Ej: Buenos Aires"></div></div>
+        <div style="display: flex; gap: 8px;"><div class="formGrupo" style="width: 35%;"><label>Cód. Área *</label><input type="number" id="envCaracteristica" placeholder="2396"></div><div class="formGrupo" style="width: 65%;"><label>Teléfono *</label><input type="number" id="envNumero" placeholder="614552"></div></div>
+        <div class="formGrupo"><label>Correo Electrónico (opcional)</label><input type="email" id="envCorreo" placeholder="tu@email.com"></div>
+        <div style="display: flex; gap: 8px;"><div class="formGrupo" style="width: 40%;"><label>Cód. Postal *</label><input type="text" id="envCp" placeholder="6400"></div><div class="formGrupo" style="width: 60%;"><label>Tipo de Entrega *</label><select id="tipoEntrega" onchange="cambiarTipoEntrega()"><option value="sucursal">Retiro por Sucursal</option><option value="domicilio">Envío a Domicilio</option></select></div></div>
+        <div class="formGrupo" id="grupoDomicilio" style="display: none;"><label>Calle y Número *</label><input type="text" id="envCalle" placeholder="Ej: Av. San Martín 123"></div>
+        <button class="btnWhatsApp" style="margin-top: 10px;" onclick="validarYEnviarPedido()">Enviar Pedido por WhatsApp</button>
       </div>
-
-      <!-- Pantalla de bloqueo de exclusividad -->
       <div id="contenidoExclusividad" style="display: none;">
-        <div class="alertaExclusividad">
-          <strong>⚠️ Zona con Revendedora Exclusiva</strong><br><br>
-          Detectamos que tu localidad ya cuenta con un punto de venta o revendedor exclusivo registrado.
-        </div>
-        <p style="font-size: 12px; color: #5a3e23; text-align: center; margin-bottom: 15px;">
-          Podés consultar con nosotros vía WhatsApp para verificar disponibilidad de zona o conocer los datos de tu revendedora más cercana.
-        </p>
-        <a id="btnWhatsappExclusividad" href="#" target="_blank" class="btnWhatsApp" style="text-decoration: none; display: block;">
-          Consultar por WhatsApp
-        </a>
+        <div class="alertaExclusividad"><strong>⚠️ Zona con Revendedora Exclusiva</strong><br><br>Detectamos que tu localidad ya cuenta con un punto de venta o revendedor exclusivo registrado.</div>
+        <p style="font-size: 12px; color: #5a3e23; text-align: center; margin-bottom: 15px;">Podés consultar con nosotros vía WhatsApp para verificar disponibilidad de zona o conocer los datos de tu revendedora más cercana.</p>
+        <a id="btnWhatsappExclusividad" href="#" target="_blank" class="btnWhatsApp" style="text-decoration: none; display: block;">Consultar por WhatsApp</a>
       </div>
     </div>
   </div>
-
-  <!-- Carga de Bases de Datos -->
   <script src="clientes_exclusivos.js"></script>
   <script src="productos.js"></script>
-  
   <script>
     let carrito = {};
     let productoSeleccionadoModal = null;
     let fotosModalActual = [];
     let indiceFotoActual = 0;
-    
     let videosModalActual = [];
     let indiceVideoActual = 0;
-
     const NUMERO_WHATSAPP = "5492396614552";
-
-    // CÁLCULO DE PRECIO MAYORISTA CON DESCUENTO POR MONTO Y PRECIO DOCENA MANUAL
     function obtenerPrecioProducto(prod, tipo = 'unidad') {
       let precioBase = prod.precioLista || prod.precio || 0;
-
-      // Si pide docena y tiene un precio cargado manualmente para docena, usa ese.
       if (tipo === 'docena' && (prod.precioDocena || prod.ofertaDocena)) {
-        let precioDocenaTotal = prod.precioDocena || (prod.ofertaDocena ? prod.ofertaDocena.precio : null);
-        if (precioDocenaTotal) {
-          return Math.round(precioDocenaTotal / 12);
-        }
+        let precioDocenaTotal = prod.precioDocena || (typeof prod.ofertaDocena === 'object' ? prod.ofertaDocena.precio : prod.ofertaDocena);
+        if (precioDocenaTotal) return Math.round(precioDocenaTotal / 12);
       }
-
-      // Regla de descuento mayorista automática:
-      // < $20.000 -> 25% OFF | >= $20.000 -> 30% OFF
       let porcentajeDescuento = precioBase < 20000 ? 0.25 : 0.30;
       return Math.round(precioBase * (1 - porcentajeDescuento));
     }
-
-    window.onload = function() {
-      renderizarTienda();
-      setTimeout(function() {
-        cerrarAvisoFlotante();
-      }, 6000);
-    };
-
+    window.onload = function() { renderizarTienda(); };
     function cerrarAvisoFlotante() {
       const aviso = document.getElementById('avisoFlotanteTienda');
-      if (aviso) {
-        aviso.style.opacity = '0';
-        aviso.style.transition = 'opacity 0.4s ease';
-        setTimeout(() => { aviso.style.display = 'none'; }, 400);
-      }
+      if (aviso) { aviso.style.opacity = '0'; aviso.style.transition = 'opacity 0.4s ease'; setTimeout(() => { aviso.style.display = 'none'; }, 400); }
     }
-
-    function cerrarAvisoFlotanteFuera(event) {
-      if (event.target.id === 'avisoFlotanteTienda') {
-        cerrarAvisoFlotante();
-      }
-    }
-
+    function cerrarAvisoFlotanteFuera(event) { if (event.target.id === 'avisoFlotanteTienda') cerrarAvisoFlotante(); }
     function renderizarTienda() {
       const contenedor = document.getElementById('contenedorGrilla');
       if (typeof productosMayoristas === 'undefined' || productosMayoristas.length === 0) {
         contenedor.innerHTML = '<p style="text-align:center; grid-column: 1/-1; font-size: 13px;">No hay productos cargados todavía.</p>';
         return;
       }
-
-      let productosOrdenados = [...productosMayoristas].sort((a, b) => {
-        return obtenerPrecioProducto(a, 'unidad') - obtenerPrecioProducto(b, 'unidad');
-      });
-
+      let productosOrdenados = [...productosMayoristas].sort((a, b) => obtenerPrecioProducto(a, 'unidad') - obtenerPrecioProducto(b, 'unidad'));
       let html = '';
       productosOrdenados.forEach(prod => {
         let precioUnidad = obtenerPrecioProducto(prod, 'unidad');
-        let precioDocenaTotal = prod.precioDocena || (prod.ofertaDocena ? prod.ofertaDocena.precio : null);
+        let precioDocenaTotal = prod.precioDocena || (typeof prod.ofertaDocena === 'object' ? prod.ofertaDocena.precio : prod.ofertaDocena);
         let tieneDocena = precioDocenaTotal !== null && precioDocenaTotal !== undefined;
         let precioUnidDocena = tieneDocena ? Math.round(precioDocenaTotal / 12) : 0;
-        
         let fotoPortada = (prod.imagenes && prod.imagenes.length > 0) ? prod.imagenes[0] : (prod.imagen || 'logo.jpeg');
         let esSinStock = prod.sinStock === true;
+        let esEconomica = prod.etiquetaEconomica === true || (prod.ofertaDocena && prod.ofertaDocena.etiquetaEconomica === true);
         
+        let badges = '';
+        if (esSinStock) {
+          badges = '<div class="badgeSinStock">Sin Stock</div>';
+        } else {
+          if (tieneDocena) {
+            badges += '<div class="badgeDocena">Oferta por docena</div>';
+          }
+          if (esEconomica) {
+            badges += `<div id="badgeEconomica_${prod.id}" class="badgeEconomica" style="display: none;">Línea Económica</div>`;
+          }
+        }
+
         html += `
           <div class="tarjetaProducto">
             <div class="imagenContenedor" onclick="abrirModalDetalle('${prod.id}')">
-              ${esSinStock ? '<div class="badgeSinStock">Sin Stock</div>' : (tieneDocena ? '<div class="badgeDocena">Oferta por docena</div>' : '')}
+              ${badges}
               <img src="${fotoPortada}" alt="${prod.nombre}">
               <div class="verMasOverlay">Ver fotos</div>
             </div>
             <div class="infoContenido">
               <div>
                 <h3>${prod.nombre}</h3>
-                <div class="coloresStockCard">
-                  Colores: rosa, violeta, turquesa, verde, azul, lila. 
-                  <a onclick="consultarStockWhatsApp('${prod.id}')">Consultar stock</a>
-                </div>
+                <div class="coloresStockCard">Colores: rosa, violeta, turquesa, verde, azul, lila. <a onclick="consultarStockWhatsApp('${prod.id}')">Consultar stock</a></div>
               </div>
               <div>
                 ${tieneDocena ? `
@@ -497,21 +250,17 @@
                   <span>Oferta docena ($${precioUnidDocena.toLocaleString('es-AR')} c/u)</span>
                 </label>
                 ` : ''}
-
                 <div class="bloquePrecios">
                   <span id="precioCard_${prod.id}" class="precioMayoristaFinal">$${precioUnidad.toLocaleString('es-AR')}</span>
                   <span id="subtextoCard_${prod.id}" class="precioOpcionTexto">precio x 1 unidad</span>
                 </div>
-
                 <div class="accionesFila">
                   <div class="controlCantidad">
                     <button class="btnCantidad" onclick="modificarCantidadInput('${prod.id}', -1)" ${esSinStock ? 'disabled' : ''}>-</button>
                     <input type="number" id="cant_${prod.id}" value="1" min="1" class="form-control" readonly ${esSinStock ? 'disabled' : ''}>
                     <button class="btnCantidad" onclick="modificarCantidadInput('${prod.id}', 1)" ${esSinStock ? 'disabled' : ''}>+</button>
                   </div>
-                  <button class="btnAccionCard" onclick="agregarAlPedido('${prod.id}')" ${esSinStock ? 'disabled' : ''}>
-                    ${esSinStock ? 'Agotado' : 'Agregar'}
-                  </button>
+                  <button class="btnAccionCard" onclick="agregarAlPedido('${prod.id}')" ${esSinStock ? 'disabled' : ''}>${esSinStock ? 'Agotado' : 'Agregar'}</button>
                 </div>
               </div>
             </div>
@@ -520,515 +269,134 @@
       });
       contenedor.innerHTML = html;
     }
-    function toggleDocenaCard(id) {
-      let prod = productosMayoristas.find(p => p.id === id);
-      if (!prod) return;
-
-      let checkDocena = document.getElementById(`checkDocena_${id}`);
-      let isDocena = checkDocena ? checkDocena.checked : false;
-      let inputCant = document.getElementById(`cant_${id}`);
-
-      inputCant.value = isDocena ? 12 : 1;
-      actualizarPrecioCardUI(id);
-    }
-
-    function modificarCantidadInput(id, delta) {
-      let prod = productosMayoristas.find(p => p.id === id);
-      if (!prod) return;
-
-      let checkDocena = document.getElementById(`checkDocena_${id}`);
-      let isDocena = checkDocena ? checkDocena.checked : false;
-      let inputCant = document.getElementById(`cant_${id}`);
-      let valActual = parseInt(inputCant.value) || 1;
-
-      let paso = isDocena ? 12 : 1;
-      let minVal = isDocena ? 12 : 1;
-
-      let nuevoVal = valActual + (delta * paso);
-      if (nuevoVal < minVal) nuevoVal = minVal;
-
-      inputCant.value = nuevoVal;
-      actualizarPrecioCardUI(id);
-    }
-
-    function actualizarPrecioCardUI(id) {
-      let prod = productosMayoristas.find(p => p.id === id);
-      if (!prod) return;
-
-      let checkDocena = document.getElementById(`checkDocena_${id}`);
-      let isDocena = checkDocena ? checkDocena.checked : false;
-      let cant = parseInt(document.getElementById(`cant_${id}`).value) || 1;
-      
-      let tipo = isDocena ? 'docena' : 'unidad';
-      let precioUnid = obtenerPrecioProducto(prod, tipo);
-      let totalCalculado = precioUnid * cant;
-      
-      document.getElementById(`precioCard_${id}`).innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
-      document.getElementById(`subtextoCard_${id}`).innerText = isDocena ? `total por ${cant} u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : `total por ${cant} u.`;
-    }
-
-    function consultarStockWhatsApp(id) {
-      let prod = productosMayoristas.find(p => p.id === id);
-      if (!prod) return;
-      let textoMensaje = `¡Hola! 👋 Quisiera consultar colores y stock disponible para el producto: *${prod.nombre}*.`;
-      let url = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoMensaje);
-      window.open(url, '_blank');
-    }
-
-    function abrirModalDetalle(id) {
-      let prod = productosMayoristas.find(p => p.id === id);
-      if (!prod) return;
-      productoSeleccionadoModal = prod;
-
-      fotosModalActual = (prod.imagenes && prod.imagenes.length > 0) ? prod.imagenes : [prod.imagen || 'logo.jpeg'];
-      indiceFotoActual = 0;
-
-      videosModalActual = prod.videos || (prod.videoUrl ? [prod.videoUrl] : []);
-      indiceVideoActual = 0;
-
-      actualizarSliderModal();
-      actualizarSeccionVideosModal();
-
-      document.getElementById('modalNombre').innerText = prod.nombre;
-      document.getElementById('modalDesc').innerText = prod.descripcion || '';
-      
-      let precioDocenaTotal = prod.precioDocena || (prod.ofertaDocena ? prod.ofertaDocena.precio : null);
-      let tieneDocena = precioDocenaTotal !== null && precioDocenaTotal !== undefined;
-      let contenedorDocena = document.getElementById('modalContenedorDocena');
-
-      if (tieneDocena) {
-        let precioUnidDocena = Math.round(precioDocenaTotal / 12);
-        
-        // Mantener cartel de porcentaje si existe
-        if (prod.descuentoDocenaPorcentaje || prod.porcentajeOferta) {
-          let pct = prod.descuentoDocenaPorcentaje || prod.porcentajeOferta;
-          document.getElementById('modalTextoCheckDocena').innerText = `Oferta docena -${pct}% OFF ($${precioUnidDocena.toLocaleString('es-AR')} c/u)`;
-        } else {
-          document.getElementById('modalTextoCheckDocena').innerText = `Oferta docena ($${precioUnidDocena.toLocaleString('es-AR')} c/u)`;
-        }
-        
-        contenedorDocena.style.display = 'flex';
-      } else {
-        contenedorDocena.style.display = 'none';
-      }
-      
-      let checkModal = document.getElementById('modalCheckDocena');
-      checkModal.checked = false;
-      actualizarPrecioModalUI();
-
-      let btnModal = document.getElementById('btnModalAgregar');
-      btnModal.disabled = prod.sinStock === true;
-      btnModal.innerText = prod.sinStock ? 'Sin Stock' : 'Agregar al Pedido';
-
-      let mostrarFlechasFoto = fotosModalActual.length > 1 ? 'flex' : 'none';
-      document.getElementById('btnPrevFoto').style.display = mostrarFlechasFoto;
-      document.getElementById('btnNextFoto').style.display = mostrarFlechasFoto;
-      document.getElementById('modalIndicador').style.display = fotosModalActual.length > 1 ? 'block' : 'none';
-
-      document.getElementById('modalProducto').style.display = 'flex';
-    }
-
-    function actualizarPrecioModalUI() {
-      if (!productoSeleccionadoModal) return;
-      let isDocena = document.getElementById('modalCheckDocena').checked;
-      let tipo = isDocena ? 'docena' : 'unidad';
-      let cantidad = isDocena ? 12 : 1;
-      let precioUnid = obtenerPrecioProducto(productoSeleccionadoModal, tipo);
-      let totalCalculado = precioUnid * cantidad;
-
-      document.getElementById('modalPrecioFinal').innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
-      document.getElementById('modalSubtextoPrecio').innerText = isDocena ? `total por 12 u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : 'precio por 1 unidad';
-    }
-
-    function cambiarFotoModal(direccion) {
-      indiceFotoActual += direccion;
-      if (indiceFotoActual < 0) {
-        indiceFotoActual = fotosModalActual.length - 1;
-      } else if (indiceFotoActual >= fotosModalActual.length) {
-        indiceFotoActual = 0;
-      }
-      actualizarSliderModal();
-    }
-
-    function actualizarSliderModal() {
-      document.getElementById('modalImg').src = fotosModalActual[indiceFotoActual];
-      document.getElementById('modalIndicador').innerText = `${indiceFotoActual + 1} / ${fotosModalActual.length}`;
-    }
-
-    function actualizarSeccionVideosModal() {
-      let contenedorVideos = document.getElementById('seccionVideosModalContainer');
-      if (!videosModalActual || videosModalActual.length === 0) {
-        contenedorVideos.innerHTML = '';
-        return;
-      }
-
-      let vidUrl = videosModalActual[indiceVideoActual];
-      let embedUrl = convertirAEmbed(vidUrl);
-
-      let botonesVideoHTML = videosModalActual.length > 1 ? `
-        <button class="sliderBtn sliderPrev" onclick="cambiarVideoModal(-1)">‹</button>
-        <button class="sliderBtn sliderNext" onclick="cambiarVideoModal(1)">›</button>
-        <div class="sliderIndicador">🎥 ${indiceVideoActual + 1} / ${videosModalActual.length}</div>
-      ` : '';
-
-      contenedorVideos.innerHTML = `
-        <div style="font-size: 11px; font-weight: 600; color: #7d5730; margin: 12px 0 4px;">🎬 Videos demostrativos:</div>
-        <div class="sliderContainer">
-          <iframe src="${embedUrl}" allowfullscreen></iframe>
-          ${botonesVideoHTML}
-        </div>
-      `;
-    }
-
-    function cambiarVideoModal(direccion) {
-      indiceVideoActual += direccion;
-      if (indiceVideoActual < 0) {
-        indiceVideoActual = videosModalActual.length - 1;
-      } else if (indiceVideoActual >= videosModalActual.length) {
-        indiceVideoActual = 0;
-      }
-      actualizarSeccionVideosModal();
-    }
-
-    function convertirAEmbed(url) {
-      if (!url) return '';
-      url = url.trim();
-      if (url.includes('youtube.com/embed/')) return url;
-      let videoId = '';
-      if (url.includes('/shorts/')) {
-        let partes = url.split('/shorts/');
-        if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0];
-      } else if (url.includes('youtu.be/')) {
-        let partes = url.split('youtu.be/');
-        if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0];
-      } else {
-        let regExp = /^.*(v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        let match = url.match(regExp);
-        if (match && match[2] && match[2].length === 11) videoId = match[2];
-      }
-      return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
-    }
-
-    function abrirLightboxDesdeModal() {
-      if (!fotosModalActual || fotosModalActual.length === 0) return;
-      let imgActual = fotosModalActual[indiceFotoActual];
-      const modal = document.getElementById('lightboxModal');
-      const imgModal = document.getElementById('lightboxImg');
-      imgModal.src = imgActual;
-      modal.style.display = 'flex';
-    }
-
-    function cerrarLightbox() {
-      document.getElementById('lightboxModal').style.display = 'none';
-    }
-
-    function cerrarModalDetalle() {
-      document.getElementById('modalProducto').style.display = 'none';
-    }
-
-    function cerrarModalFuera(event) {
-      if (event.target.id === 'modalProducto') {
-        cerrarModalDetalle();
-      }
-    }
-    function agregarDesdeModal() {
-      if (!productoSeleccionadoModal || productoSeleccionadoModal.sinStock) return;
-      let id = productoSeleccionadoModal.id;
-      let isDocena = document.getElementById('modalCheckDocena').checked;
-      let tipo = isDocena ? 'docena' : 'unidad';
-      let cantidad = isDocena ? 12 : 1;
-
-      agregarItemAlCarrito(id, tipo, cantidad);
-      cerrarModalDetalle();
-    }
-
-    function agregarAlPedido(id) {
-      let prod = productosMayoristas.find(p => p.id === id);
-      if (!prod || prod.sinStock) return;
-      let checkDocena = document.getElementById(`checkDocena_${id}`);
-      let isDocena = checkDocena ? checkDocena.checked : false;
-      let tipo = isDocena ? 'docena' : 'unidad';
-      let cantidadInput = document.getElementById(`cant_${id}`);
-      let cantidad = parseInt(cantidadInput.value) || 1;
-
-      agregarItemAlCarrito(id, tipo, cantidad);
-    }
-
-    function agregarItemAlCarrito(id, tipo, cantidad) {
-      let prod = productosMayoristas.find(p => p.id === id);
-      if (!prod) return;
-
-      let keyCarrito = `${id}_${tipo}`;
-      let precioUnitario = obtenerPrecioProducto(prod, tipo);
-
-      // Descuento porcentual si aplica a la oferta
-      let dctoPct = (tipo === 'docena') ? (prod.descuentoDocenaPorcentaje || prod.porcentajeOferta || 0) : 0;
-      let sufijoNombre = (tipo === 'docena') ? (dctoPct > 0 ? ` (Oferta Docena -${dctoPct}%)` : ' (Oferta Docena)') : '';
-
-      if (carrito[keyCarrito]) {
-        carrito[keyCarrito].cantidad += cantidad;
-      } else {
-        carrito[keyCarrito] = {
-          idOriginal: prod.id,
-          nombre: prod.nombre + sufijoNombre,
-          precioLista: prod.precioLista || prod.precio,
-          precioMayorista: precioUnitario,
-          tipoPrecio: tipo,
-          descuentoPorcentaje: dctoPct,
-          cantidad: cantidad
-        };
-      }
-      actualizarCarritoUI();
-    }
-
-    function cambiarCantidad(keyCarrito, delta) {
-      if (carrito[keyCarrito]) {
-        let paso = carrito[keyCarrito].tipoPrecio === 'docena' ? 12 : 1;
-        carrito[keyCarrito].cantidad += (delta * paso);
-        if (carrito[keyCarrito].cantidad <= 0) {
-          delete carrito[keyCarrito];
-        }
-        actualizarCarritoUI();
-      }
-    }
-
-    function actualizarCarritoUI() {
-      let listaDiv = document.getElementById('listaItemsCarrito');
-      let avisoDiv = document.getElementById('avisoMinimoContenedor');
-      let totalTexto = document.getElementById('textoTotalFinal');
-      let btnWs = document.getElementById('btnEnviarWs');
-
-      let idsKeys = Object.keys(carrito);
-      if (idsKeys.length === 0) {
-        listaDiv.innerHTML = '<p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p>';
-        avisoDiv.innerHTML = '';
-        totalTexto.innerText = 'Total Mayorista: $0';
-        btnWs.disabled = true;
-        return;
-      }
-
-      let htmlItems = '';
-      let totalGeneral = 0;
-
-      idsKeys.forEach(key => {
-        let item = carrito[key];
-        let subtotal = item.precioMayorista * item.cantidad;
-        totalGeneral += subtotal;
-
-        htmlItems += `
-          <div class="itemCarrito">
-            <span><b>${item.nombre}</b> ($${item.precioMayorista.toLocaleString('es-AR')} x ${item.cantidad} u.)</span>
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <span style="font-weight: bold;">$${subtotal.toLocaleString('es-AR')}</span>
-              <button onclick="cambiarCantidad('${key}', -1)" style="background:#d98273; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">-</button>
-              <button onclick="cambiarCantidad('${key}', 1)" style="background:#a98357; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">+</button>
-            </div>
-          </div>
-        `;
-      });
-
-      listaDiv.innerHTML = htmlItems;
-      totalTexto.innerText = `Total Mayorista: $${totalGeneral.toLocaleString('es-AR')}`;
-
-      if (totalGeneral < 150000) {
-        avisoDiv.innerHTML = `<div style="background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">⚠️ Falta $${(150000 - totalGeneral).toLocaleString('es-AR')} para alcanzar la compra mínima de $150.000.</div>`;
-        btnWs.disabled = true;
-      } else {
-        avisoDiv.innerHTML = `<div style="background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">✅ ¡Compra mínima alcanzada con éxito!</div>`;
-        btnWs.disabled = false;
-      }
-    }
-
-    function abrirModalCheckout() {
-      document.getElementById('modalCheckout').style.display = 'flex';
-      document.getElementById('contenidoCheckoutForm').style.display = 'block';
-      document.getElementById('contenidoExclusividad').style.display = 'none';
-      
-      let avisoBienvenida = document.getElementById('alertaBienvenidaContenedor');
-      if (avisoBienvenida) avisoBienvenida.style.display = 'none';
-    }
-
-    function cerrarModalCheckout() {
-      document.getElementById('modalCheckout').style.display = 'none';
-    }
-
-    function cambiarTipoEntrega() {
-      let tipo = document.getElementById('tipoEntrega').value;
-      let grupoDomicilio = document.getElementById('grupoDomicilio');
-      grupoDomicilio.style.display = (tipo === 'domicilio') ? 'block' : 'none';
-    }
-
-    function limpiarTexto(texto) {
-      return (texto || "")
-        .toString()
-        .trim()
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-    }
-
-    function normalizarTelefonoAr(tel) {
-      let num = String(tel || "").replace(/\D/g, "");
-      if (num.startsWith("549")) num = num.substring(3);
-      else if (num.startsWith("54")) num = num.substring(2);
-
-      if (num.startsWith("0")) num = num.substring(1);
-
-      if (num.length === 12 && num.slice(4, 6) === "15") {
-        num = num.slice(0, 4) + num.slice(6);
-      } else if (num.length === 11 && num.slice(3, 5) === "15") {
-        num = num.slice(0, 3) + num.slice(5);
-      } else if (num.length === 10 && num.slice(2, 4) === "15") {
-        num = num.slice(0, 2) + num.slice(4);
-      }
-
-      return num;
-    }
-
-    function telefonosCoinciden(tel1, tel2) {
-      let t1 = normalizarTelefonoAr(tel1);
-      let t2 = normalizarTelefonoAr(tel2);
-      if (!t1 || !t2) return false;
-      return t1 === t2 || t1.endsWith(t2) || t2.endsWith(t1);
-    }
-
-    function nombresCoinciden(n1, n2) {
-      let nom1 = limpiarTexto(n1);
-      let nom2 = limpiarTexto(n2);
-      if (!nom1 || !nom2) return false;
-
-      if (nom1 === nom2 || nom1.includes(nom2) || nom2.includes(nom1)) return true;
-
-      let palabras1 = nom1.split(" ").filter(p => p.length > 2);
-      let palabras2 = nom2.split(" ").filter(p => p.length > 2);
-      let coincidencias = palabras1.filter(p => palabras2.includes(p));
-
-      return coincidencias.length >= 2 || (palabras1.length === 1 && coincidencias.length === 1);
-    }
-
-    function validarYEnviarPedido() {
-      try {
-        let nombreInput = document.getElementById('envNombre').value.trim();
-        let localidadInput = document.getElementById('envLocalidad').value.trim();
-        let provinciaInput = document.getElementById('envProvincia').value.trim();
-        
-        let caracteristicaInput = document.getElementById('envCaracteristica').value.trim();
-        let numeroInput = document.getElementById('envNumero').value.trim();
-        let telefonoInput = caracteristicaInput + numeroInput;
-        
-        let correoInput = document.getElementById('envCorreo').value.trim();
-        let cp = document.getElementById('envCp').value.trim();
-        let tipoEntrega = document.getElementById('tipoEntrega').value;
-        let calle = document.getElementById('envCalle').value.trim();
-
-        if (!nombreInput || !localidadInput || !provinciaInput || !caracteristicaInput || !numeroInput || !cp || (tipoEntrega === 'domicilio' && !calle)) {
-          alert("Por favor, completá todos los campos requeridos para el envío y validación.");
-          return;
-        }
-
-        let localidadLimpia = limpiarTexto(localidadInput);
-        let provinciaLimpia = limpiarTexto(provinciaInput);
-
-        let regionRegistrada = false;
-        let accesoConcedido = false;
-        let clienteEncontrado = null;
-
-        if (typeof window.clientesExclusivos !== 'undefined' && Array.isArray(window.clientesExclusivos)) {
-          for (let cliente of window.clientesExclusivos) {
-            let cliLocalidad = limpiarTexto(cliente.localidad);
-            let cliProvincia = limpiarTexto(cliente.provincia);
-            let cliNombre = cliente.nombre || cliente.revendedor || cliente.cliente || "";
-            let cliTelefono = cliente.telefono || cliente.celular || cliente.tel || (String(cliente.caracteristica || "") + String(cliente.numero || ""));
-
-            if (cliLocalidad === localidadLimpia && cliProvincia === provinciaLimpia) {
-              regionRegistrada = true;
-
-              let coincidenciaNombre = nombresCoinciden(cliNombre, nombreInput);
-              let coincidenciaTel = telefonosCoinciden(cliTelefono, telefonoInput);
-
-              if (coincidenciaNombre && coincidenciaTel) {
-                accesoConcedido = true;
-                clienteEncontrado = cliente;
-                break;
-              }
-            }
+        function toggleDocenaCard(id) {
+          let prod = productosMayoristas.find(p => p.id === id);
+          if (!prod) return;
+          let checkDocena = document.getElementById(`checkDocena_${id}`);
+          let isDocena = checkDocena ? checkDocena.checked : false;
+          let inputCant = document.getElementById(`cant_${id}`);
+          inputCant.value = isDocena ? 12 : 1;
+          actualizarPrecioCardUI(id);
+          
+          // Muestra u oculta el cartel de línea económica en bordó cuando se tilda
+          let badgeEconomica = document.getElementById(`badgeEconomica_${id}`);
+          if (badgeEconomica) {
+            badgeEconomica.style.display = isDocena ? 'block' : 'none';
           }
         }
-
-        if (regionRegistrada && !accesoConcedido) {
-          document.getElementById('contenidoCheckoutForm').style.display = 'none';
-          document.getElementById('contenidoExclusividad').style.display = 'block';
-          
-          let mensajeExclusividad = `Hola 👋. Quise realizar un pedido mayorista para la localidad de *${localidadInput}* (*${provinciaInput}*), pero vi que cuentan con un revendedor exclusivo en esa zona. ¿Podrían informarme sobre la disponibilidad o condiciones?`;
-          let urlWhatsAppExclusividad = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensajeExclusividad);
-          document.getElementById('btnWhatsappExclusividad').href = urlWhatsAppExclusividad;
-          return;
+        function modificarCantidadInput(id, delta) {
+          let prod = productosMayoristas.find(p => p.id === id);
+          if (!prod) return;
+          let checkDocena = document.getElementById(`checkDocena_${id}`);
+          let isDocena = checkDocena ? checkDocena.checked : false;
+          let inputCant = document.getElementById(`cant_${id}`);
+          let valActual = parseInt(inputCant.value) || 1;
+          let paso = isDocena ? 12 : 1;
+          let minVal = isDocena ? 12 : 1;
+          let nuevoVal = valActual + (delta * paso);
+          if (nuevoVal < minVal) nuevoVal = minVal;
+          inputCant.value = nuevoVal;
+          actualizarPrecioCardUI(id);
         }
-
-        let nombreParaSaludo = clienteEncontrado ? (clienteEncontrado.nombre || clienteEncontrado.revendedor || clienteEncontrado.cliente || nombreInput) : nombreInput;
-
-        if (accesoConcedido) {
-          let avisoBienvenida = document.getElementById('alertaBienvenidaContenedor');
-          avisoBienvenida.className = 'alertaBienvenida';
-          avisoBienvenida.innerHTML = `🌟 ¡Hola ${nombreParaSaludo}! 👋 Qué alegría verte de nuevo.<br>Tu condición de revendedora exclusiva está confirmada.<br><br><small>Redirigiendo a WhatsApp para enviar tu pedido...</small>`;
-          avisoBienvenida.style.display = 'block';
+        function actualizarPrecioCardUI(id) {
+          let prod = productosMayoristas.find(p => p.id === id);
+          if (!prod) return;
+          let checkDocena = document.getElementById(`checkDocena_${id}`);
+          let isDocena = checkDocena ? checkDocena.checked : false;
+          let cant = parseInt(document.getElementById(`cant_${id}`).value) || 1;
+          let tipo = isDocena ? 'docena' : 'unidad';
+          let precioUnid = obtenerPrecioProducto(prod, tipo);
+          let totalCalculado = precioUnid * cant;
+          document.getElementById(`precioCard_${id}`).innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
+          document.getElementById(`subtextoCard_${id}`).innerText = isDocena ? `total por ${cant} u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : `total por ${cant} u.`;
         }
-
-        let textoPedido = `¡Hola Corre la Coneja! 👋 Soy *${nombreParaSaludo}* de *${localidadInput}*. Te envío mi nuevo pedido mayorista:\n\n`;
-        textoPedido += `📦 *DATOS DEL PEDIDO MAYORISTA*\n`;
-        textoPedido += `👤 *Cliente:* ${nombreInput}\n`;
-        textoPedido += `📍 *Ubicación:* ${localidadInput}, ${provinciaInput} (CP: ${cp})\n`;
-        textoPedido += `📞 *Teléfono:* (${caracteristicaInput}) ${numeroInput}\n`;
-        if (correoInput) {
-          textoPedido += `✉️ *Correo:* ${correoInput}\n`;
+        function consultarStockWhatsApp(id) {
+          let prod = productosMayoristas.find(p => p.id === id);
+          if (!prod) return;
+          let textoMensaje = `¡Hola! 👋 Quisiera consultar colores y stock disponible para el producto: *${prod.nombre}*.`;
+          let url = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoMensaje);
+          window.open(url, '_blank');
         }
-        textoPedido += `🚚 *Entrega:* ${tipoEntrega === 'domicilio' ? 'Envío a domicilio' : 'Retiro por sucursal'}\n`;
-        if (tipoEntrega === 'domicilio') {
-          textoPedido += `🏠 *Dirección:* ${calle}\n`;
+        function abrirModalDetalle(id) {
+          let prod = productosMayoristas.find(p => p.id === id);
+          if (!prod) return;
+          productoSeleccionadoModal = prod;
+          fotosModalActual = (prod.imagenes && prod.imagenes.length > 0) ? prod.imagenes : [prod.imagen || 'logo.jpeg'];
+          indiceFotoActual = 0; videosModalActual = prod.videos || (prod.videoUrl ? [prod.videoUrl] : []); indiceVideoActual = 0;
+          actualizarSliderModal(); actualizarSeccionVideosModal();
+          document.getElementById('modalNombre').innerText = prod.nombre; document.getElementById('modalDesc').innerText = prod.descripcion || '';
+          let precioDocenaTotal = prod.precioDocena || (typeof prod.ofertaDocena === 'object' ? prod.ofertaDocena.precio : prod.ofertaDocena);
+          let tieneDocena = precioDocenaTotal !== null && precioDocenaTotal !== undefined;
+          let contenedorDocena = document.getElementById('modalContenedorDocena');
+          if (tieneDocena) {
+            let precioUnidDocena = Math.round(precioDocenaTotal / 12);
+            document.getElementById('modalTextoCheckDocena').innerText = `Oferta docena ($${precioUnidDocena.toLocaleString('es-AR')} c/u)`;
+            contenedorDocena.style.display = 'flex';
+          } else { contenedorDocena.style.display = 'none'; }
+          document.getElementById('modalCheckDocena').checked = false; actualizarPrecioModalUI();
+          let btnModal = document.getElementById('btnModalAgregar');
+          btnModal.disabled = prod.sinStock === true; btnModal.innerText = prod.sinStock ? 'Sin Stock' : 'Agregar al Pedido';
+          document.getElementById('modalProducto').style.display = 'flex';
         }
-        textoPedido += `\n🛒 *DETALLE DEL PEDIDO:*\n`;
-
-        let totalGeneral = 0;
-        Object.values(carrito).forEach(item => {
-          let subtotal = item.precioMayorista * item.cantidad;
-          totalGeneral += subtotal;
-          textoPedido += `• ${item.cantidad}x ${item.nombre} ($${subtotal.toLocaleString('es-AR')})\n`;
-        });
-
-        textoPedido += `\n💰 *TOTAL MAYORISTA: $${totalGeneral.toLocaleString('es-AR')}*`;
-
-        let urlFinal = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoPedido);
-        
-        let tiempoEspera = accesoConcedido ? 2300 : 300;
-        setTimeout(function() {
-          window.open(urlFinal, '_blank');
-        }, tiempoEspera);
-
-      } catch (error) {
-        console.error("Error en la validación:", error);
-        alert("Ocurrió un error al validar el pedido. Revisá la consola del navegador.");
-      }
-    }
-  </script>
-</body>
-</html>
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        function actualizarPrecioModalUI() {
+          if (!productoSeleccionadoModal) return;
+          let isDocena = document.getElementById('modalCheckDocena').checked;
+          let tipo = isDocena ? 'docena' : 'unidad';
+          let cantidad = isDocena ? 12 : 1;
+          let precioUnid = obtenerPrecioProducto(productoSeleccionadoModal, tipo);
+          let totalCalculado = precioUnid * cantidad;
+          document.getElementById('modalPrecioFinal').innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
+          document.getElementById('modalSubtextoPrecio').innerText = isDocena ? `total por 12 u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : 'precio por 1 unidad';
+        }
+        function cambiarFotoModal(direccion) { indiceFotoActual += direccion; if (indiceFotoActual < 0) indiceFotoActual = fotosModalActual.length - 1; else if (indiceFotoActual >= fotosModalActual.length) indiceFotoActual = 0; actualizarSliderModal(); }
+        function actualizarSliderModal() { document.getElementById('modalImg').src = fotosModalActual[indiceFotoActual]; document.getElementById('modalIndicador').innerText = `${indiceFotoActual + 1} / ${fotosModalActual.length}`; }
+        function actualizarSeccionVideosModal() {
+          let contenedorVideos = document.getElementById('seccionVideosModalContainer');
+          if (!videosModalActual || videosModalActual.length === 0) { contenedorVideos.innerHTML = ''; return; }
+          let vidUrl = videosModalActual[indiceVideoActual]; let embedUrl = convertirAEmbed(vidUrl);
+          contenedorVideos.innerHTML = `<div style="font-size: 11px; font-weight: 600; color: #7d5730; margin: 12px 0 4px;">🎬 Videos demostrativos:</div><div class="sliderContainer"><iframe src="${embedUrl}" allowfullscreen></iframe></div>`;
+        }
+        function convertirAEmbed(url) {
+          if (!url) return ''; url = url.trim(); if (url.includes('youtube.com/embed/')) return url;
+          let videoId = ''; if (url.includes('/shorts/')) { let partes = url.split('/shorts/'); if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0]; } else if (url.includes('youtu.be/')) { let partes = url.split('youtu.be/'); if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0]; } else { let regExp = /^.*(v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/; let match = url.match(regExp); if (match && match[2] && match[2].length === 11) videoId = match[2]; }
+          return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+        }
+        function abrirLightboxDesdeModal() { if (!fotosModalActual || fotosModalActual.length === 0) return; document.getElementById('lightboxImg').src = fotosModalActual[indiceFotoActual]; document.getElementById('lightboxModal').style.display = 'flex'; }
+        function cerrarLightbox() { document.getElementById('lightboxModal').style.display = 'none'; }
+        function cerrarModalDetalle() { document.getElementById('modalProducto').style.display = 'none'; }
+        function cerrarModalFuera(event) { if (event.target.id === 'modalProducto') cerrarModalDetalle(); }
+        function agregarDesdeModal() { if (!productoSeleccionadoModal || productoSeleccionadoModal.sinStock) return; agregarItemAlCarrito(productoSeleccionadoModal.id, document.getElementById('modalCheckDocena').checked ? 'docena' : 'unidad', document.getElementById('modalCheckDocena').checked ? 12 : 1); cerrarModalDetalle(); }
+        function agregarAlPedido(id) { let prod = productosMayoristas.find(p => p.id === id); if (!prod || prod.sinStock) return; let isDocena = document.getElementById(`checkDocena_${id}`).checked; agregarItemAlCarrito(id, isDocena ? 'docena' : 'unidad', parseInt(document.getElementById(`cant_${id}`).value) || 1); }
+        function agregarItemAlCarrito(id, tipo, cantidad) {
+          let prod = productosMayoristas.find(p => p.id === id); if (!prod) return;
+          let keyCarrito = `${id}_${tipo}`; let precioUnitario = obtenerPrecioProducto(prod, tipo);
+          if (carrito[keyCarrito]) carrito[keyCarrito].cantidad += cantidad;
+          else { carrito[keyCarrito] = { idOriginal: prod.id, nombre: prod.nombre + (tipo === 'docena' ? ' (Oferta Docena)' : ''), precioMayorista: precioUnitario, tipoPrecio: tipo, cantidad: cantidad }; }
+          actualizarCarritoUI();
+        }
+        function cambiarCantidad(keyCarrito, delta) {
+          if (carrito[keyCarrito]) { carrito[keyCarrito].cantidad += (delta * (carrito[keyCarrito].tipoPrecio === 'docena' ? 12 : 1)); if (carrito[keyCarrito].cantidad <= 0) delete carrito[keyCarrito]; actualizarCarritoUI(); }
+        }
+        function actualizarCarritoUI() {
+          let listaDiv = document.getElementById('listaItemsCarrito'), totalTexto = document.getElementById('textoTotalFinal'), btnWs = document.getElementById('btnEnviarWs');
+          let keys = Object.keys(carrito);
+          if (keys.length === 0) { listaDiv.innerHTML = '<p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p>'; totalTexto.innerText = 'Total Mayorista: $0'; btnWs.disabled = true; return; }
+          let htmlItems = '', totalGeneral = 0;
+          keys.forEach(key => { let item = carrito[key]; let subtotal = item.precioMayorista * item.cantidad; totalGeneral += subtotal; htmlItems += `<div class="itemCarrito"><span><b>${item.nombre}</b> ($${item.precioMayorista.toLocaleString('es-AR')} x ${item.cantidad} u.)</span><div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: bold;">$${subtotal.toLocaleString('es-AR')}</span><button onclick="cambiarCantidad('${key}', -1)" style="background:#d98273; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">-</button><button onclick="cambiarCantidad('${key}', 1)" style="background:#a98357; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">+</button></div></div>`; });
+          listaDiv.innerHTML = htmlItems; totalTexto.innerText = `Total Mayorista: $${totalGeneral.toLocaleString('es-AR')}`; btnWs.disabled = totalGeneral < 150000;
+          document.getElementById('avisoMinimoContenedor').innerHTML = totalGeneral < 150000 ? `<div style="background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">⚠️ Falta $${(150000 - totalGeneral).toLocaleString('es-AR')} para la compra mínima.</div>` : `<div style="background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">✅ ¡Compra mínima alcanzada!</div>`;
+        }
+        function abrirModalCheckout() { document.getElementById('modalCheckout').style.display = 'flex'; }
+        function cerrarModalCheckout() { document.getElementById('modalCheckout').style.display = 'none'; }
+        function cambiarTipoEntrega() { document.getElementById('grupoDomicilio').style.display = (document.getElementById('tipoEntrega').value === 'domicilio') ? 'block' : 'none'; }
+        function validarYEnviarPedido() {
+          let nombre = document.getElementById('envNombre').value.trim(), loc = document.getElementById('envLocalidad').value.trim(), prov = document.getElementById('envProvincia').value.trim(), car = document.getElementById('envCaracteristica').value.trim(), num = document.getElementById('envNumero').value.trim(), cp = document.getElementById('envCp').value.trim(), tipo = document.getElementById('tipoEntrega').value, calle = document.getElementById('envCalle').value.trim();
+          if (!nombre || !loc || !prov || !car || !num || !cp || (tipo === 'domicilio' && !calle)) { alert("Completá todos los campos."); return; }
+          let mensaje = `Pedido Mayorista de *${nombre}* (${loc}, ${prov}).\nItems:\n`;
+          Object.keys(carrito).forEach(k => mensaje += `- ${carrito[k].nombre}: ${carrito[k].cantidad} u.\n`);
+          mensaje += `\nTotal: ${document.getElementById('textoTotalFinal').innerText}\nEnvío: ${tipo === 'domicilio' ? 'Domicilio ('+calle+')' : 'Retiro'}`;
+          window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensaje), '_blank');
+        }
+      </script>
+    </body>
+    </html>

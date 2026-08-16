@@ -17,7 +17,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 6000,
     ofertaDocena: {
       cantidad: 12,
-      precio: 50000
+      precio: 50000,
+      etiquetaEconomica: true
     },
     imagenes:[
       './auto1.png',
@@ -40,7 +41,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 6666,
     ofertaDocena: {
       cantidad: 12,
-      precio: 50000
+      precio: 50000,
+      etiquetaEconomica: true
     },
     imagenes:[
       './ange1.png',
@@ -76,7 +78,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 7333,
     ofertaDocena: {
       cantidad: 12,
-      precio: 55000
+      precio: 55000,
+      etiquetaEconomica: true
     },
     imagenes:[
       './minicristal.png',
@@ -102,7 +105,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 8000,
     ofertaDocena: {
       cantidad: 12,
-      precio: 60000
+      precio: 60000,
+      etiquetaEconomica: true
     },
     imagenes:[
       './maribarateza1.png',
@@ -125,7 +129,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 8000,
     ofertaDocena: {
       cantidad: 12,
-      precio: 60000
+      precio: 60000,
+      etiquetaEconomica: true
     },
     imagenes:[
       './estrebarateza3.png',
@@ -215,7 +220,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 19000,
     ofertaDocena: {
       cantidad: 12,
-      precio: 150000
+      precio: 150000,
+      etiquetaEconomica: true
     },
     imagenes:[
       './coliminimalista.png',
@@ -244,7 +250,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 19000,
     ofertaDocena: {
       cantidad: 12,
-      precio: 150000
+      precio: 150000,
+      etiquetaEconomica: true
     },
     imagenes:[
       './mariminimalista.png'
@@ -540,5 +547,4 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     ]
   }
 ];
-
 
