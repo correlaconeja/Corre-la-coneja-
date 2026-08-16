@@ -303,7 +303,8 @@ window.diccionarioCLC = {
  "CL044": "COAB",
  "CL045": "CO22",
  "VC001": "VC99",
- "CL046": "CO2129"
+ "CL046": "CO2129",
+  "LN016": "LU02032122"
 
 
 };
