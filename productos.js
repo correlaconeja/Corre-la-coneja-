@@ -5,6 +5,32 @@
 // o agregar nuevos productos fácilmente.
 const productosMayoristas = [
   {
+    id: 'prod_aro_mini_atrapasol_p',
+    nombre: 'Aro mini (atrapasol para el auto)',
+    descripcion: `✨ Un poquito de magia para llevar a todas partes.
+
+Nuestro atrapasol Mini es ideal para darle un toque especial a tu auto 🚗☀️.
+Sus cristales captan la luz del sol y llenan el interior de pequeños reflejos de arcoíris 🌈.
+
+Podés elegirlo en diferentes colores y con diferentes figuras: colibrí, estrella, gatito, angel, mariposa.
+
+💫 Recomendado para el automóvil.
+
+#atrapasol #atrapasolmini #cristales #piedrasnaturales #hechoamano
+
+CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
+    precioLista: 5000,
+    ofertaDocena: {
+      cantidad: 12,
+      precio: 40000,
+      etiquetaEconomica: true
+    },
+    imagenes:[
+      './miniaro.png',
+      './miniaro2.png'
+    ]
+  },
+  {
     id: 'prod_atrapasoles_mini',
     nombre: 'Atrapasoles mini',
     descripcion: `Pequeños atrapasoles de 30 cm de largo, pensados especialmente para colgar en el auto, aunque también pueden usarse como detalle decorativo en la cartera, mochila, celular o donde quieras llevar un pequeño destello de luz.
