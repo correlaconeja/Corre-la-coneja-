@@ -349,7 +349,21 @@
           document.getElementById('modalSubtextoPrecio').innerText = isDocena ? `total por 12 u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : 'precio por 1 unidad';
         }
         function cambiarFotoModal(direccion) { indiceFotoActual += direccion; if (indiceFotoActual < 0) indiceFotoActual = fotosModalActual.length - 1; else if (indiceFotoActual >= fotosModalActual.length) indiceFotoActual = 0; actualizarSliderModal(); }
-        function actualizarSliderModal() { document.getElementById('modalImg').src = fotosModalActual[indiceFotoActual]; document.getElementById('modalIndicador').innerText = `${indiceFotoActual + 1} / ${fotosModalActual.length}`; }
+        function actualizarSliderModal() { 
+  const img = document.getElementById('modalImg');
+  if (!img) return;
+  
+  img.src = fotosModalActual[indiceFotoActual]; 
+  
+  img.style.display = 'none';
+  img.offsetHeight; 
+  img.style.display = 'block';
+  
+  let indicador = document.getElementById('modalIndicador');
+  if (indicador) {
+    indicador.innerText = `${indiceFotoActual + 1} / ${fotosModalActual.length}`; 
+  }
+}
         function actualizarSeccionVideosModal() {
           let contenedorVideos = document.getElementById('seccionVideosModalContainer');
           if (!videosModalActual || videosModalActual.length === 0) { contenedorVideos.innerHTML = ''; return; }
