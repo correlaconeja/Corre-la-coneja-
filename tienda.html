@@ -11,7 +11,7 @@
     * { box-sizing: border-box; }
     body {
       margin: 0; min-height: 100vh; padding: 15px 15px 80px; font-family: 'Montserrat', sans-serif;
-      color: #2b2017; background: linear-gradient(rgba(255, 251, 245, .4), rgba(255, 251, 245, .5)), url("./tienda.jpg");
+      color: #2b2017; background-color: #fcf8f2; background: linear-gradient(rgba(255, 251, 245, .4), rgba(255, 251, 245, .5)), url("tienda.jpg");
       background-size: cover; background-position: center; background-attachment: fixed; overflow-x: hidden;
     }
     .contenedor { width: 100%; max-width: 950px; margin: auto; }
@@ -188,7 +188,6 @@
     let indiceVideoActual = 0;
     const NUMERO_WHATSAPP = "5492396614552";
     
-    // Función segura de búsqueda para evitar conflictos de tipo (texto vs número)
     function buscarProducto(id) {
       return productosMayoristas.find(p => String(p.id) === String(id));
     }
@@ -281,7 +280,7 @@
       let checkDocena = document.getElementById(`checkDocena_${id}`);
       let isDocena = checkDocena ? checkDocena.checked : false;
       let inputCant = document.getElementById(`cant_${id}`);
-      inputCant.value = isDocena ? 12 : 1;
+      if (inputCant) inputCant.value = isDocena ? 12 : 1;
       actualizarPrecioCardUI(id);
       
       let badgeEconomica = document.getElementById(`badgeEconomica_${id}`);
@@ -295,6 +294,7 @@
       let checkDocena = document.getElementById(`checkDocena_${id}`);
       let isDocena = checkDocena ? checkDocena.checked : false;
       let inputCant = document.getElementById(`cant_${id}`);
+      if (!inputCant) return;
       let valActual = parseInt(inputCant.value) || 1;
       let paso = isDocena ? 12 : 1;
       let minVal = isDocena ? 12 : 1;
@@ -308,12 +308,15 @@
       if (!prod) return;
       let checkDocena = document.getElementById(`checkDocena_${id}`);
       let isDocena = checkDocena ? checkDocena.checked : false;
-      let cant = parseInt(document.getElementById(`cant_${id}`).value) || 1;
+      let cantEl = document.getElementById(`cant_${id}`);
+      let cant = cantEl ? (parseInt(cantEl.value) || 1) : 1;
       let tipo = isDocena ? 'docena' : 'unidad';
       let precioUnid = obtenerPrecioProducto(prod, tipo);
       let totalCalculado = precioUnid * cant;
-      document.getElementById(`precioCard_${id}`).innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
-      document.getElementById(`subtextoCard_${id}`).innerText = isDocena ? `total por ${cant} u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : `total por ${cant} u.`;
+      let precioCard = document.getElementById(`precioCard_${id}`);
+      let subtextoCard = document.getElementById(`subtextoCard_${id}`);
+      if (precioCard) precioCard.innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
+      if (subtextoCard) subtextoCard.innerText = isDocena ? `total por ${cant} u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : `total por ${cant} u.`;
     }
     function consultarStockWhatsApp(id) {
       let prod = buscarProducto(id);
@@ -385,8 +388,11 @@
     function agregarAlPedido(id) { 
       let prod = buscarProducto(id); 
       if (!prod || prod.sinStock) return; 
-      let isDocena = document.getElementById(`checkDocena_${id}`).checked; 
-      agregarItemAlCarrito(id, isDocena ? 'docena' : 'unidad', parseInt(document.getElementById(`cant_${id}`).value) || 1); 
+      let checkDocena = document.getElementById(`checkDocena_${id}`);
+      let isDocena = checkDocena ? checkDocena.checked : false; 
+      let inputCant = document.getElementById(`cant_${id}`);
+      let cantidad = inputCant ? (parseInt(inputCant.value) || 1) : 1;
+      agregarItemAlCarrito(id, isDocena ? 'docena' : 'unidad', cantidad); 
     }
     function agregarItemAlCarrito(id, tipo, cantidad) {
       let prod = buscarProducto(id); 
@@ -422,3 +428,4 @@
   </script>
 </body>
 </html>
+
