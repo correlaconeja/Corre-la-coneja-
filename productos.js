@@ -26,8 +26,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
       etiquetaEconomica: true
     },
     imagenes:[
-      './miniaro.png',
-      './miniaro2.png'
+      './miniaro.jpg',
+      './miniaro2.jpg'
     ]
   },
   {
@@ -47,9 +47,9 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
       etiquetaEconomica: true
     },
     imagenes:[
-      './auto1.png',
-      './auto2.png',
-      './auto3.png'
+      './auto1.jpg',
+      './auto2.jpg',
+      './auto3.jpg'
     ]
   },
   {
@@ -71,12 +71,12 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
       etiquetaEconomica: true
     },
     imagenes:[
-      './ange1.png',
-      './ange2.png',
-      './ange3.png',
-      './ange4.png',
-      './ange5.png',
-      './ange7.png'
+      './ange1.jpg',
+      './ange2.jpg',
+      './ange3.jpg',
+      './ange4.jpgg',
+      './ange5.jpg',
+      './ange7.jpg'
     ]
   },
   {
@@ -108,13 +108,13 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
       etiquetaEconomica: true
     },
     imagenes:[
-      './minicristal.png',
-      './miniamatista.png',
-      './miniturma.png',
-      './minicitrino.png',
-      './minipirita.png',
-      './minicelenita.png',
-      './minirodocrosita.png'
+      './minicristal.jpg',
+      './miniamatista.jpg',
+      './miniturma.jpg',
+      './minicitrino.jpg',
+      './minipirita.jpg',
+      './minicelenita.jpg',
+      './minirodocrosita.jpg'
     ]
   },
   {
@@ -135,8 +135,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
       etiquetaEconomica: true
     },
     imagenes:[
-      './maribarateza1.png',
-      './maribarateza2.png'
+      './maribarateza1.jpg',
+      './maribarateza2.jpg'
     ]
   },
   {
@@ -159,8 +159,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
       etiquetaEconomica: true
     },
     imagenes:[
-      './estrebarateza3.png',
-      './estrebarateza1.png'
+      './estrebarateza3.jpg',
+      './estrebarateza1.jpg'
     ]
   },
   {
@@ -199,7 +199,7 @@ Podes elegir entre los siguientes colores:
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 16000,
     imagenes:[
-      './estrellas.png'
+      './estrellas.jpg'
     ]
   },
   {
@@ -250,8 +250,8 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
       etiquetaEconomica: true
     },
     imagenes:[
-      './coliminimalista.png',
-      './coliminimalista2.png'
+      './coliminimalista.jpg',
+      './coliminimalista2.jpg'
     ]
   },
   {
@@ -280,7 +280,7 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
       etiquetaEconomica: true
     },
     imagenes:[
-      './mariminimalista.png'
+      './mariminimalista.jpg'
     ]
   },
   {
@@ -292,8 +292,8 @@ Podes elegir entre colibríes, mariposas, gatito o luna en diferentes colores
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 25000,
     imagenes:[
-      './componentes.png',
-      './Aros.png',
+      './componentes.jpg',
+      './Aros.jpg',
       './Aros2.jpg'
     ],
     videos: [
@@ -311,7 +311,7 @@ Consultar stock disponible
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 26000,
     imagenes:[
-      './carrusel.png'
+      './carrusel.jpg'
     ]
   },
   {
@@ -331,9 +331,9 @@ Turquesa - turquesa
 CADA PIEZA ES UNICA. CONSULTAR STOCK Y COLORES DISPONIBLES.`,
     precioLista: 27000,
     imagenes:[
-      './lunada.png',
-      './lunada2.png',
-      './lunada3.png'
+      './lunada.jpg',
+      './lunada2.jpg',
+      './lunada3.jpg'
     ]
   },
   {
@@ -377,8 +377,8 @@ Valor 28000
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 28000,
     imagenes:[
-      './Arosdeluz.png',
-      './Arosdeluz2.png'
+      './Arosdeluz.jpg',
+      './Arosdeluz2.jpg'
     ],
     videos: [
       'https://youtube.com/shorts/x6VmrS_gsqI?si=Df2ecDUGVr8fwbuE'
@@ -401,7 +401,7 @@ Turquesa - Turquesa
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 28000,
     imagenes:[
-      './colibrida.png'
+      './colibrida.jpg'
     ],
     videos: [
       'https://youtube.com/shorts/t9SP2TDjjaE?si=cpwhkk1SXCkbIvW7',
@@ -424,8 +424,8 @@ Pirita
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 32000,
     imagenes:[
-      './gatitocuar.png',
-      './gatotur.png'
+      './gatitocuar.jpg',
+      './gatotur.jpg'
     ],
     videos: [
       'https://youtube.com/shorts/QjRg9Rlw_fY?si=guAvYePqbJ6MI7R7',
@@ -448,9 +448,9 @@ Blanco
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 33000,
     imagenes:[
-      './Lunagrande2.png',
+      './Lunagrande2.jpg',
       './Lunagrande.jpg',
-      './Lunagrande3.png'
+      './Lunagrande3.jpg'
     ],
     videos: [
       'https://youtube.com/shorts/DYCQ9rI-i8Q?si=MEZjZixKnoULYml_'
@@ -484,7 +484,7 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     descripcion: `Atrapasol con árbol de la vida y piedras naturales Doble aro trenzado con piedras naturales y cristal de roca. Caireles de vidrio  PIEDRAS Y COLORES DISPONIBLES: • Cuarzo Rosa: Rosa • Amatista: Lila / Violeta • Cuarzo Celeste: Celeste • Sodalita: Azul • Aventurina: Verde • Turquesa: Turquesa  CADA PIEZA ES ÚNICA. CONSULTAR STOCK DISPONIBLE.`,
     precioLista: 35000,
     imagenes:[
-      './avpirita.png'
+      './avpirita.jpg'
     ]
   },
   {
@@ -498,7 +498,7 @@ Consultar stock disponible.
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 35000,
     imagenes:[
-      './libelula.png'
+      './libelula.jpg'
     ],
     videos: [
       'https://youtube.com/shorts/UHM9TO_VcW0?si=rdf0EzsxdfmdOAgZ'
@@ -521,8 +521,8 @@ Amatista Lila/violeta.
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 37000,
     imagenes:[
-      './bolachica.png',
-      './Bolachica2.png'
+      './bolachica.jpg',
+      './Bolachica2.jpg'
     ],
     videos: [
       'https://youtube.com/shorts/7X0sjSqfJNo?si=SG1fykOqznwtXmcn',
@@ -544,7 +544,7 @@ Turmalina.
 CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 38000,
     imagenes:[
-      './reflejos-atrapasol11.png'
+      './reflejos-atrapasol11.jpg'
     ],
     videos: [
       'https://youtube.com/shorts/8vLFoU4eRGo?si=Ep6_LQDqp4nGqEs7'
@@ -565,7 +565,7 @@ CADA PIEZA ES ÚNICA. CONSULTAR COLORES Y STOCK DISPONIBLE.`,
     precioLista: 58000,
     sinStock: true,
     imagenes:[
-      './Bolagrande.png',
+      './Bolagrande.jpg',
       './Bola grande.jpg'
     ],
     videos: [
