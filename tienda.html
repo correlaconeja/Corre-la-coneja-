@@ -11,7 +11,7 @@
     * { box-sizing: border-box; }
     body {
       margin: 0; min-height: 100vh; padding: 15px 15px 80px; font-family: 'Montserrat', sans-serif;
-      color: #2b2017; background: linear-gradient(rgba(255, 251, 245, .4), rgba(255, 251, 245, .5)), url("./tienda.png");
+      color: #2b2017; background: linear-gradient(rgba(255, 251, 245, .4), rgba(255, 251, 245, .5)), url("./tienda.jpg");
       background-size: cover; background-position: center; background-attachment: fixed; overflow-x: hidden;
     }
     .contenedor { width: 100%; max-width: 950px; margin: auto; }
@@ -187,6 +187,12 @@
     let videosModalActual = [];
     let indiceVideoActual = 0;
     const NUMERO_WHATSAPP = "5492396614552";
+    
+    // Función segura de búsqueda para evitar conflictos de tipo (texto vs número)
+    function buscarProducto(id) {
+      return productosMayoristas.find(p => String(p.id) === String(id));
+    }
+
     function obtenerPrecioProducto(prod, tipo = 'unidad') {
       let precioBase = prod.precioLista || prod.precio || 0;
       if (tipo === 'docena' && (prod.precioDocena || prod.ofertaDocena)) {
@@ -269,148 +275,150 @@
       });
       contenedor.innerHTML = html;
     }
-        function toggleDocenaCard(id) {
-          let prod = productosMayoristas.find(p => p.id === id);
-          if (!prod) return;
-          let checkDocena = document.getElementById(`checkDocena_${id}`);
-          let isDocena = checkDocena ? checkDocena.checked : false;
-          let inputCant = document.getElementById(`cant_${id}`);
-          inputCant.value = isDocena ? 12 : 1;
-          actualizarPrecioCardUI(id);
-          
-          // Muestra u oculta el cartel de línea económica en bordó cuando se tilda
-          let badgeEconomica = document.getElementById(`badgeEconomica_${id}`);
-          if (badgeEconomica) {
-            badgeEconomica.style.display = isDocena ? 'block' : 'none';
-          }
-        }
-        function modificarCantidadInput(id, delta) {
-          let prod = productosMayoristas.find(p => p.id === id);
-          if (!prod) return;
-          let checkDocena = document.getElementById(`checkDocena_${id}`);
-          let isDocena = checkDocena ? checkDocena.checked : false;
-          let inputCant = document.getElementById(`cant_${id}`);
-          let valActual = parseInt(inputCant.value) || 1;
-          let paso = isDocena ? 12 : 1;
-          let minVal = isDocena ? 12 : 1;
-          let nuevoVal = valActual + (delta * paso);
-          if (nuevoVal < minVal) nuevoVal = minVal;
-          inputCant.value = nuevoVal;
-          actualizarPrecioCardUI(id);
-        }
-        function actualizarPrecioCardUI(id) {
-          let prod = productosMayoristas.find(p => p.id === id);
-          if (!prod) return;
-          let checkDocena = document.getElementById(`checkDocena_${id}`);
-          let isDocena = checkDocena ? checkDocena.checked : false;
-          let cant = parseInt(document.getElementById(`cant_${id}`).value) || 1;
-          let tipo = isDocena ? 'docena' : 'unidad';
-          let precioUnid = obtenerPrecioProducto(prod, tipo);
-          let totalCalculado = precioUnid * cant;
-          document.getElementById(`precioCard_${id}`).innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
-          document.getElementById(`subtextoCard_${id}`).innerText = isDocena ? `total por ${cant} u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : `total por ${cant} u.`;
-        }
-        function consultarStockWhatsApp(id) {
-          let prod = productosMayoristas.find(p => p.id === id);
-          if (!prod) return;
-          let textoMensaje = `¡Hola! 👋 Quisiera consultar colores y stock disponible para el producto: *${prod.nombre}*.`;
-          let url = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoMensaje);
-          window.open(url, '_blank');
-        }
-        function abrirModalDetalle(id) {
-          let prod = productosMayoristas.find(p => p.id === id);
-          if (!prod) return;
-          productoSeleccionadoModal = prod;
-          fotosModalActual = (prod.imagenes && prod.imagenes.length > 0) ? prod.imagenes : [prod.imagen || 'logo.jpeg'];
-          indiceFotoActual = 0; videosModalActual = prod.videos || (prod.videoUrl ? [prod.videoUrl] : []); indiceVideoActual = 0;
-          actualizarSliderModal(); actualizarSeccionVideosModal();
-          document.getElementById('modalNombre').innerText = prod.nombre; document.getElementById('modalDesc').innerText = prod.descripcion || '';
-          let precioDocenaTotal = prod.precioDocena || (typeof prod.ofertaDocena === 'object' ? prod.ofertaDocena.precio : prod.ofertaDocena);
-          let tieneDocena = precioDocenaTotal !== null && precioDocenaTotal !== undefined;
-          let contenedorDocena = document.getElementById('modalContenedorDocena');
-          if (tieneDocena) {
-            let precioUnidDocena = Math.round(precioDocenaTotal / 12);
-            document.getElementById('modalTextoCheckDocena').innerText = `Oferta docena ($${precioUnidDocena.toLocaleString('es-AR')} c/u)`;
-            contenedorDocena.style.display = 'flex';
-          } else { contenedorDocena.style.display = 'none'; }
-          document.getElementById('modalCheckDocena').checked = false; actualizarPrecioModalUI();
-          let btnModal = document.getElementById('btnModalAgregar');
-          btnModal.disabled = prod.sinStock === true; btnModal.innerText = prod.sinStock ? 'Sin Stock' : 'Agregar al Pedido';
-          document.getElementById('modalProducto').style.display = 'flex';
-        }
-        function actualizarPrecioModalUI() {
-          if (!productoSeleccionadoModal) return;
-          let isDocena = document.getElementById('modalCheckDocena').checked;
-          let tipo = isDocena ? 'docena' : 'unidad';
-          let cantidad = isDocena ? 12 : 1;
-          let precioUnid = obtenerPrecioProducto(productoSeleccionadoModal, tipo);
-          let totalCalculado = precioUnid * cantidad;
-          document.getElementById('modalPrecioFinal').innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
-          document.getElementById('modalSubtextoPrecio').innerText = isDocena ? `total por 12 u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : 'precio por 1 unidad';
-        }
-        function cambiarFotoModal(direccion) { indiceFotoActual += direccion; if (indiceFotoActual < 0) indiceFotoActual = fotosModalActual.length - 1; else if (indiceFotoActual >= fotosModalActual.length) indiceFotoActual = 0; actualizarSliderModal(); }
-        function actualizarSliderModal() { 
-  const img = document.getElementById('modalImg');
-  if (!img) return;
-  
-  img.src = fotosModalActual[indiceFotoActual]; 
-  
-  img.style.display = 'none';
-  img.offsetHeight; 
-  img.style.display = 'block';
-  
-  let indicador = document.getElementById('modalIndicador');
-  if (indicador) {
-    indicador.innerText = `${indiceFotoActual + 1} / ${fotosModalActual.length}`; 
-  }
-}
-        function actualizarSeccionVideosModal() {
-          let contenedorVideos = document.getElementById('seccionVideosModalContainer');
-          if (!videosModalActual || videosModalActual.length === 0) { contenedorVideos.innerHTML = ''; return; }
-          let vidUrl = videosModalActual[indiceVideoActual]; let embedUrl = convertirAEmbed(vidUrl);
-          contenedorVideos.innerHTML = `<div style="font-size: 11px; font-weight: 600; color: #7d5730; margin: 12px 0 4px;">🎬 Videos demostrativos:</div><div class="sliderContainer"><iframe src="${embedUrl}" allowfullscreen></iframe></div>`;
-        }
-        function convertirAEmbed(url) {
-          if (!url) return ''; url = url.trim(); if (url.includes('youtube.com/embed/')) return url;
-          let videoId = ''; if (url.includes('/shorts/')) { let partes = url.split('/shorts/'); if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0]; } else if (url.includes('youtu.be/')) { let partes = url.split('youtu.be/'); if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0]; } else { let regExp = /^.*(v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/; let match = url.match(regExp); if (match && match[2] && match[2].length === 11) videoId = match[2]; }
-          return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
-        }
-        function abrirLightboxDesdeModal() { if (!fotosModalActual || fotosModalActual.length === 0) return; document.getElementById('lightboxImg').src = fotosModalActual[indiceFotoActual]; document.getElementById('lightboxModal').style.display = 'flex'; }
-        function cerrarLightbox() { document.getElementById('lightboxModal').style.display = 'none'; }
-        function cerrarModalDetalle() { document.getElementById('modalProducto').style.display = 'none'; }
-        function cerrarModalFuera(event) { if (event.target.id === 'modalProducto') cerrarModalDetalle(); }
-        function agregarDesdeModal() { if (!productoSeleccionadoModal || productoSeleccionadoModal.sinStock) return; agregarItemAlCarrito(productoSeleccionadoModal.id, document.getElementById('modalCheckDocena').checked ? 'docena' : 'unidad', document.getElementById('modalCheckDocena').checked ? 12 : 1); cerrarModalDetalle(); }
-        function agregarAlPedido(id) { let prod = productosMayoristas.find(p => p.id === id); if (!prod || prod.sinStock) return; let isDocena = document.getElementById(`checkDocena_${id}`).checked; agregarItemAlCarrito(id, isDocena ? 'docena' : 'unidad', parseInt(document.getElementById(`cant_${id}`).value) || 1); }
-        function agregarItemAlCarrito(id, tipo, cantidad) {
-          let prod = productosMayoristas.find(p => p.id === id); if (!prod) return;
-          let keyCarrito = `${id}_${tipo}`; let precioUnitario = obtenerPrecioProducto(prod, tipo);
-          if (carrito[keyCarrito]) carrito[keyCarrito].cantidad += cantidad;
-          else { carrito[keyCarrito] = { idOriginal: prod.id, nombre: prod.nombre + (tipo === 'docena' ? ' (Oferta Docena)' : ''), precioMayorista: precioUnitario, tipoPrecio: tipo, cantidad: cantidad }; }
-          actualizarCarritoUI();
-        }
-        function cambiarCantidad(keyCarrito, delta) {
-          if (carrito[keyCarrito]) { carrito[keyCarrito].cantidad += (delta * (carrito[keyCarrito].tipoPrecio === 'docena' ? 12 : 1)); if (carrito[keyCarrito].cantidad <= 0) delete carrito[keyCarrito]; actualizarCarritoUI(); }
-        }
-        function actualizarCarritoUI() {
-          let listaDiv = document.getElementById('listaItemsCarrito'), totalTexto = document.getElementById('textoTotalFinal'), btnWs = document.getElementById('btnEnviarWs');
-          let keys = Object.keys(carrito);
-          if (keys.length === 0) { listaDiv.innerHTML = '<p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p>'; totalTexto.innerText = 'Total Mayorista: $0'; btnWs.disabled = true; return; }
-          let htmlItems = '', totalGeneral = 0;
-          keys.forEach(key => { let item = carrito[key]; let subtotal = item.precioMayorista * item.cantidad; totalGeneral += subtotal; htmlItems += `<div class="itemCarrito"><span><b>${item.nombre}</b> ($${item.precioMayorista.toLocaleString('es-AR')} x ${item.cantidad} u.)</span><div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: bold;">$${subtotal.toLocaleString('es-AR')}</span><button onclick="cambiarCantidad('${key}', -1)" style="background:#d98273; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">-</button><button onclick="cambiarCantidad('${key}', 1)" style="background:#a98357; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">+</button></div></div>`; });
-          listaDiv.innerHTML = htmlItems; totalTexto.innerText = `Total Mayorista: $${totalGeneral.toLocaleString('es-AR')}`; btnWs.disabled = totalGeneral < 150000;
-          document.getElementById('avisoMinimoContenedor').innerHTML = totalGeneral < 150000 ? `<div style="background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">⚠️ Falta $${(150000 - totalGeneral).toLocaleString('es-AR')} para la compra mínima.</div>` : `<div style="background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">✅ ¡Compra mínima alcanzada!</div>`;
-        }
-        function abrirModalCheckout() { document.getElementById('modalCheckout').style.display = 'flex'; }
-        function cerrarModalCheckout() { document.getElementById('modalCheckout').style.display = 'none'; }
-        function cambiarTipoEntrega() { document.getElementById('grupoDomicilio').style.display = (document.getElementById('tipoEntrega').value === 'domicilio') ? 'block' : 'none'; }
-        function validarYEnviarPedido() {
-          let nombre = document.getElementById('envNombre').value.trim(), loc = document.getElementById('envLocalidad').value.trim(), prov = document.getElementById('envProvincia').value.trim(), car = document.getElementById('envCaracteristica').value.trim(), num = document.getElementById('envNumero').value.trim(), cp = document.getElementById('envCp').value.trim(), tipo = document.getElementById('tipoEntrega').value, calle = document.getElementById('envCalle').value.trim();
-          if (!nombre || !loc || !prov || !car || !num || !cp || (tipo === 'domicilio' && !calle)) { alert("Completá todos los campos."); return; }
-          let mensaje = `Pedido Mayorista de *${nombre}* (${loc}, ${prov}).\nItems:\n`;
-          Object.keys(carrito).forEach(k => mensaje += `- ${carrito[k].nombre}: ${carrito[k].cantidad} u.\n`);
-          mensaje += `\nTotal: ${document.getElementById('textoTotalFinal').innerText}\nEnvío: ${tipo === 'domicilio' ? 'Domicilio ('+calle+')' : 'Retiro'}`;
-          window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensaje), '_blank');
-        }
-      </script>
-    </body>
-    </html>
+    function toggleDocenaCard(id) {
+      let prod = buscarProducto(id);
+      if (!prod) return;
+      let checkDocena = document.getElementById(`checkDocena_${id}`);
+      let isDocena = checkDocena ? checkDocena.checked : false;
+      let inputCant = document.getElementById(`cant_${id}`);
+      inputCant.value = isDocena ? 12 : 1;
+      actualizarPrecioCardUI(id);
+      
+      let badgeEconomica = document.getElementById(`badgeEconomica_${id}`);
+      if (badgeEconomica) {
+        badgeEconomica.style.display = isDocena ? 'block' : 'none';
+      }
+    }
+    function modificarCantidadInput(id, delta) {
+      let prod = buscarProducto(id);
+      if (!prod) return;
+      let checkDocena = document.getElementById(`checkDocena_${id}`);
+      let isDocena = checkDocena ? checkDocena.checked : false;
+      let inputCant = document.getElementById(`cant_${id}`);
+      let valActual = parseInt(inputCant.value) || 1;
+      let paso = isDocena ? 12 : 1;
+      let minVal = isDocena ? 12 : 1;
+      let nuevoVal = valActual + (delta * paso);
+      if (nuevoVal < minVal) nuevoVal = minVal;
+      inputCant.value = nuevoVal;
+      actualizarPrecioCardUI(id);
+    }
+    function actualizarPrecioCardUI(id) {
+      let prod = buscarProducto(id);
+      if (!prod) return;
+      let checkDocena = document.getElementById(`checkDocena_${id}`);
+      let isDocena = checkDocena ? checkDocena.checked : false;
+      let cant = parseInt(document.getElementById(`cant_${id}`).value) || 1;
+      let tipo = isDocena ? 'docena' : 'unidad';
+      let precioUnid = obtenerPrecioProducto(prod, tipo);
+      let totalCalculado = precioUnid * cant;
+      document.getElementById(`precioCard_${id}`).innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
+      document.getElementById(`subtextoCard_${id}`).innerText = isDocena ? `total por ${cant} u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : `total por ${cant} u.`;
+    }
+    function consultarStockWhatsApp(id) {
+      let prod = buscarProducto(id);
+      if (!prod) return;
+      let textoMensaje = `¡Hola! 👋 Quisiera consultar colores y stock disponible para el producto: *${prod.nombre}*.`;
+      let url = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoMensaje);
+      window.open(url, '_blank');
+    }
+    function abrirModalDetalle(id) {
+      let prod = buscarProducto(id);
+      if (!prod) return;
+      productoSeleccionadoModal = prod;
+      fotosModalActual = (prod.imagenes && prod.imagenes.length > 0) ? prod.imagenes : [prod.imagen || 'logo.jpeg'];
+      indiceFotoActual = 0; videosModalActual = prod.videos || (prod.videoUrl ? [prod.videoUrl] : []); indiceVideoActual = 0;
+      actualizarSliderModal(); actualizarSeccionVideosModal();
+      document.getElementById('modalNombre').innerText = prod.nombre; document.getElementById('modalDesc').innerText = prod.descripcion || '';
+      let precioDocenaTotal = prod.precioDocena || (typeof prod.ofertaDocena === 'object' ? prod.ofertaDocena.precio : prod.ofertaDocena);
+      let tieneDocena = precioDocenaTotal !== null && precioDocenaTotal !== undefined;
+      let contenedorDocena = document.getElementById('modalContenedorDocena');
+      if (tieneDocena) {
+        let precioUnidDocena = Math.round(precioDocenaTotal / 12);
+        document.getElementById('modalTextoCheckDocena').innerText = `Oferta docena ($${precioUnidDocena.toLocaleString('es-AR')} c/u)`;
+        contenedorDocena.style.display = 'flex';
+      } else { contenedorDocena.style.display = 'none'; }
+      document.getElementById('modalCheckDocena').checked = false; actualizarPrecioModalUI();
+      let btnModal = document.getElementById('btnModalAgregar');
+      btnModal.disabled = prod.sinStock === true; btnModal.innerText = prod.sinStock ? 'Sin Stock' : 'Agregar al Pedido';
+      document.getElementById('modalProducto').style.display = 'flex';
+    }
+    function actualizarPrecioModalUI() {
+      if (!productoSeleccionadoModal) return;
+      let isDocena = document.getElementById('modalCheckDocena').checked;
+      let tipo = isDocena ? 'docena' : 'unidad';
+      let cantidad = isDocena ? 12 : 1;
+      let precioUnid = obtenerPrecioProducto(productoSeleccionadoModal, tipo);
+      let totalCalculado = precioUnid * cantidad;
+      document.getElementById('modalPrecioFinal').innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
+      document.getElementById('modalSubtextoPrecio').innerText = isDocena ? `total por 12 u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : 'precio por 1 unidad';
+    }
+    function cambiarFotoModal(direccion) { indiceFotoActual += direccion; if (indiceFotoActual < 0) indiceFotoActual = fotosModalActual.length - 1; else if (indiceFotoActual >= fotosModalActual.length) indiceFotoActual = 0; actualizarSliderModal(); }
+    function actualizarSliderModal() { 
+      const img = document.getElementById('modalImg');
+      if (!img) return;
+      img.src = fotosModalActual[indiceFotoActual]; 
+      img.style.display = 'none';
+      img.offsetHeight; 
+      img.style.display = 'block';
+      let indicador = document.getElementById('modalIndicador');
+      if (indicador) {
+        indicador.innerText = `${indiceFotoActual + 1} / ${fotosModalActual.length}`; 
+      }
+    }
+    function actualizarSeccionVideosModal() {
+      let contenedorVideos = document.getElementById('seccionVideosModalContainer');
+      if (!videosModalActual || videosModalActual.length === 0) { contenedorVideos.innerHTML = ''; return; }
+      let vidUrl = videosModalActual[indiceVideoActual]; let embedUrl = convertirAEmbed(vidUrl);
+      contenedorVideos.innerHTML = `<div style="font-size: 11px; font-weight: 600; color: #7d5730; margin: 12px 0 4px;">🎬 Videos demostrativos:</div><div class="sliderContainer"><iframe src="${embedUrl}" allowfullscreen></iframe></div>`;
+    }
+    function convertirAEmbed(url) {
+      if (!url) return ''; url = url.trim(); if (url.includes('youtube.com/embed/')) return url;
+      let videoId = ''; if (url.includes('/shorts/')) { let partes = url.split('/shorts/'); if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0]; } else if (url.includes('youtu.be/')) { let partes = url.split('youtu.be/'); if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0]; } else { let regExp = /^.*(v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/; let match = url.match(regExp); if (match && match[2] && match[2].length === 11) videoId = match[2]; }
+      return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+    }
+    function abrirLightboxDesdeModal() { if (!fotosModalActual || fotosModalActual.length === 0) return; document.getElementById('lightboxImg').src = fotosModalActual[indiceFotoActual]; document.getElementById('lightboxModal').style.display = 'flex'; }
+    function cerrarLightbox() { document.getElementById('lightboxModal').style.display = 'none'; }
+    function cerrarModalDetalle() { document.getElementById('modalProducto').style.display = 'none'; }
+    function cerrarModalFuera(event) { if (event.target.id === 'modalProducto') cerrarModalDetalle(); }
+    function agregarDesdeModal() { if (!productoSeleccionadoModal || productoSeleccionadoModal.sinStock) return; agregarItemAlCarrito(productoSeleccionadoModal.id, document.getElementById('modalCheckDocena').checked ? 'docena' : 'unidad', document.getElementById('modalCheckDocena').checked ? 12 : 1); cerrarModalDetalle(); }
+    function agregarAlPedido(id) { 
+      let prod = buscarProducto(id); 
+      if (!prod || prod.sinStock) return; 
+      let isDocena = document.getElementById(`checkDocena_${id}`).checked; 
+      agregarItemAlCarrito(id, isDocena ? 'docena' : 'unidad', parseInt(document.getElementById(`cant_${id}`).value) || 1); 
+    }
+    function agregarItemAlCarrito(id, tipo, cantidad) {
+      let prod = buscarProducto(id); 
+      if (!prod) return;
+      let keyCarrito = `${id}_${tipo}`; let precioUnitario = obtenerPrecioProducto(prod, tipo);
+      if (carrito[keyCarrito]) carrito[keyCarrito].cantidad += cantidad;
+      else { carrito[keyCarrito] = { idOriginal: prod.id, nombre: prod.nombre + (tipo === 'docena' ? ' (Oferta Docena)' : ''), precioMayorista: precioUnitario, tipoPrecio: tipo, cantidad: cantidad }; }
+      actualizarCarritoUI();
+    }
+    function cambiarCantidad(keyCarrito, delta) {
+      if (carrito[keyCarrito]) { carrito[keyCarrito].cantidad += (delta * (carrito[keyCarrito].tipoPrecio === 'docena' ? 12 : 1)); if (carrito[keyCarrito].cantidad <= 0) delete carrito[keyCarrito]; actualizarCarritoUI(); }
+    }
+    function actualizarCarritoUI() {
+      let listaDiv = document.getElementById('listaItemsCarrito'), totalTexto = document.getElementById('textoTotalFinal'), btnWs = document.getElementById('btnEnviarWs');
+      let keys = Object.keys(carrito);
+      if (keys.length === 0) { listaDiv.innerHTML = '<p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p>'; totalTexto.innerText = 'Total Mayorista: $0'; btnWs.disabled = true; return; }
+      let htmlItems = '', totalGeneral = 0;
+      keys.forEach(key => { let item = carrito[key]; let subtotal = item.precioMayorista * item.cantidad; totalGeneral += subtotal; htmlItems += `<div class="itemCarrito"><span><b>${item.nombre}</b> ($${item.precioMayorista.toLocaleString('es-AR')} x ${item.cantidad} u.)</span><div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: bold;">$${subtotal.toLocaleString('es-AR')}</span><button onclick="cambiarCantidad('${key}', -1)" style="background:#d98273; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">-</button><button onclick="cambiarCantidad('${key}', 1)" style="background:#a98357; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">+</button></div></div>`; });
+      listaDiv.innerHTML = htmlItems; totalTexto.innerText = `Total Mayorista: $${totalGeneral.toLocaleString('es-AR')}`; btnWs.disabled = totalGeneral < 150000;
+      document.getElementById('avisoMinimoContenedor').innerHTML = totalGeneral < 150000 ? `<div style="background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">⚠️ Falta $${(150000 - totalGeneral).toLocaleString('es-AR')} para la compra mínima.</div>` : `<div style="background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">✅ ¡Compra mínima alcanzada!</div>`;
+    }
+    function abrirModalCheckout() { document.getElementById('modalCheckout').style.display = 'flex'; }
+    function cerrarModalCheckout() { document.getElementById('modalCheckout').style.display = 'none'; }
+    function cambiarTipoEntrega() { document.getElementById('grupoDomicilio').style.display = (document.getElementById('tipoEntrega').value === 'domicilio') ? 'block' : 'none'; }
+    function validarYEnviarPedido() {
+      let nombre = document.getElementById('envNombre').value.trim(), loc = document.getElementById('envLocalidad').value.trim(), prov = document.getElementById('envProvincia').value.trim(), car = document.getElementById('envCaracteristica').value.trim(), num = document.getElementById('envNumero').value.trim(), cp = document.getElementById('envCp').value.trim(), tipo = document.getElementById('tipoEntrega').value, calle = document.getElementById('envCalle').value.trim();
+      if (!nombre || !loc || !prov || !car || !num || !cp || (tipo === 'domicilio' && !calle)) { alert("Completá todos los campos."); return; }
+      let mensaje = `Pedido Mayorista de *${nombre}* (${loc}, ${prov}).\nItems:\n`;
+      Object.keys(carrito).forEach(k => mensaje += `- ${carrito[k].nombre}: ${carrito[k].cantidad} u.\n`);
+      mensaje += `\nTotal: ${document.getElementById('textoTotalFinal').innerText}\nEnvío: ${tipo === 'domicilio' ? 'Domicilio ('+calle+')' : 'Retiro'}`;
+      window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensaje), '_blank');
+    }
+  </script>
+</body>
+</html>
