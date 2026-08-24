@@ -12,7 +12,7 @@
     body {
       margin: 0; min-height: 100vh; padding: 15px 15px 80px; font-family: 'Montserrat', sans-serif;
       color: #2b2017; background-color: #fcf8f2; background: linear-gradient(rgba(255, 251, 245, .4), rgba(255, 251, 245, .5)), url("tienda.jpg");
-      background-size: cover; background-position: center; background-attachment: fixed; overflow-x: hidden;
+      background-size: cover; background-position: center; background-attachment: fixed; overflow-x: hidden; font-size: 13.5px;
     }
     .contenedor { width: 100%; max-width: 950px; margin: auto; }
     .headerMarca { text-align: center; margin-bottom: 20px; }
@@ -45,6 +45,10 @@
       color: white; font-size: 9px; font-weight: 700; padding: 2px 6px;
       border-radius: 4px; text-transform: uppercase; z-index: 2; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
+  </style>
+</head>
+<body>
+  <style>
     .badgeDocena {
       position: absolute; top: 8px; left: 8px; background: #2e7d32;
       color: white; font-size: 8.5px; font-weight: 700; padding: 3px 6px;
@@ -57,56 +61,13 @@
     }
     .infoContenido { padding: 12px 14px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; overflow: hidden; }
     .infoContenido h3 { font-size: 15px; margin: 0 0 4px; color: #332214; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .coloresStockCard { font-size: 10px; color: #614a38; margin-bottom: 6px; background: rgba(215, 192, 155, 0.2); padding: 5px 8px; border-radius: 6px; line-height: 1.3; }
+    .coloresStockCard { font-size: 10.5px; color: #614a38; margin-bottom: 6px; background: rgba(215, 192, 155, 0.2); padding: 5px 8px; border-radius: 6px; line-height: 1.3; }
     .coloresStockCard a { color: #7d5730; font-weight: 600; text-decoration: underline; cursor: pointer; }
     .coloresStockCard a:hover { color: #25d366; }
     .bloquePrecios { display: flex; flex-direction: column; gap: 2px; margin-bottom: 6px; }
     .precioMayoristaFinal { font-size: 16px; color: #5a3e23; font-weight: 700; }
-    .precioOpcionTexto { font-size: 10px; color: #7d5730; font-weight: 600; }
-    .opcionDocenaCheck { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #332214; font-weight: 600; margin-bottom: 6px; cursor: pointer; }
-    .opcionDocenaCheck input { accent-color: #2e7d32; width: 14px; height: 14px; cursor: pointer; }
-    .controlCantidad { display: flex; align-items: center; gap: 3px; }
-    .btnCantidad { width: 22px; height: 26px; border: 1px solid #c4ae88; background: #e8dccb; color: #332214; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-    .btnCantidad:hover { background: #d7c5ac; }
-    .accionesFila { display: flex; gap: 6px; align-items: center; }
-    .form-control { width: 36px; padding: 4px 2px; border-radius: 6px; border: 1px solid #c4ae88; text-align: center; font-size: 12px; font-weight: 600; }
-    .btnAccionCard { padding: 6px 10px; border: none; border-radius: 8px; background: #a98357; color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px; cursor: pointer; transition: background .2s; flex-grow: 1; }
-    .btnAccionCard:hover { background: #8e6a43; }
-    .btnAccionCard:disabled { background: #b8ac9c !important; cursor: not-allowed; opacity: 0.7; }
-    .modalAvisoFlotante { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(43, 32, 23, 0.65); display: flex; align-items: center; justify-content: center; z-index: 3000; padding: 10px; backdrop-filter: blur(4px); animation: aparecerAviso .3s ease; }
-    @keyframes aparecerAviso { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-    .contenidoAvisoFlotante { background: linear-gradient(135deg, #fffefc, #f7efe2); border: 1px solid #c4a470; border-radius: 16px; max-width: 380px; width: 92%; padding: 16px 14px; text-align: center; position: relative; box-shadow: 0 15px 30px rgba(50, 30, 15, 0.25); max-height: 85vh; overflow-y: auto; }
-    .contenidoAvisoFlotante h3 { font-family: 'Cormorant Garamond', serif; font-size: 19px; color: #3b2818; margin: 0 0 6px; font-weight: 600; letter-spacing: 0.5px; }
-    .contenidoAvisoFlotante p { font-size: 11.5px; color: #5c4228; line-height: 1.4; margin: 0 0 12px; text-align: left; }
-    .btnCerrarAviso { background: #8c6239; color: white; border: none; padding: 8px 20px; border-radius: 20px; font-size: 12px; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(130, 90, 50, 0.25); transition: background .2s, transform .2s; }
-    .btnCerrarAviso:hover { background: #734e2c; transform: translateY(-1px); }
-    .modalOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(43, 32, 23, 0.6); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; backdrop-filter: blur(3px); }
-    .modalContenido { background: linear-gradient(135deg, #fffefa, #f6eee0); border: 1px solid #d7c09b; border-radius: 20px; max-width: 440px; width: 92%; padding: 18px; position: relative; box-shadow: 0 15px 30px rgba(40, 25, 10, 0.2); max-height: 90vh; overflow-y: auto; }
-    .cerrarModal { position: absolute; top: 12px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #5a3e23; font-weight: bold; z-index: 10; }
-    .sliderContainer { position: relative; width: 100%; height: 260px; background: #f2e9dc; border-radius: 12px; overflow: hidden; margin-bottom: 12px; border: 1px solid #d8c4a4; }
-    .sliderContainer img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
-    .sliderContainer iframe { width: 100%; height: 100%; border: none; }
-    .sliderBtn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(51, 34, 20, 0.7); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background .2s; z-index: 5; }
-    .sliderBtn:hover { background: rgba(51, 34, 20, 0.95); }
-    .sliderPrev { left: 8px; } .sliderNext { right: 8px; }
-    .sliderIndicador { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; font-size: 11px; padding: 2px 8px; border-radius: 10px; z-index: 5; }
-    #lightboxModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 15px; }
-    #lightboxImg { max-width: 90%; max-height: 90%; border-radius: 12px; object-fit: contain; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
-    .lightbox-cerrar { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 35px; font-weight: bold; cursor: pointer; }
-    .cajaCarrito { background: rgba(255, 254, 250, 0.98); border: 1px solid #6f4d25; border-radius: 16px; padding: 16px; margin-top: 25px; box-shadow: 0 10px 25px rgba(80, 55, 25, 0.1); }
-    .cajaCarrito h2 { font-size: 16px; color: #332214; margin-top: 0; border-bottom: 1px dashed rgba(180, 150, 110, 0.4); padding-bottom: 6px; }
-    .itemCarrito { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 6px 0; border-bottom: 1px solid rgba(215, 192, 155, 0.3); }
-    .totalTexto { font-size: 15px; font-weight: bold; color: #5a3e23; margin: 12px 0; text-align: right; }
-    .btnWhatsApp { display: block; width: 100%; padding: 12px; border: none; border-radius: 25px; background: #25d366; color: white; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; text-align: center; text-decoration: none; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
-    .btnWhatsApp:disabled { background: #b0c4de; cursor: not-allowed; box-shadow: none; opacity: 0.7; }
-    .formGrupo { margin-bottom: 12px; }
-    .formGrupo label { display: block; font-size: 12px; font-weight: 600; color: #5a3e23; margin-bottom: 4px; }
-    .formGrupo input, .formGrupo select { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #c4ae88; font-family: 'Montserrat', sans-serif; font-size: 12px; background: #fff; }
-    .alertaExclusividad { background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 12px; border-radius: 10px; font-size: 12px; text-align: center; margin-bottom: 15px; line-height: 1.4; }
-    .alertaBienvenida { background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 12px; border-radius: 10px; font-size: 13px; text-align: center; margin-bottom: 15px; line-height: 1.4; font-weight: 600; }
+    .precioOpcionTexto { font-size: 10.5px; color: #7d5730; font-weight: 600; }
   </style>
-</head>
-<body>
   <div id="avisoFlotanteTienda" class="modalAvisoFlotante" onclick="cerrarAvisoFlotanteFuera(event)">
     <div class="contenidoAvisoFlotante">
       <h3>✨ Tiempo y Dedicación Artesanal</h3>
@@ -123,12 +84,72 @@
     <div id="contenedorGrilla" class="grillaProductos"></div>
     <div class="cajaCarrito">
       <h2>🛒 Tu Pedido Mayorista</h2>
-      <div id="listaItemsCarrito"><p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p></div>
+      <div id="listaItemsCarrito"><p style="font-size: 12.5px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p></div>
+      
+      <!-- Tipo de entrega ubicado en la pantalla anterior (carrito) -->
+      <div style="margin: 12px 0; border-top: 1px dashed rgba(180, 150, 110, 0.4); padding-top: 10px;">
+        <label style="font-size: 13px; font-weight: 600; color: #5a3e23; display: block; margin-bottom: 6px;">Tipo de Entrega - Correo Argentino *</label>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label style="font-weight: normal; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <input type="radio" name="tipoEntregaRadio" value="retiro" checked onchange="cambiarTipoEntrega()"> Retiro por el local / A coordinar ($0)
+          </label>
+          <label style="font-weight: normal; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <input type="radio" name="tipoEntregaRadio" value="sucursal" onchange="cambiarTipoEntrega()"> Sucursal Correo Argentino ($11.000)
+          </label>
+          <label style="font-weight: normal; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <input type="radio" name="tipoEntregaRadio" value="domicilio" onchange="cambiarTipoEntrega()"> Domicilio Correo Argentino ($15.000)
+          </label>
+        </div>
+      </div>
+
       <div id="avisoMinimoContenedor"></div>
       <div class="totalTexto" id="textoTotalFinal">Total Mayorista: $0</div>
       <button id="btnEnviarWs" class="btnWhatsApp" onclick="abrirModalCheckout()" disabled>Confirmar y Enviar Pedido por WhatsApp</button>
     </div>
   </div>
+  <style>
+    .opcionDocenaCheck { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #332214; font-weight: 600; margin-bottom: 6px; cursor: pointer; }
+    .opcionDocenaCheck input { accent-color: #2e7d32; width: 14px; height: 14px; cursor: pointer; }
+    .controlCantidad { display: flex; align-items: center; gap: 3px; }
+    .btnCantidad { width: 22px; height: 26px; border: 1px solid #c4ae88; background: #e8dccb; color: #332214; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .btnCantidad:hover { background: #d7c5ac; }
+    .accionesFila { display: flex; gap: 6px; align-items: center; }
+    .form-control { width: 36px; padding: 4px 2px; border-radius: 6px; border: 1px solid #c4ae88; text-align: center; font-size: 12px; font-weight: 600; }
+    .btnAccionCard { padding: 6px 10px; border: none; border-radius: 8px; background: #a98357; color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11.5px; cursor: pointer; transition: background .2s; flex-grow: 1; }
+    .btnAccionCard:hover { background: #8e6a43; }
+    .btnAccionCard:disabled { background: #b8ac9c !important; cursor: not-allowed; opacity: 0.7; }
+    .modalAvisoFlotante { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(43, 32, 23, 0.65); display: flex; align-items: center; justify-content: center; z-index: 3000; padding: 10px; backdrop-filter: blur(4px); animation: aparecerAviso .3s ease; }
+    @keyframes aparecerAviso { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .contenidoAvisoFlotante { background: linear-gradient(135deg, #fffefc, #f7efe2); border: 1px solid #c4a470; border-radius: 16px; max-width: 380px; width: 92%; padding: 16px 14px; text-align: center; position: relative; box-shadow: 0 15px 30px rgba(50, 30, 15, 0.25); max-height: 85vh; overflow-y: auto; }
+    .contenidoAvisoFlotante h3 { font-family: 'Cormorant Garamond', serif; font-size: 19px; color: #3b2818; margin: 0 0 6px; font-weight: 600; letter-spacing: 0.5px; }
+    .contenidoAvisoFlotante p { font-size: 12px; color: #5c4228; line-height: 1.4; margin: 0 0 12px; text-align: left; }
+    .btnCerrarAviso { background: #8c6239; color: white; border: none; padding: 8px 20px; border-radius: 20px; font-size: 12.5px; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(130, 90, 50, 0.25); transition: background .2s, transform .2s; }
+    .btnCerrarAviso:hover { background: #734e2c; transform: translateY(-1px); }
+    .modalOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(43, 32, 23, 0.6); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; backdrop-filter: blur(3px); }
+    .modalContenido { background: linear-gradient(135deg, #fffefa, #f6eee0); border: 1px solid #d7c09b; border-radius: 20px; max-width: 440px; width: 92%; padding: 18px; position: relative; box-shadow: 0 15px 30px rgba(40, 25, 10, 0.2); max-height: 90vh; overflow-y: auto; }
+    .cerrarModal { position: absolute; top: 12px; right: 15px; background: none; border: none; font-size: 20px; cursor: pointer; color: #5a3e23; font-weight: bold; z-index: 10; }
+    .sliderContainer { position: relative; width: 100%; height: 260px; background: #f2e9dc; border-radius: 12px; overflow: hidden; margin-bottom: 12px; border: 1px solid #d8c4a4; }
+    .sliderContainer img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
+    .sliderContainer iframe { width: 100%; height: 100%; border: none; }
+    .sliderBtn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(51, 34, 20, 0.7); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background .2s; z-index: 5; }
+    .sliderBtn:hover { background: rgba(51, 34, 20, 0.95); }
+    .sliderPrev { left: 8px; } .sliderNext { right: 8px; }
+    .sliderIndicador { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; font-size: 11px; padding: 2px 8px; border-radius: 10px; z-index: 5; }
+    #lightboxModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 15px; }
+    #lightboxImg { max-width: 90%; max-height: 90%; border-radius: 12px; object-fit: contain; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
+    .lightbox-cerrar { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 35px; font-weight: bold; cursor: pointer; }
+    .cajaCarrito { background: rgba(255, 254, 250, 0.98); border: 1px solid #6f4d25; border-radius: 16px; padding: 16px; margin-top: 25px; box-shadow: 0 10px 25px rgba(80, 55, 25, 0.1); }
+    .cajaCarrito h2 { font-size: 16px; color: #332214; margin-top: 0; border-bottom: 1px dashed rgba(180, 150, 110, 0.4); padding-bottom: 6px; }
+    .itemCarrito { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; padding: 6px 0; border-bottom: 1px solid rgba(215, 192, 155, 0.3); }
+    .totalTexto { font-size: 16px; font-weight: bold; color: #5a3e23; margin: 12px 0; text-align: right; }
+    .btnWhatsApp { display: block; width: 100%; padding: 12px; border: none; border-radius: 25px; background: #25d366; color: white; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; text-align: center; text-decoration: none; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
+    .btnWhatsApp:disabled { background: #b0c4de; cursor: not-allowed; box-shadow: none; opacity: 0.7; }
+    .formGrupo { margin-bottom: 12px; }
+    .formGrupo label { display: block; font-size: 12.5px; font-weight: 600; color: #5a3e23; margin-bottom: 4px; }
+    .formGrupo input, .formGrupo select, .formGrupo textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #c4ae88; font-family: 'Montserrat', sans-serif; font-size: 12.5px; background: #fff; }
+    .alertaExclusividad { background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 12px; border-radius: 10px; font-size: 12px; text-align: center; margin-bottom: 15px; line-height: 1.4; }
+    .alertaBienvenida { background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 12px; border-radius: 10px; font-size: 13px; text-align: center; margin-bottom: 15px; line-height: 1.4; font-weight: 600; }
+  </style>
   <div id="modalProducto" class="modalOverlay" onclick="cerrarModalFuera(event)">
     <div class="modalContenido">
       <button class="cerrarModal" onclick="cerrarModalDetalle()">×</button>
@@ -139,7 +160,7 @@
         <div id="modalIndicador" class="sliderIndicador">1 / 1</div>
       </div>
       <h3 id="modalNombre" style="margin: 0 0 6px; font-size: 18px; color: #332214;"></h3>
-      <p id="modalDesc" style="font-size: 12px; color: #5a3e23; margin-bottom: 12px; line-height: 1.4;"></p>
+      <p id="modalDesc" style="font-size: 12.5px; color: #5a3e23; margin-bottom: 12px; line-height: 1.4;"></p>
       <div id="seccionVideosModalContainer"></div>
       <label class="opcionDocenaCheck" id="modalContenedorDocena" style="margin-top: 10px; display: none;">
         <input type="checkbox" id="modalCheckDocena" onchange="actualizarPrecioModalUI()">
@@ -147,7 +168,7 @@
       </label>
       <div style="margin-bottom: 15px; background: rgba(215, 192, 155, 0.2); padding: 8px; border-radius: 8px;">
         <div id="modalPrecioFinal" style="font-size: 18px; font-weight: 700; color: #5a3e23;">$0</div>
-        <div id="modalSubtextoPrecio" style="font-size: 11px; color: #7d5730; font-weight: 600;">precio por unidad</div>
+        <div id="modalSubtextoPrecio" style="font-size: 11.5px; color: #7d5730; font-weight: 600;">precio por unidad</div>
       </div>
       <button id="btnModalAgregar" class="btnAccionCard" style="width: 100%; padding: 10px; font-size: 13px;" onclick="agregarDesdeModal()">Agregar al Pedido</button>
     </div>
@@ -161,18 +182,53 @@
       <button class="cerrarModal" onclick="cerrarModalCheckout()">×</button>
       <div id="alertaBienvenidaContenedor" style="display: none;"></div>
       <div id="contenidoCheckoutForm">
-        <h3 style="margin-top: 0; color: #332214; font-size: 16px; border-bottom: 1px solid #d7c09b; padding-bottom: 8px;">📍 Datos para el Envío y Validación</h3>
+        <h3 style="margin-top: 0; color: #332214; font-size: 16px; border-bottom: 1px solid #d7c09b; padding-bottom: 8px;">📍 Datos para el Envío y Pago</h3>
+        
+        <div id="resumenCheckoutBox" style="background: rgba(215, 192, 155, 0.25); padding: 10px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #c4ae88;">
+          <div id="textoResumenTotalCheckout" style="font-size: 15px; font-weight: bold; color: #5a3e23;">Importe total: $0</div>
+        </div>
+
+        <!-- Campos del formulario -->
         <div class="formGrupo"><label>Nombre y Apellido *</label><input type="text" id="envNombre" placeholder="Tu nombre completo"></div>
+        <div class="formGrupo" id="grupoDomicilio" style="display: none;"><label>Calle y Número *</label><input type="text" id="envCalle" placeholder="Ej: Av. San Martín 123"></div>
         <div style="display: flex; gap: 8px;"><div class="formGrupo" style="flex: 1;"><label>Localidad *</label><input type="text" id="envLocalidad" placeholder="Ej: Trenque Lauquen"></div><div class="formGrupo" style="flex: 1;"><label>Provincia *</label><input type="text" id="envProvincia" placeholder="Ej: Buenos Aires"></div></div>
+        <div style="display: flex; gap: 8px;"><div class="formGrupo" style="width: 40%;"><label>Cód. Postal *</label><input type="text" id="envCp" placeholder="6400"></div></div>
         <div style="display: flex; gap: 8px;"><div class="formGrupo" style="width: 35%;"><label>Cód. Área *</label><input type="number" id="envCaracteristica" placeholder="2396"></div><div class="formGrupo" style="width: 65%;"><label>Teléfono *</label><input type="number" id="envNumero" placeholder="614552"></div></div>
         <div class="formGrupo"><label>Correo Electrónico (opcional)</label><input type="email" id="envCorreo" placeholder="tu@email.com"></div>
-        <div style="display: flex; gap: 8px;"><div class="formGrupo" style="width: 40%;"><label>Cód. Postal *</label><input type="text" id="envCp" placeholder="6400"></div><div class="formGrupo" style="width: 60%;"><label>Tipo de Entrega *</label><select id="tipoEntrega" onchange="cambiarTipoEntrega()"><option value="sucursal">Retiro por Sucursal</option><option value="domicilio">Envío a Domicilio</option></select></div></div>
-        <div class="formGrupo" id="grupoDomicilio" style="display: none;"><label>Calle y Número *</label><input type="text" id="envCalle" placeholder="Ej: Av. San Martín 123"></div>
+        <div class="formGrupo"><label>Observaciones o detalles adicionales (opcional)</label><textarea id="envObservaciones" placeholder="Escribí aquí si querés dejarnos alguna aclaración..." style="resize: vertical; min-height: 55px;"></textarea></div>
+        
+        <!-- Medio de Pago con alineación corregida -->
+        <div class="formGrupo">
+          <label style="display: block;">Medio de Pago *</label>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 6px; padding-left: 0;">
+            <label style="font-weight: normal; font-size: 12.5px; cursor: pointer; display: flex; align-items: flex-start; gap: 8px;">
+              <input type="radio" name="tipoPagoRadio" value="transferencia" checked onchange="cambiarTipoPago()" style="margin-top: 2px; flex-shrink: 0; width: 15px; height: 15px; accent-color: #a98357;"> 
+              <span style="line-height: 1.3;">Transferencia (Sin recargo)</span>
+            </label>
+            <label style="font-weight: normal; font-size: 12.5px; cursor: pointer; display: flex; align-items: flex-start; gap: 8px;">
+              <input type="radio" name="tipoPagoRadio" value="tarjeta_1" onchange="cambiarTipoPago()" style="margin-top: 2px; flex-shrink: 0; width: 15px; height: 15px; accent-color: #a98357;"> 
+              <span style="line-height: 1.3;">Tarjeta de Crédito/Débito - 1 Pago (+7% recargo)</span>
+            </label>
+            <label style="font-weight: normal; font-size: 12.5px; cursor: pointer; display: flex; align-items: flex-start; gap: 8px;">
+              <input type="radio" name="tipoPagoRadio" value="tarjeta_3" onchange="cambiarTipoPago()" style="margin-top: 2px; flex-shrink: 0; width: 15px; height: 15px; accent-color: #a98357;"> 
+              <span style="line-height: 1.3;">Tarjeta de Crédito - Hasta 3 Cuotas (+10.5% recargo)</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="cartelMontoExactoTarjeta" style="display: none; background: #e3f2fd; border: 1px solid #90caf9; color: #0d47a1; padding: 10px; border-radius: 10px; font-size: 12px; text-align: center; margin-bottom: 12px; font-weight: 600; box-shadow: 0 2px 6px rgba(13, 71, 161, 0.1);">
+          💳 El monto exacto con recargo a abonar es de: <span id="montoExactoTarjetaValor" style="font-size: 13.5px; font-weight: bold;">$0</span>
+        </div>
+
+        <div id="infoDetallePago" style="font-size: 12px; background: rgba(215, 192, 155, 0.2); padding: 8px; border-radius: 8px; margin-bottom: 12px; line-height: 1.4;"></div>
+        <div style="background: linear-gradient(135deg, #fff3cd, #ffe8a1); border: 2px solid #f0ad4e; color: #795548; padding: 10px; border-radius: 10px; font-size: 12px; text-align: center; margin-bottom: 12px; line-height: 1.4; box-shadow: 0 4px 10px rgba(240, 173, 78, 0.2);">
+          ⚠️ <b>¡ATENCIÓN!</b> Los pedidos solo se reservan una vez acreditado el pago. Los carritos sin pago no garantizan stock.
+        </div>
         <button class="btnWhatsApp" style="margin-top: 10px;" onclick="validarYEnviarPedido()">Enviar Pedido por WhatsApp</button>
       </div>
       <div id="contenidoExclusividad" style="display: none;">
         <div class="alertaExclusividad"><strong>⚠️ Zona con Revendedora Exclusiva</strong><br><br>Detectamos que tu localidad ya cuenta con un punto de venta o revendedor exclusivo registrado.</div>
-        <p style="font-size: 12px; color: #5a3e23; text-align: center; margin-bottom: 15px;">Podés consultar con nosotros vía WhatsApp para verificar disponibilidad de zona o conocer los datos de tu revendedora más cercana.</p>
+        <p style="font-size: 12.5px; color: #5a3e23; text-align: center; margin-bottom: 15px;">Podés consultar con nosotros vía WhatsApp para verificar disponibilidad de zona o conocer los datos de tu revendedora más cercana.</p>
         <a id="btnWhatsappExclusividad" href="#" target="_blank" class="btnWhatsApp" style="text-decoration: none; display: block;">Consultar por WhatsApp</a>
       </div>
     </div>
@@ -187,6 +243,7 @@
     let videosModalActual = [];
     let indiceVideoActual = 0;
     const NUMERO_WHATSAPP = "5492396614552";
+    const LINK_MERCADO_PAGO = "https://link.mercadopago.com.ar/correlaconeja";
     
     function buscarProducto(id) {
       return productosMayoristas.find(p => String(p.id) === String(id));
@@ -201,12 +258,19 @@
       let porcentajeDescuento = precioBase < 20000 ? 0.25 : 0.30;
       return Math.round(precioBase * (1 - porcentajeDescuento));
     }
-    window.onload = function() { renderizarTienda(); };
+
+    window.onload = function() { 
+      renderizarTienda(); 
+      actualizarInfoPagoUI();
+    };
+
     function cerrarAvisoFlotante() {
       const aviso = document.getElementById('avisoFlotanteTienda');
       if (aviso) { aviso.style.opacity = '0'; aviso.style.transition = 'opacity 0.4s ease'; setTimeout(() => { aviso.style.display = 'none'; }, 400); }
     }
+
     function cerrarAvisoFlotanteFuera(event) { if (event.target.id === 'avisoFlotanteTienda') cerrarAvisoFlotante(); }
+
     function renderizarTienda() {
       const contenedor = document.getElementById('contenedorGrilla');
       if (typeof productosMayoristas === 'undefined' || productosMayoristas.length === 0) {
@@ -288,6 +352,7 @@
         badgeEconomica.style.display = isDocena ? 'block' : 'none';
       }
     }
+
     function modificarCantidadInput(id, delta) {
       let prod = buscarProducto(id);
       if (!prod) return;
@@ -303,6 +368,7 @@
       inputCant.value = nuevoVal;
       actualizarPrecioCardUI(id);
     }
+
     function actualizarPrecioCardUI(id) {
       let prod = buscarProducto(id);
       if (!prod) return;
@@ -318,6 +384,7 @@
       if (precioCard) precioCard.innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
       if (subtextoCard) subtextoCard.innerText = isDocena ? `total por ${cant} u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : `total por ${cant} u.`;
     }
+
     function consultarStockWhatsApp(id) {
       let prod = buscarProducto(id);
       if (!prod) return;
@@ -325,6 +392,7 @@
       let url = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoMensaje);
       window.open(url, '_blank');
     }
+
     function abrirModalDetalle(id) {
       let prod = buscarProducto(id);
       if (!prod) return;
@@ -346,6 +414,7 @@
       btnModal.disabled = prod.sinStock === true; btnModal.innerText = prod.sinStock ? 'Sin Stock' : 'Agregar al Pedido';
       document.getElementById('modalProducto').style.display = 'flex';
     }
+
     function actualizarPrecioModalUI() {
       if (!productoSeleccionadoModal) return;
       let isDocena = document.getElementById('modalCheckDocena').checked;
@@ -356,7 +425,9 @@
       document.getElementById('modalPrecioFinal').innerText = `$${totalCalculado.toLocaleString('es-AR')}`;
       document.getElementById('modalSubtextoPrecio').innerText = isDocena ? `total por 12 u. ($${precioUnid.toLocaleString('es-AR')} c/u)` : 'precio por 1 unidad';
     }
+
     function cambiarFotoModal(direccion) { indiceFotoActual += direccion; if (indiceFotoActual < 0) indiceFotoActual = fotosModalActual.length - 1; else if (indiceFotoActual >= fotosModalActual.length) indiceFotoActual = 0; actualizarSliderModal(); }
+    
     function actualizarSliderModal() { 
       const img = document.getElementById('modalImg');
       if (!img) return;
@@ -369,22 +440,26 @@
         indicador.innerText = `${indiceFotoActual + 1} / ${fotosModalActual.length}`; 
       }
     }
+
     function actualizarSeccionVideosModal() {
       let contenedorVideos = document.getElementById('seccionVideosModalContainer');
       if (!videosModalActual || videosModalActual.length === 0) { contenedorVideos.innerHTML = ''; return; }
       let vidUrl = videosModalActual[indiceVideoActual]; let embedUrl = convertirAEmbed(vidUrl);
-      contenedorVideos.innerHTML = `<div style="font-size: 11px; font-weight: 600; color: #7d5730; margin: 12px 0 4px;">🎬 Videos demostrativos:</div><div class="sliderContainer"><iframe src="${embedUrl}" allowfullscreen></iframe></div>`;
+      contenedorVideos.innerHTML = `<div style="font-size: 11.5px; font-weight: 600; color: #7d5730; margin: 12px 0 4px;">🎬 Videos demostrativos:</div><div class="sliderContainer"><iframe src="${embedUrl}" allowfullscreen></iframe></div>`;
     }
+
     function convertirAEmbed(url) {
       if (!url) return ''; url = url.trim(); if (url.includes('youtube.com/embed/')) return url;
       let videoId = ''; if (url.includes('/shorts/')) { let partes = url.split('/shorts/'); if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0]; } else if (url.includes('youtu.be/')) { let partes = url.split('youtu.be/'); if (partes[1]) videoId = partes[1].split('?')[0].split('/')[0]; } else { let regExp = /^.*(v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/; let match = url.match(regExp); if (match && match[2] && match[2].length === 11) videoId = match[2]; }
       return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
     }
+
     function abrirLightboxDesdeModal() { if (!fotosModalActual || fotosModalActual.length === 0) return; document.getElementById('lightboxImg').src = fotosModalActual[indiceFotoActual]; document.getElementById('lightboxModal').style.display = 'flex'; }
     function cerrarLightbox() { document.getElementById('lightboxModal').style.display = 'none'; }
     function cerrarModalDetalle() { document.getElementById('modalProducto').style.display = 'none'; }
     function cerrarModalFuera(event) { if (event.target.id === 'modalProducto') cerrarModalDetalle(); }
     function agregarDesdeModal() { if (!productoSeleccionadoModal || productoSeleccionadoModal.sinStock) return; agregarItemAlCarrito(productoSeleccionadoModal.id, document.getElementById('modalCheckDocena').checked ? 'docena' : 'unidad', document.getElementById('modalCheckDocena').checked ? 12 : 1); cerrarModalDetalle(); }
+    
     function agregarAlPedido(id) { 
       let prod = buscarProducto(id); 
       if (!prod || prod.sinStock) return; 
@@ -394,6 +469,7 @@
       let cantidad = inputCant ? (parseInt(inputCant.value) || 1) : 1;
       agregarItemAlCarrito(id, isDocena ? 'docena' : 'unidad', cantidad); 
     }
+
     function agregarItemAlCarrito(id, tipo, cantidad) {
       let prod = buscarProducto(id); 
       if (!prod) return;
@@ -402,30 +478,199 @@
       else { carrito[keyCarrito] = { idOriginal: prod.id, nombre: prod.nombre + (tipo === 'docena' ? ' (Oferta Docena)' : ''), precioMayorista: precioUnitario, tipoPrecio: tipo, cantidad: cantidad }; }
       actualizarCarritoUI();
     }
+
     function cambiarCantidad(keyCarrito, delta) {
       if (carrito[keyCarrito]) { carrito[keyCarrito].cantidad += (delta * (carrito[keyCarrito].tipoPrecio === 'docena' ? 12 : 1)); if (carrito[keyCarrito].cantidad <= 0) delete carrito[keyCarrito]; actualizarCarritoUI(); }
     }
+
+    function calcularSubtotalProductos() {
+      let keys = Object.keys(carrito);
+      let subtotal = 0;
+      keys.forEach(key => {
+        subtotal += carrito[key].precioMayorista * carrito[key].cantidad;
+      });
+      return subtotal;
+    }
+
     function actualizarCarritoUI() {
       let listaDiv = document.getElementById('listaItemsCarrito'), totalTexto = document.getElementById('textoTotalFinal'), btnWs = document.getElementById('btnEnviarWs');
       let keys = Object.keys(carrito);
-      if (keys.length === 0) { listaDiv.innerHTML = '<p style="font-size: 12px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p>'; totalTexto.innerText = 'Total Mayorista: $0'; btnWs.disabled = true; return; }
-      let htmlItems = '', totalGeneral = 0;
-      keys.forEach(key => { let item = carrito[key]; let subtotal = item.precioMayorista * item.cantidad; totalGeneral += subtotal; htmlItems += `<div class="itemCarrito"><span><b>${item.nombre}</b> ($${item.precioMayorista.toLocaleString('es-AR')} x ${item.cantidad} u.)</span><div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: bold;">$${subtotal.toLocaleString('es-AR')}</span><button onclick="cambiarCantidad('${key}', -1)" style="background:#d98273; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">-</button><button onclick="cambiarCantidad('${key}', 1)" style="background:#a98357; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">+</button></div></div>`; });
-      listaDiv.innerHTML = htmlItems; totalTexto.innerText = `Total Mayorista: $${totalGeneral.toLocaleString('es-AR')}`; btnWs.disabled = totalGeneral < 150000;
-      document.getElementById('avisoMinimoContenedor').innerHTML = totalGeneral < 150000 ? `<div style="background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">⚠️ Falta $${(150000 - totalGeneral).toLocaleString('es-AR')} para la compra mínima.</div>` : `<div style="background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 6px; border-radius: 6px; font-size: 11px; text-align: center; margin: 8px 0;">✅ ¡Compra mínima alcanzada!</div>`;
+      if (keys.length === 0) { listaDiv.innerHTML = '<p style="font-size: 12.5px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p>'; totalTexto.innerText = 'Total Mayorista: $0'; btnWs.disabled = true; actualizarResumenCheckout(0); return; }
+      let htmlItems = '', subtotal = 0;
+      keys.forEach(key => { let item = carrito[key]; let itemSubtotal = item.precioMayorista * item.cantidad; subtotal += itemSubtotal; htmlItems += `<div class="itemCarrito"><span><b>${item.nombre}</b> ($${item.precioMayorista.toLocaleString('es-AR')} x ${item.cantidad} u.)</span><div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: bold;">$${itemSubtotal.toLocaleString('es-AR')}</span><button onclick="cambiarCantidad('${key}', -1)" style="background:#d98273; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">-</button><button onclick="cambiarCantidad('${key}', 1)" style="background:#a98357; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">+</button></div></div>`; });
+      listaDiv.innerHTML = htmlItems; 
+
+      let tipoEntrega = obtenerTipoEntregaSeleccionado();
+      let costoEnvio = 0;
+      if (tipoEntrega === 'sucursal') costoEnvio = 11000;
+      if (tipoEntrega === 'domicilio') costoEnvio = 15000;
+
+      let tipoPago = obtenerTipoPagoSeleccionado();
+      let recargo = 0;
+      if (tipoPago === 'tarjeta_1') recargo = Math.round(subtotal * 0.07);
+      if (tipoPago === 'tarjeta_3') recargo = Math.round(subtotal * 0.105);
+
+      let totalGeneral = subtotal + costoEnvio + recargo;
+
+      totalTexto.innerText = `Total Final: $${totalGeneral.toLocaleString('es-AR')}`; 
+      actualizarResumenCheckout(totalGeneral);
+      actualizarMontoExactoTarjeta(totalGeneral, tipoPago);
+
+      btnWs.disabled = subtotal < 150000;
+      document.getElementById('avisoMinimoContenedor').innerHTML = subtotal < 150000 ? `<div style="background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 6px; border-radius: 6px; font-size: 11.5px; text-align: center; margin: 8px 0;">⚠️ Falta $${(150000 - subtotal).toLocaleString('es-AR')} para la compra mínima.</div>` : `<div style="background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 6px; border-radius: 6px; font-size: 11.5px; text-align: center; margin: 8px 0;">✅ ¡Compra mínima alcanzada!</div>`;
     }
-    function abrirModalCheckout() { document.getElementById('modalCheckout').style.display = 'flex'; }
+
+    function actualizarResumenCheckout(total) {
+      let res = document.getElementById('textoResumenTotalCheckout');
+      if (res) res.innerText = `Importe total: $${total.toLocaleString('es-AR')}`;
+    }
+
+    function actualizarMontoExactoTarjeta(total, tipoPago) {
+      let cartel = document.getElementById('cartelMontoExactoTarjeta');
+      let valorSpan = document.getElementById('montoExactoTarjetaValor');
+      if (!cartel || !valorSpan) return;
+      if (tipoPago === 'tarjeta_1' || tipoPago === 'tarjeta_3') {
+        valorSpan.innerText = `$${total.toLocaleString('es-AR')}`;
+        cartel.style.display = 'block';
+      } else {
+        cartel.style.display = 'none';
+      }
+    }
+
+    function abrirModalCheckout() { 
+      const modal = document.getElementById('modalCheckout');
+      modal.style.display = 'flex'; 
+      cambiarTipoEntrega(); // Actualiza visibilidad de calle según entrega elegida previamente
+      actualizarCarritoUI();
+      actualizarInfoPagoUI();
+      setTimeout(() => {
+        const btnFinal = modal.querySelector('.btnWhatsApp');
+        if (btnFinal) {
+          btnFinal.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }, 100);
+    }
+
     function cerrarModalCheckout() { document.getElementById('modalCheckout').style.display = 'none'; }
-    function cambiarTipoEntrega() { document.getElementById('grupoDomicilio').style.display = (document.getElementById('tipoEntrega').value === 'domicilio') ? 'block' : 'none'; }
+    
+    function cambiarTipoEntrega() { 
+      let tipo = obtenerTipoEntregaSeleccionado();
+      let grupoDom = document.getElementById('grupoDomicilio');
+      if (grupoDom) {
+        grupoDom.style.display = (tipo === 'domicilio') ? 'block' : 'none';
+      }
+      actualizarCarritoUI();
+    }
+
+    function cambiarTipoPago() {
+      actualizarInfoPagoUI();
+      actualizarCarritoUI();
+    }
+
+    function obtenerTipoPagoSeleccionado() {
+      let radios = document.getElementsByName('tipoPagoRadio');
+      for (let r of radios) { if (r.checked) return r.value; }
+      return 'transferencia';
+    }
+
+    function obtenerTipoEntregaSeleccionado() {
+      let radios = document.getElementsByName('tipoEntregaRadio');
+      for (let r of radios) { if (r.checked) return r.value; }
+      return 'retiro';
+    }
+
+    function actualizarInfoPagoUI() {
+      let tipoPago = obtenerTipoPagoSeleccionado();
+      let infoDiv = document.getElementById('infoDetallePago');
+      if (!infoDiv) return;
+
+      const iconoCopiarSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+      const estiloBtnCopiar = `background: #a98357; color: white; border: none; border-radius: 4px; padding: 4px 6px; cursor: pointer; margin-left: 6px; vertical-align: middle; display: inline-flex; align-items: center; justify-content: center;`;
+
+      if (tipoPago === 'transferencia') {
+        infoDiv.innerHTML = `
+          <div style="font-size: 13.5px; line-height: 1.6;">
+            <b style="font-size: 14.5px; color: #332214;">Datos para Transferencia:</b><br>
+            • <b>Titular:</b> Virginia Beatriz Varela<br>
+            • <b>Alias:</b> <code style="font-size: 14px; background: rgba(255,255,255,0.6); padding: 2px 4px; border-radius: 4px;">coneja.corre</code> 
+            <button onclick="copiarAlPortapapeles('coneja.corre', '¡Alias copiado con éxito!')" title="Copiar Alias" style="${estiloBtnCopiar}">${iconoCopiarSvg}</button><br>
+            • <b>CVU:</b> <code style="font-size: 14px; background: rgba(255,255,255,0.6); padding: 2px 4px; border-radius: 4px;">0000003100146073139426</code> 
+            <button onclick="copiarAlPortapapeles('0000003100146073139426', '¡CVU copiado con éxito!')" title="Copiar CVU" style="${estiloBtnCopiar}">${iconoCopiarSvg}</button><br>
+            <div style="margin-top: 8px; color: #7a3a2b; font-weight: 700; font-size: 13px; background: rgba(217, 130, 115, 0.15); padding: 6px; border-radius: 6px; text-align: center;">
+              📄 Si pagás por transferencia, por favor envia por WhatsApp el comprobante de pago.
+            </div>
+          </div>
+        `;
+      } else {
+        let porcentajeTexto = tipoPago === 'tarjeta_1' ? '7% de recargo' : '10.5% de recargo';
+        infoDiv.innerHTML = `
+          <div style="font-size: 13.5px; line-height: 1.6; text-align: center;">
+            <b style="font-size: 14.5px; color: #332214;">Pago con Tarjeta (${porcentajeTexto}):</b><br><br>
+            <a href="${LINK_MERCADO_PAGO}" target="_blank" style="display: inline-block; background: #009ee3; color: white; padding: 12px 20px; border-radius: 10px; font-weight: bold; text-decoration: none; font-size: 14.5px; box-shadow: 0 4px 12px rgba(0,158,227,0.3); transition: transform 0.2s;">💳 Hacer clic aquí para abonar en Mercado Pago</a>
+          </div>
+        `;
+      }
+    }
+
+    function copiarAlPortapapeles(texto, mensaje) {
+      navigator.clipboard.writeText(texto).then(() => {
+        alert(mensaje);
+      }).catch(err => {
+        console.error('Error al copiar', err);
+      });
+    }
+
     function validarYEnviarPedido() {
-      let nombre = document.getElementById('envNombre').value.trim(), loc = document.getElementById('envLocalidad').value.trim(), prov = document.getElementById('envProvincia').value.trim(), car = document.getElementById('envCaracteristica').value.trim(), num = document.getElementById('envNumero').value.trim(), cp = document.getElementById('envCp').value.trim(), tipo = document.getElementById('tipoEntrega').value, calle = document.getElementById('envCalle').value.trim();
-      if (!nombre || !loc || !prov || !car || !num || !cp || (tipo === 'domicilio' && !calle)) { alert("Completá todos los campos."); return; }
-      let mensaje = `Pedido Mayorista de *${nombre}* (${loc}, ${prov}).\nItems:\n`;
-      Object.keys(carrito).forEach(k => mensaje += `- ${carrito[k].nombre}: ${carrito[k].cantidad} u.\n`);
-      mensaje += `\nTotal: ${document.getElementById('textoTotalFinal').innerText}\nEnvío: ${tipo === 'domicilio' ? 'Domicilio ('+calle+')' : 'Retiro'}`;
+      let nombre = document.getElementById('envNombre').value.trim(), 
+          loc = document.getElementById('envLocalidad').value.trim(), 
+          prov = document.getElementById('envProvincia').value.trim(), 
+          car = document.getElementById('envCaracteristica').value.trim(), 
+          num = document.getElementById('envNumero').value.trim(), 
+          cp = document.getElementById('envCp').value.trim(), 
+          tipo = obtenerTipoEntregaSeleccionado(), 
+          calle = document.getElementById('envCalle').value.trim(),
+          observaciones = document.getElementById('envObservaciones').value.trim();
+      
+      let tipoPago = obtenerTipoPagoSeleccionado();
+
+      if (!nombre || !loc || !prov || !car || !num || !cp || (tipo === 'domicilio' && !calle)) { 
+        alert("Completá todos los campos obligatorios."); 
+        return; 
+      }
+      
+      let subtotal = calcularSubtotalProductos();
+      let costoEnvio = tipo === 'sucursal' ? 11000 : (tipo === 'domicilio' ? 15000 : 0);
+      let textoEnvio = tipo === 'sucursal' ? 'Sucursal Correo Argentino ($11.000)' : (tipo === 'domicilio' ? 'Domicilio Correo Argentino (' + calle + ') ($15.000)' : 'Retiro por el local / A coordinar ($0)');
+      
+      let textoPago = 'Transferencia';
+      let recargo = 0;
+      if (tipoPago === 'tarjeta_1') {
+        textoPago = 'Tarjeta (1 Pago - 7% recargo)';
+        recargo = Math.round(subtotal * 0.07);
+      } else if (tipoPago === 'tarjeta_3') {
+        textoPago = 'Tarjeta (Hasta 3 Cuotas - 10.5% recargo)';
+        recargo = Math.round(subtotal * 0.105);
+      }
+
+      let totalGeneral = subtotal + costoEnvio + recargo;
+
+      let mensaje = `Pedido Mayorista de *${nombre}* (${loc}, ${prov}).\n\nItems:\n`;
+      Object.keys(carrito).forEach(k => {
+        let item = carrito[k];
+        mensaje += `- ${item.nombre} x ${item.cantidad} u. ($${(item.precioMayorista * item.cantidad).toLocaleString('es-AR')})\n`;
+      });
+      
+      mensaje += `\nSubtotal Productos: $${subtotal.toLocaleString('es-AR')}\n` +
+                 `Envío: ${textoEnvio}\n` +
+                 `Medio de Pago: ${textoPago}\n` +
+                 (tipoPago === 'transferencia' ? `⚠️ Envío comprobante de pago por este medio.\n` : '') +
+                 (recargo > 0 ? `Recargo Pago: $${recargo.toLocaleString('es-AR')}\n` : '') +
+                 (observaciones ? `Observaciones: ${observaciones}\n` : '') +
+                 `*IMPORTE TOTAL: $${totalGeneral.toLocaleString('es-AR')}*\n\n` +
+                 `Quedo a la espera de las instrucciones para coordinar el pago. ¡Gracias!`;
+
       window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensaje), '_blank');
     }
   </script>
 </body>
 </html>
-
