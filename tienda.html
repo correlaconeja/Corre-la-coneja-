@@ -86,7 +86,6 @@
       <h2>🛒 Tu Pedido Mayorista</h2>
       <div id="listaItemsCarrito"><p style="font-size: 12.5px; color: #7d5730; text-align: center; margin: 8px 0;">Tu carrito está vacío.</p></div>
       
-      <!-- Tipo de entrega ubicado en la pantalla anterior (carrito) -->
       <div style="margin: 12px 0; border-top: 1px dashed rgba(180, 150, 110, 0.4); padding-top: 10px;">
         <label style="font-size: 13px; font-weight: 600; color: #5a3e23; display: block; margin-bottom: 6px;">Tipo de Entrega - Correo Argentino *</label>
         <div style="display: flex; flex-direction: column; gap: 6px;">
@@ -148,7 +147,6 @@
     .formGrupo label { display: block; font-size: 12.5px; font-weight: 600; color: #5a3e23; margin-bottom: 4px; }
     .formGrupo input, .formGrupo select, .formGrupo textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #c4ae88; font-family: 'Montserrat', sans-serif; font-size: 12.5px; background: #fff; }
     .alertaExclusividad { background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 12px; border-radius: 10px; font-size: 12px; text-align: center; margin-bottom: 15px; line-height: 1.4; }
-    .alertaBienvenida { background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 12px; border-radius: 10px; font-size: 13px; text-align: center; margin-bottom: 15px; line-height: 1.4; font-weight: 600; }
   </style>
   <div id="modalProducto" class="modalOverlay" onclick="cerrarModalFuera(event)">
     <div class="modalContenido">
@@ -180,7 +178,6 @@
   <div id="modalCheckout" class="modalOverlay">
     <div class="modalContenido">
       <button class="cerrarModal" onclick="cerrarModalCheckout()">×</button>
-      <div id="alertaBienvenidaContenedor" style="display: none;"></div>
       <div id="contenidoCheckoutForm">
         <h3 style="margin-top: 0; color: #332214; font-size: 16px; border-bottom: 1px solid #d7c09b; padding-bottom: 8px;">📍 Datos para el Envío y Pago</h3>
         
@@ -188,7 +185,6 @@
           <div id="textoResumenTotalCheckout" style="font-size: 15px; font-weight: bold; color: #5a3e23;">Importe total: $0</div>
         </div>
 
-        <!-- Campos del formulario -->
         <div class="formGrupo"><label>Nombre y Apellido *</label><input type="text" id="envNombre" placeholder="Tu nombre completo"></div>
         <div class="formGrupo" id="grupoDomicilio" style="display: none;"><label>Calle y Número *</label><input type="text" id="envCalle" placeholder="Ej: Av. San Martín 123"></div>
         <div style="display: flex; gap: 8px;"><div class="formGrupo" style="flex: 1;"><label>Localidad *</label><input type="text" id="envLocalidad" placeholder="Ej: Trenque Lauquen"></div><div class="formGrupo" style="flex: 1;"><label>Provincia *</label><input type="text" id="envProvincia" placeholder="Ej: Buenos Aires"></div></div>
@@ -197,7 +193,6 @@
         <div class="formGrupo"><label>Correo Electrónico (opcional)</label><input type="email" id="envCorreo" placeholder="tu@email.com"></div>
         <div class="formGrupo"><label>Observaciones o detalles adicionales (opcional)</label><textarea id="envObservaciones" placeholder="Escribí aquí si querés dejarnos alguna aclaración..." style="resize: vertical; min-height: 55px;"></textarea></div>
         
-        <!-- Medio de Pago con alineación corregida -->
         <div class="formGrupo">
           <label style="display: block;">Medio de Pago *</label>
           <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 6px; padding-left: 0;">
@@ -233,7 +228,6 @@
       </div>
     </div>
   </div>
-  <script src="clientes_exclusivos.js"></script>
   <script src="productos.js"></script>
   <script>
     let carrito = {};
@@ -536,13 +530,44 @@
         cartel.style.display = 'none';
       }
     }
+    // --- INTEGRACIÓN AUTOMÁTICA CON GOOGLE SHEETS ---
+    let localidadesOcupadas = [];
+    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbzjGoiBHC8IvqjQnZww3yo67TJe8sCOZEazsHNPHP1zplzOBVIKkRqBLNvDt7yPa48g/exec";
+
+    function cargarLocalidadesExclusivas() {
+      fetch(URL_WEB_APP)
+        .then(response => response.json())
+        .then(data => {
+          localidadesOcupadas = data;
+          console.log("Zonas exclusivas cargadas:", localidadesOcupadas.length);
+        })
+        .catch(err => console.error("Error al cargar zonas:", err));
+    }
+
+    window.addEventListener('DOMContentLoaded', cargarLocalidadesExclusivas);
+
+    function guardarClienteEnPlanilla(datosCliente) {
+      fetch(URL_WEB_APP, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datosCliente)
+      })
+      .then(() => {
+        console.log("Cliente registrado en Google Sheets con éxito");
+      })
+      .catch(err => console.error("Error al registrar:", err));
+    }
+    // ----------------------------------------------
 
     function abrirModalCheckout() { 
       const modal = document.getElementById('modalCheckout');
       modal.style.display = 'flex'; 
-      cambiarTipoEntrega(); // Actualiza visibilidad de calle según entrega elegida previamente
+      cambiarTipoEntrega();
       actualizarCarritoUI();
       actualizarInfoPagoUI();
+      document.getElementById('contenidoCheckoutForm').style.display = 'block';
+      document.getElementById('contenidoExclusividad').style.display = 'none';
       setTimeout(() => {
         const btnFinal = modal.querySelector('.btnWhatsApp');
         if (btnFinal) {
@@ -637,6 +662,17 @@
         alert("Completá todos los campos obligatorios."); 
         return; 
       }
+
+      // VALIDACIÓN AUTOMÁTICA DE EXCLUSIVIDAD CON GOOGLE SHEETS
+      let locNormalizada = loc.toLowerCase().trim();
+      if (localidadesOcupadas.includes(locNormalizada)) {
+        document.getElementById('contenidoCheckoutForm').style.display = 'none';
+        let divExcl = document.getElementById('contenidoExclusividad');
+        divExcl.style.display = 'block';
+        let textoMsjExclusividad = `¡Hola! 👋 Me comuniqué desde la tienda porque soy de *${loc}* y vi que ya hay una revendedora exclusiva registrada. Quisiera consultar disponibilidad o revendedores cercanos.`;
+        document.getElementById('btnWhatsappExclusividad').href = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoMsjExclusividad);
+        return;
+      }
       
       let subtotal = calcularSubtotalProductos();
       let costoEnvio = tipo === 'sucursal' ? 11000 : (tipo === 'domicilio' ? 15000 : 0);
@@ -653,6 +689,20 @@
       }
 
       let totalGeneral = subtotal + costoEnvio + recargo;
+
+      // GUARDAR CLIENTE NUEVO AUTOMÁTICAMENTE EN LA PLANILLA
+      let datosCliente = {
+        nombre: nombre,
+        calle: calle,
+        localidad: loc,
+        provincia: prov,
+        cp: cp,
+        caracteristica: car,
+        numero: num,
+        correo: document.getElementById('envCorreo').value.trim(),
+        observaciones: observaciones
+      };
+      guardarClienteEnPlanilla(datosCliente);
 
       let mensaje = `Pedido Mayorista de *${nombre}* (${loc}, ${prov}).\n\nItems:\n`;
       Object.keys(carrito).forEach(k => {
@@ -674,3 +724,4 @@
   </script>
 </body>
 </html>
+
