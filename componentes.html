@@ -19,7 +19,7 @@
       padding: 20px 15px 50px;
       font-family: 'Montserrat', sans-serif;
       color: #2b2017;
-      background-image: url("./reflejos-atrapasol.png");
+      background-image: url("./reflejos-atrapasol.jpg");
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -201,125 +201,153 @@
 
     <a id="btnVolverMensaje" href="./index.html" class="botonVolver">← Volver al mensaje del Atrapasol</a>
   </div>
+
   <script src="diccionarioCLC.js"></script>
   <script src="codificadorCLC.js"></script>
-  <script src="componentesCLC.js"></script>
-  <script src="componentesagregados.js"></script>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", async function () {
+      window.diccionarioCLC = window.diccionarioCLC || {};
+
       const urlParams = new URLSearchParams(window.location.search);
       let codigoBuscado = (urlParams.get("codigo") || "").trim().toUpperCase();
 
+      if (!codigoBuscado) {
+        codigoBuscado = "01"; 
+      }
+
       const btnVolver = document.getElementById("btnVolverMensaje");
-      if (btnVolver && codigoBuscado) {
+      if (btnVolver) {
         btnVolver.href = `./index.html?codigo=${encodeURIComponent(codigoBuscado)}`;
       }
 
-      // Red de seguridad: Traducimos por diccionario o expandimos si es código corto
-      if (window.diccionarioCLC && window.diccionarioCLC[codigoBuscado]) {
-        codigoBuscado = window.diccionarioCLC[codigoBuscado];
-      } else if (codigoBuscado.length === 5 && window.CodificadorCLC) {
-        codigoBuscado = window.CodificadorCLC.expandir(codigoBuscado) || codigoBuscado;
-      }
-
-      // Cortar el código en tokens de a 2 caracteres
-      const tokens = [];
-      for (let i = 0; i < codigoBuscado.length; i += 2) {
-        const token = codigoBuscado.substr(i, 2);
-        if (token.length === 2) {
-          tokens.push(token);
-        }
-      }
-
-      // Unificar bibliotecas base y agregados
-      const compBase = window.componentesCLC || {};
-      const compAgregados = window.componentesAgregadosCLC || {};
-
-      const fuentes = {
-        cristales: Object.assign({}, compBase.cristales || {}, compAgregados.cristales || {}),
-        figuras: Object.assign({}, compBase.figuras || {}, compAgregados.figuras || {}),
-        flores: Object.assign({}, compBase.flores || {}, compAgregados.flores || {})
-      };
-
-      const procesados = new Set();
-      const tarjetasCristales = [];
-      const tarjetasFiguras = [];
-      const tarjetasFlores = [];
-
-      // Evaluar cada token
-      tokens.forEach(token => {
-        // A. Buscar en Cristales
-        for (const key in fuentes.cristales) {
-          const item = fuentes.cristales[key];
-          const codigos = Array.isArray(item.codigo) ? item.codigo : [item.codigo];
-          if (codigos.includes(token)) {
-            if (!procesados.has(item.nombre)) {
-              procesados.add(item.nombre);
-              tarjetasCristales.push(item);
-            }
-            return;
-          }
-        }
-
-        // B. Buscar en Figuras
-        for (const key in fuentes.figuras) {
-          const item = fuentes.figuras[key];
-          const codigos = Array.isArray(item.codigo) ? item.codigo : [item.codigo];
-          if (codigos.includes(token)) {
-            if (!procesados.has(item.nombre)) {
-              procesados.add(item.nombre);
-              tarjetasFiguras.push(item);
-            }
-            return;
-          }
-        }
-
-        // C. Buscar en Flores
-        for (const key in fuentes.flores) {
-          const item = fuentes.flores[key];
-          const codigos = Array.isArray(item.codigo) ? item.codigo : [item.codigo];
-          if (codigos.includes(token)) {
-            if (!procesados.has(item.nombre)) {
-              procesados.add(item.nombre);
-              tarjetasFlores.push(item);
-            }
-            return;
-          }
-        }
-      });
-
-      // Orden respetado: Cristales -> Figuras -> Flores
-      const listaFinal = [...tarjetasCristales, ...tarjetasFiguras, ...tarjetasFlores];
-
       const contenedor = document.getElementById("contenedorTarjetas");
-      contenedor.innerHTML = "";
+      contenedor.innerHTML = `<div style="text-align:center; padding: 20px; font-style: italic;">Cargando componentes desde Google Sheets...</div>`;
 
-      if (listaFinal.length === 0) {
-        contenedor.innerHTML = `<div style="text-align:center; padding: 40px; font-style: italic;">No se encontraron componentes para el código ingresado.</div>`;
-        return;
-      }
+      try {
+        const respuesta = await fetch('https://script.google.com/macros/s/AKfycbxecmfwxhy9RwvHcmNf4yCj0lX5P-db7L07Cg5-IiBGsYK-kjawu74bSlKkiBYGnhoL/exec');
+        const datos = await respuesta.json();
+        
+        let listaComponentes = [];
 
-      listaFinal.forEach(item => {
-        const details = document.createElement("details");
-        const rutaImagen = item.imagen ? item.imagen : `./componentes/${item.nombre.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+        // Recorremos TODAS las solapas de la nube automáticamente (Diccionario + Componentes)
+        Object.keys(datos).forEach(sheetNameOriginal => {
+          const sheetKey = sheetNameOriginal.trim().toLowerCase();
+          const listaItems = datos[sheetNameOriginal] || [];
 
-        details.innerHTML = `
-          <summary>${item.nombre}</summary>
-          <div class="contenidoTarjeta">
-            <img src="${rutaImagen}" alt="${item.nombre}" class="imagenComponente" onerror="this.style.display='none'">
-            <div class="infoComponente">
-              ${item.frase ? `<div class="fraseDestacada">${item.frase}</div>` : ''}
-              <p class="descripcionTexto">${item.descripcion || ''}</p>
+          if (sheetKey === 'diccionario') {
+            listaItems.forEach(item => {
+              const normalizado = {};
+              for (let key in item) { normalizado[key.trim().toLowerCase()] = item[key]; }
+              const cod = (normalizado.códigocorto || normalizado.codigocorto || '').toString().trim().toUpperCase();
+              const val = (normalizado.códigolargo || normalizado.codigolargo || '').toString().trim().toUpperCase();
+              if (cod && val) {
+                window.diccionarioCLC[cod] = val;
+              }
+            });
+          } else {
+            listaItems.forEach(item => {
+              const normalizado = {};
+              for (let key in item) {
+                normalizado[key.trim().toLowerCase()] = item[key];
+              }
+
+              const nombre = normalizado.nombre || normalizado.name || normalizado.componente || normalizado.titulo || '';
+              const codigo = normalizado.código || normalizado.codigo || normalizado.codigocorto || normalizado.cod || '';
+              const codigoSecundario = normalizado.codigosecundario || '';
+              const frase = normalizado.frase || '';
+              const descripcion = normalizado.principal || normalizado.descripcion || normalizado.descripción || normalizado.mensaje || normalizado.secundaria || '';
+              const imagen = normalizado.imagen || normalizado.foto || '';
+
+              if (nombre || codigo) {
+                listaComponentes.push({
+                  nombre: nombre,
+                  codigo: codigo,
+                  codigoSecundario: codigoSecundario,
+                  frase: frase,
+                  descripcion: descripcion,
+                  imagen: imagen
+                });
+              }
+            });
+          }
+        });
+
+        // Resolvemos el código usando el diccionario completo (local + nube)
+        if (window.diccionarioCLC && window.diccionarioCLC[codigoBuscado]) {
+          codigoBuscado = window.diccionarioCLC[codigoBuscado];
+        }
+
+        let codigoLargo = codigoBuscado;
+        if (window.CodificadorCLC && typeof window.CodificadorCLC.expandir === 'function') {
+          codigoLargo = window.CodificadorCLC.expandir(codigoBuscado) || codigoBuscado;
+        }
+
+        const tokens = [];
+        for (let i = 0; i < codigoLargo.length; i += 2) {
+          const token = codigoLargo.substr(i, 2);
+          if (token.length === 2) {
+            tokens.push(token);
+          }
+        }
+
+        const procesados = new Set();
+        const listaFinal = [];
+
+        tokens.forEach(token => {
+          listaComponentes.forEach(item => {
+            const codigoItem = item.codigo;
+            const codigos = codigoItem.toString().toUpperCase().split(',').map(c => c.trim());
+            const codSec = item.codigoSecundario ? item.codigoSecundario.toString().toUpperCase().trim() : '';
+            const nombreItem = item.nombre || 'Sin nombre';
+
+            if (codigos.includes(token) || codSec === token) {
+              if (!procesados.has(nombreItem)) {
+                procesados.add(nombreItem);
+                listaFinal.push({
+                  nombre: nombreItem,
+                  frase: item.frase,
+                  descripcion: item.descripcion,
+                  imagen: item.imagen
+                });
+              }
+            }
+          });
+        });
+
+        contenedor.innerHTML = "";
+
+        if (listaFinal.length === 0) {
+          contenedor.innerHTML = `<div style="text-align:center; padding: 40px; font-style: italic;">No se encontraron componentes para el código "${codigoBuscado}".</div>`;
+          return;
+        }
+
+        listaFinal.forEach(item => {
+          const details = document.createElement("details");
+          const rutaImagen = item.imagen && item.imagen.trim() !== "" ? item.imagen : `./componentes/${item.nombre.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+
+          details.innerHTML = `
+            <summary>${item.nombre}</summary>
+            <div class="contenidoTarjeta">
+              <img src="${rutaImagen}" alt="${item.nombre}" class="imagenComponente" onerror="this.style.display='none'">
+              <div class="infoComponente">
+                ${item.frase ? `<div class="fraseDestacada">${item.frase}</div>` : ''}
+                <p class="descripcionTexto">${item.descripcion || ''}</p>
+              </div>
             </div>
-          </div>
-        `;
-        contenedor.appendChild(details);
-      });
+          `;
+          contenedor.appendChild(details);
+        });
+
+      } catch (error) {
+        console.error("Error al cargar los componentes:", error);
+        contenedor.innerHTML = `<div style="text-align:center; padding: 40px; color: darkred; font-style: italic;">Error al conectar con la base de datos.</div>`;
+      }
     });
   </script>
 </body>
 </html>
+
 
 
 

@@ -121,6 +121,8 @@
       backdrop-filter: blur(10px);
     }
     #resultado.visible { display: block; }
+
+
     .mensajeTitulo {
       font-family: 'Cormorant Garamond', serif; text-align: center;
       font-size: 28px; color: #3b233e; margin-bottom: 22px;
@@ -221,10 +223,10 @@
   <script src="./componentesagregados.js"></script>
   <script src="./bclcagregados.js"></script>
   <script src="./codificadorCLC.js"></script>
-
   <script>
     window.diccionarioCLC = window.diccionarioCLC || {};
     window.combinacionesPirita = window.combinacionesPirita || {};
+    window.bclcAgregados = window.bclcAgregados || {};
 
     const codigoEntrada = document.getElementById("codigoEntrada");
     const verMensaje = document.getElementById("verMensaje");
@@ -234,7 +236,7 @@
     let codigoActual = "";
     const FIGURAS_ESPECIALES_TOKENS = ["OM", "SV", "FV", "PD", "ES"];
 
-    // Carga robusta adaptada a tus nombres exactos de Google Sheets
+    // Carga robusta y automática de TODAS las solapas de Google Sheets
     async function cargarDatosNube() {
       try {
         verMensaje.disabled = true;
@@ -245,37 +247,50 @@
         const datos = await respuesta.json();
         console.log("Estructura recibida de Google Sheets:", datos);
 
-        // 1. DICCIONARIO (lee códigoCorto y códigoLargo)
-        const claveDic = Object.keys(datos).find(k => k.trim().toLowerCase() === 'diccionario') || 'diccionario';
-        const listaDic = datos[claveDic] || [];
-        listaDic.forEach(item => {
-          const normalizado = {};
-          for (let key in item) { normalizado[key.trim().toLowerCase()] = item[key]; }
-          
-          const cod = (normalizado.códigocorto || normalizado.codigocorto || '').toString().trim().toUpperCase();
-          const val = (normalizado.códigolargo || normalizado.codigolargo || '').toString().trim().toUpperCase();
-          
-          if (cod && val) {
-            window.diccionarioCLC[cod] = val;
-          }
-        });
+        // Recorrer dinámicamente cada solapa que devuelve el Apps Script
+        Object.keys(datos).forEach(sheetNameOriginal => {
+          const sheetKey = sheetNameOriginal.trim().toLowerCase();
+          const listaItems = datos[sheetNameOriginal] || [];
 
-        // 2. PIRITA / PITA (lee nombre, código, principal, secundaria)
-        const clavePirita = Object.keys(datos).find(k => k.trim().toLowerCase() === 'pirita' || k.trim().toLowerCase() === 'pita') || 'pirita';
-        const listaPirita = datos[clavePirita] || [];
-        listaPirita.forEach(item => {
-          const normalizado = {};
-          for (let key in item) { normalizado[key.trim().toLowerCase()] = item[key]; }
-          
-          const nombre = (normalizado.nombre || '').toString().trim();
-          const codigo = (normalizado.código || normalizado.codigo || '').toString().trim().toUpperCase();
-          const mensajeTexto = normalizado.principal || normalizado.secundaria || '';
-          
-          if (nombre || codigo) {
-            window.combinacionesPirita[nombre || codigo] = {
-              codigo: codigo,
-              mensaje: mensajeTexto
-            };
+          if (sheetKey === 'diccionario') {
+            listaItems.forEach(item => {
+              const normalizado = {};
+              for (let key in item) { normalizado[key.trim().toLowerCase()] = item[key]; }
+              const cod = (normalizado.códigocorto || normalizado.codigocorto || '').toString().trim().toUpperCase();
+              const val = (normalizado.códigolargo || normalizado.codigolargo || '').toString().trim().toUpperCase();
+              if (cod && val) {
+                window.diccionarioCLC[cod] = val;
+              }
+            });
+          } else if (sheetKey === 'pirita' || sheetKey === 'pita') {
+            listaItems.forEach(item => {
+              const normalizado = {};
+              for (let key in item) { normalizado[key.trim().toLowerCase()] = item[key]; }
+              const nombre = (normalizado.nombre || '').toString().trim();
+              const codigo = (normalizado.código || normalizado.codigo || '').toString().trim().toUpperCase();
+              const mensajeTexto = normalizado.principal || normalizado.secundaria || '';
+              if (nombre || codigo) {
+                window.combinacionesPirita[nombre || codigo] = {
+                  codigo: codigo,
+                  mensaje: mensajeTexto
+                };
+              }
+            });
+          } else {
+            // Mapeo automático para cristales, figuras, flores o cualquier solapa nueva agregada en Sheets
+            window.bclcAgregados[sheetKey] = window.bclcAgregados[sheetKey] || {};
+            listaItems.forEach((item, index) => {
+              const normalizado = {};
+              for (let key in item) { normalizado[key.trim().toLowerCase()] = item[key]; }
+              let idItem = normalizado.id || normalizado.codigo || normalizado.nombre || `item_${index}`;
+              window.bclcAgregados[sheetKey][idItem] = {
+                codigo: normalizado.código || normalizado.codigo || normalizado.codigocorto || '',
+                codigoSecundario: normalizado.codigosecundario || '',
+                principal: normalizado.principal || normalizado.mensaje || normalizado.descripcion || '',
+                secundaria: normalizado.secundaria || '',
+                ...item
+              };
+            });
           }
         });
 
@@ -471,7 +486,6 @@
   </script>
 </body>
 </html>
-
 
 
 
