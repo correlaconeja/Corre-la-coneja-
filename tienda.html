@@ -645,7 +645,7 @@
       });
     }
 
-    function validarYEnviarPedido() {
+      function validarYEnviarPedido() {
       let nombre = document.getElementById('envNombre').value.trim(), 
           loc = document.getElementById('envLocalidad').value.trim(), 
           prov = document.getElementById('envProvincia').value.trim(), 
@@ -663,15 +663,25 @@
         return; 
       }
 
-      // VALIDACIÓN AUTOMÁTICA DE EXCLUSIVIDAD CON GOOGLE SHEETS
       let locNormalizada = loc.toLowerCase().trim();
-      if (localidadesOcupadas.includes(locNormalizada)) {
-        document.getElementById('contenidoCheckoutForm').style.display = 'none';
-        let divExcl = document.getElementById('contenidoExclusividad');
-        divExcl.style.display = 'block';
-        let textoMsjExclusividad = `¡Hola! 👋 Me comuniqué desde la tienda porque soy de *${loc}* y vi que ya hay una revendedora exclusiva registrada. Quisiera consultar disponibilidad o revendedores cercanos.`;
-        document.getElementById('btnWhatsappExclusividad').href = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoMsjExclusividad);
-        return;
+      let telefonoIngresado = (car + num).replace(/\D/g, "");
+
+      // Buscamos si la localidad ya figura en la base de datos de zonas ocupadas
+      let zonaOcupada = localidadesOcupadas.find(z => z.localidad.toLowerCase().trim() === locNormalizada);
+
+      if (zonaOcupada) {
+        let telefonoRegistrado = String(zonaOcupada.telefono).replace(/\D/g, "");
+
+        // Si el teléfono ingresado NO coincide con el registrado, se bloquea y manda a WhatsApp
+        if (telefonoIngresado !== telefonoRegistrado) {
+          document.getElementById('contenidoCheckoutForm').style.display = 'none';
+          let divExcl = document.getElementById('contenidoExclusividad');
+          divExcl.style.display = 'block';
+          let textoMsjExclusividad = `¡Hola! 👋 Me comuniqué desde la tienda porque soy de *${loc}* y vi que ya hay una revendedora exclusiva registrada. Quisiera consultar disponibilidad.`;
+          document.getElementById('btnWhatsappExclusividad').href = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoMsjExclusividad);
+          return;
+        }
+        // Si el teléfono SÍ coincide, el sistema lo deja pasar automáticamente.
       }
       
       let subtotal = calcularSubtotalProductos();
@@ -690,24 +700,26 @@
 
       let totalGeneral = subtotal + costoEnvio + recargo;
 
-      // GUARDAR CLIENTE NUEVO AUTOMÁTICAMENTE EN LA PLANILLA
-      let datosCliente = {
-        nombre: nombre,
-        calle: calle,
-        localidad: loc,
-        provincia: prov,
-        cp: cp,
-        caracteristica: car,
-        numero: num,
-        correo: document.getElementById('envCorreo').value.trim(),
-        observaciones: observaciones
-      };
-      guardarClienteEnPlanilla(datosCliente);
+      guardarClienteEnPlanilla({
+        nombre, calle, localidad: loc, provincia: prov, cp, caracteristica: car, numero: num,
+        correo: document.getElementById('envCorreo').value.trim(), observaciones
+      });
 
       let mensaje = `Pedido Mayorista de *${nombre}* (${loc}, ${prov}).\n\nItems:\n`;
       Object.keys(carrito).forEach(k => {
         let item = carrito[k];
-        mensaje += `- ${item.nombre} x ${item.cantidad} u. ($${(item.precioMayorista * item.cantidad).toLocaleString('es-AR')})\n`;
+        let itemSub = 0;
+        if (item.tipoPrecio === 'docena') {
+          let prod = buscarProducto(item.idOriginal);
+          if (prod) {
+            let precioDocenaTotal = prod.precioDocena || (typeof prod.ofertaDocena === 'object' ? prod.ofertaDocena.precio : prod.ofertaDocena) || (obtenerPrecioProducto(prod, 'unidad') * 12);
+            let precioListaUnit = obtenerPrecioProducto(prod, 'unidad');
+            let docenasCompletas = Math.floor(item.cantidad / 12);
+            let unidadesSueltas = item.cantidad % 12;
+            itemSub = (docenasCompletas * precioDocenaTotal) + (unidadesSueltas * precioListaUnit);
+          } else { itemSub = item.precioMayorista * item.cantidad; }
+        } else { itemSub = item.precioMayorista * item.cantidad; }
+        mensaje += `- ${item.nombre} x ${item.cantidad} u. ($${itemSub.toLocaleString('es-AR')})\n`;
       });
       
       mensaje += `\nSubtotal Productos: $${subtotal.toLocaleString('es-AR')}\n` +
