@@ -79,7 +79,12 @@
     <div class="headerMarca">
       <div class="medallaLogo"><img src="logo.jpeg" alt="Logo Corre la Coneja" class="logoImagen"></div>
       <h1>Tienda Mayorista</h1>
-      <div class="subtitulo">Seleccioná los productos para armar tu pedido. Mínimo de compra: $150.000</div>
+      <div class="subtitulo">
+  Seleccioná los productos para armar tu pedido. 
+  <span style="display: inline-block; margin-top: 5px; background: #ffffff; color: #5a3e23; font-weight: 700; padding: 3px 10px; border-radius: 12px; border: 1.5px solid #c4ae88; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+    Mínimo de compra: $100.000
+  </span>
+</div>
     </div>
     <div id="contenedorGrilla" class="grillaProductos"></div>
     <div class="cajaCarrito">
@@ -92,7 +97,7 @@
           <label style="font-weight: normal; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
             <input type="radio" name="tipoEntregaRadio" value="retiro" checked onchange="cambiarTipoEntrega()"> Retiro por el local / A coordinar ($0)
           </label>
-          <label style="font-weight: normal; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+        <label style="font-weight: normal; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
             <input type="radio" name="tipoEntregaRadio" value="sucursal" onchange="cambiarTipoEntrega()"> Sucursal Correo Argentino ($11.000)
           </label>
           <label style="font-weight: normal; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
@@ -510,8 +515,8 @@
       actualizarResumenCheckout(totalGeneral);
       actualizarMontoExactoTarjeta(totalGeneral, tipoPago);
 
-      btnWs.disabled = subtotal < 150000;
-      document.getElementById('avisoMinimoContenedor').innerHTML = subtotal < 150000 ? `<div style="background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 6px; border-radius: 6px; font-size: 11.5px; text-align: center; margin: 8px 0;">⚠️ Falta $${(150000 - subtotal).toLocaleString('es-AR')} para la compra mínima.</div>` : `<div style="background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 6px; border-radius: 6px; font-size: 11.5px; text-align: center; margin: 8px 0;">✅ ¡Compra mínima alcanzada!</div>`;
+      btnWs.disabled = subtotal < 100000;
+      document.getElementById('avisoMinimoContenedor').innerHTML = subtotal < 100000 ? `<div style="background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 6px; border-radius: 6px; font-size: 11.5px; text-align: center; margin: 8px 0;">⚠️ Falta $${(100000 - subtotal).toLocaleString('es-AR')} para la compra mínima.</div>` : `<div style="background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 6px; border-radius: 6px; font-size: 11.5px; text-align: center; margin: 8px 0;">✅ ¡Compra mínima alcanzada!</div>`;
     }
 
     function actualizarResumenCheckout(total) {
