@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wholesale International | Corre la Coneja</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; padding: 15px 15px 60px; font-family: 'Montserrat', sans-serif;
+      color: #2b2017; background-color: #fcf8f2;
+      background: linear-gradient(rgba(255, 251, 245, .85), rgba(255, 251, 245, .85)), url("tienda.jpg");
+      background-size: cover; background-position: center; background-attachment: fixed; overflow-x: hidden; font-size: 13.5px;
+    }
+    .contenedor { width: 100%; max-width: 980px; margin: auto; }
+    
+    .topControlBar {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
+      background: rgba(255, 254, 250, 0.8); padding: 8px 14px; border-radius: 20px; border: 1px solid #e2d4be;
+    }
+    .topControlBar select {
+      border: 1px solid #c4ae88; background: #fff; border-radius: 12px; padding: 3px 8px; font-size: 11.5px;
+      font-family: 'Montserrat', sans-serif; color: #4a3728; cursor: pointer;
+    }
+
+    .headerMarca { text-align: center; margin-bottom: 25px; }
+    .medallaLogo {
+      width: 100px; height: 100px; margin: 0 auto 10px; border-radius: 50%;
+      background: #f5efe6; border: 1px solid rgba(195, 165, 120, 0.6);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+      box-shadow: 0 5px 15px rgba(60, 40, 20, 0.08);
+    }
+    .logoImagen { width: 130%; height: 130%; object-fit: contain; border-radius: 50%; mix-blend-mode: multiply; }
+    h1 { text-align: center; font-size: 26px; font-weight: 500; margin: 0 0 4px; color: #24180e; font-family: 'Cormorant Garamond', serif; letter-spacing: 0.5px; }
+    .subtitulo { text-align: center; font-size: 13px; color: #4a3728; margin-bottom: 15px; padding: 0 10px; line-height: 1.5; }
+    .badgeMinimoHeader {
+      display: inline-block; margin-top: 6px; background: #ffffff; color: #5a3e23; font-weight: 600;
+      padding: 4px 12px; border-radius: 14px; border: 1.5px solid #c4ae88; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    .navSecciones { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 25px; }
+    .btnNavTab {
+      background: rgba(255, 254, 250, 0.9); border: 1px solid #c4ae88; color: #5a3e23;
+      padding: 6px 14px; border-radius: 20px; font-size: 11.5px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .btnNavTab:hover, .btnNavTab.active { background: #a98357; color: #fff; border-color: #a98357; }
+
+    .seccionBloque { display: none; margin-bottom: 30px; animation: fadeIn 0.3s ease; }
+    .seccionBloque.activa { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .grillaProductos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 25px; }
+    .tarjetaProducto {
+      background: rgba(255, 254, 250, 0.95); border: 1px solid rgba(215, 192, 155, 0.8); border-radius: 14px; overflow: hidden;
+      display: flex; flex-direction: row; align-items: stretch; box-shadow: 0 4px 12px rgba(80, 55, 25, 0.05); transition: all .2s;
+    }
+    .tarjetaProducto:hover { border-color: #a98357; transform: translateY(-2px); }
+    .imagenContenedor {
+      width: 115px; min-width: 115px; background: #f2e9dc; overflow: hidden; cursor: pointer;
+      position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 6px;
+    }
+    .imagenContenedor img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px; }
+    .verMasOverlay {
+      position: absolute; bottom: 6px; left: 6px; right: 6px; background: rgba(51, 34, 20, 0.75);
+      color: white; font-size: 9px; text-align: center; padding: 3px 0; font-weight: 500; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
+    }
+    .badgeSinStock {
+      position: absolute; top: 8px; left: 8px; background: #d98273;
+      color: white; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; z-index: 2;
+    }
+
+    .infoContenido { padding: 12px 14px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; overflow: hidden; }
+    .infoContenido h3 { font-size: 14px; margin: 0 0 4px; color: #332214; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .descCorta { font-size: 11px; color: #614a38; margin-bottom: 8px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .bloquePrecios { display: flex; flex-direction: column; gap: 2px; margin-bottom: 6px; }
+    .precioMayoristaFinal { font-size: 16px; color: #5a3e23; font-weight: 700; }
+
+    .controlCantidad { display: flex; align-items: center; gap: 3px; }
+    .btnCantidad { width: 22px; height: 26px; border: 1px solid #c4ae88; background: #e8dccb; color: #332214; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .btnCantidad:hover { background: #d7c5ac; }
+    .accionesFila { display: flex; gap: 6px; align-items: center; }
+    .form-control { width: 38px; padding: 4px 2px; border-radius: 6px; border: 1px solid #c4ae88; text-align: center; font-size: 12px; font-weight: 600; }
+    .btnAccionCard { padding: 6px 10px; border: none; border-radius: 8px; background: #a98357; color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11.5px; cursor: pointer; transition: background .2s; flex-grow: 1; }
+    .btnAccionCard:hover { background: #8e6a43; }
+    .btnAccionCard:disabled { background: #b8ac9c !important; cursor: not-allowed; opacity: 0.7; }
+
+    .cajaCarrito { background: rgba(255, 254, 250, 0.98); border: 1px solid #6f4d25; border-radius: 16px; padding: 18px; margin-top: 25px; box-shadow: 0 10px 25px rgba(80, 55, 25, 0.1); }
+    .cajaCarrito h2 { font-size: 16px; color: #332214; margin-top: 0; border-bottom: 1px dashed rgba(180, 150, 110, 0.4); padding-bottom: 8px; font-family: 'Cormorant Garamond', serif; }
+    .itemCarrito { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; padding: 6px 0; border-bottom: 1px solid rgba(215, 192, 155, 0.3); }
+    .totalTexto { font-size: 16px; font-weight: bold; color: #5a3e23; margin: 12px 0; text-align: right; }
+    .btnPrimary { display: block; width: 100%; padding: 12px; border: none; border-radius: 25px; background: #a98357; color: white; font-family: 'Montserrat', sans-serif; font-size: 13.5px; font-weight: 600; text-align: center; text-decoration: none; cursor: pointer; box-shadow: 0 4px 12px rgba(169, 131, 87, 0.3); transition: background 0.2s; }
+    .btnPrimary:hover { background: #8e6a43; }
+    .btnPrimary:disabled { background: #b0c4de; cursor: not-allowed; box-shadow: none; opacity: 0.7; }
+
+    .infoCardB2B {
+      background: rgba(255, 254, 250, 0.95); border: 1px solid #d7c09b; border-radius: 14px;
+      padding: 18px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(80, 55, 25, 0.03);
+    }
+    .infoCardB2B h3 { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #332214; margin-top: 0; margin-bottom: 10px; }
+    .infoCardB2B p, .infoCardB2B ul { font-size: 12.5px; color: #5a3e23; line-height: 1.6; margin: 0; }
+    .infoCardB2B ul { padding-left: 18px; }
+
+    .modalOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(43, 32, 23, 0.65); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; backdrop-filter: blur(3px); }
+    .modalContenido { background: linear-gradient(135deg, #fffefa, #f6eee0); border: 1px solid #d7c09b; border-radius: 20px; max-width: 480px; width: 94%; padding: 20px; position: relative; box-shadow: 0 15px 30px rgba(40, 25, 10, 0.2); max-height: 90vh; overflow-y: auto; }
+    .cerrarModal { position: absolute; top: 12px; right: 15px; background: none; border: none; font-size: 22px; cursor: pointer; color: #5a3e23; font-weight: bold; z-index: 10; }
+    
+    .formGrupo { margin-bottom: 12px; }
+    .formGrupo label { display: block; font-size: 12px; font-weight: 600; color: #5a3e23; margin-bottom: 4px; }
+    .formGrupo input, .formGrupo select, .formGrupo textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #c4ae88; font-family: 'Montserrat', sans-serif; font-size: 12.5px; background: #fff; }
+
+    footer { margin-top: 50px; padding-top: 25px; border-top: 1px solid #d7c09b; text-align: center; color: #614a38; font-size: 12px; }
+    footer a { color: #5a3e23; text-decoration: none; font-weight: 600; margin: 0 8px; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <div class="topControlBar">
+      <div>
+        <span style="font-size: 11px; font-weight: 600; color: #7d5730;">Currency:</span>
+        <select id="selectMoneda" onchange="cambiarMoneda(this.value)">
+          <option value="USD" selected>USD ($)</option>
+          <option value="EUR">EUR (€)</option>
+        </select>
+      </div>
+      <div>
+        <span style="font-size: 11px; font-weight: 600; color: #7d5730;">Language:</span>
+        <select id="selectIdioma" onchange="cambiarIdioma(this.value)">
+          <option value="en" selected>English</option>
+          <option value="es">Español</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="headerMarca">
+      <div class="medallaLogo"><img src="logo.jpeg" alt="Corre la Coneja" class="logoImagen"></div>
+      <h1>Corre la Coneja</h1>
+      <div class="subtitulo">
+        <span id="txtSubtitulo">Handmade Resin Suncatchers — Exclusive Artisanal Design from Argentina</span><br>
+        <div class="badgeMinimoHeader" id="txtHeaderMinimo">
+          Mix & Match Minimum Order: 10 units total
+        </div>
+      </div>
+    </div>
+
+    <div class="navSecciones">
+      <button class="btnNavTab active" onclick="mostrarSeccion('catalog', this)" id="navCatalog">Wholesale Catalog</button>
+      <button class="btnNavTab" onclick="mostrarSeccion('terms', this)" id="navTerms">Wholesale Terms</button>
+      <button class="btnNavTab" onclick="mostrarSeccion('howToOrder', this)" id="navHowToOrder">How to Order</button>
+      <button class="btnNavTab" onclick="mostrarSeccion('shipping', this)" id="navShipping">Shipping & Payment</button>
+      <button class="btnNavTab" onclick="mostrarSeccion('about', this)" id="navAbout">About Us</button>
+      <button class="btnNavTab" onclick="mostrarSeccion('contact', this)" id="navContact">Contact</button>
+    </div>
+
+    <div id="secCatalog" class="seccionBloque activa">
+      <div id="contenedorGrilla" class="grillaProductos"></div>
+      
+      <div class="cajaCarrito">
+        <h2 id="txtTituloCarrito">🛒 Your Wholesale Order</h2>
+        <div id="listaItemsCarrito"><p style="font-size: 12.5px; color: #7d5730; text-align: center; margin: 8px 0;">Your order is empty.</p></div>
+        
+        <div id="avisoMinimoContenedor"></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin: 12px 0;">
+          <span style="font-size: 13px; font-weight: 600; color: #5a3e23;" id="txtTotalUnitsLabel">Total Units:</span>
+          <span id="textoTotalUnidades" style="font-size: 14px; font-weight: bold; color: #5a3e23;">0 u.</span>
+        </div>
+        <div class="totalTexto" id="textoTotalFinal">Subtotal: $0 USD</div>
+        <button id="btnEnviarPedido" class="btnPrimary" onclick="abrirModalCheckout()" disabled>Proceed to Wholesale Request</button>
+      </div>
+    </div>
+
+    <div id="secTerms" class="seccionBloque">
+      <div class="infoCardB2B">
+        <h3>Minimum Order Quantity (MOQ) & Mix & Match</h3>
+        <p>Our wholesale program allows you to mix and match different suncatcher models to meet the minimum total quantity requirement of <strong>10 units</strong>. You are not required to purchase fixed packs of a single model.</p>
+      </div>
+      <div class="infoCardB2B">
+        <h3>Artisanal Production & Lead Times</h3>
+        <p>Every piece is individually handcrafted in our studio in Argentina using real dried botanicals and resin. Orders are made to order. Standard production lead time is <strong>7 to 15 business days</strong> depending on order volume.</p>
+      </div>
+      <div class="infoCardB2B">
+        <h3>Customs & Import Duties</h3>
+        <p>International shipments are sent DAP (Delivered at Place). Import duties, taxes, or local clearance fees required by the destination country are the responsibility of the buyer.</p>
+      </div>
+    </div>
+
+    <div id="secHowToOrder" class="seccionBloque">
+      <div class="infoCardB2B">
+        <h3>How to Place a Wholesale Order</h3>
+        <ul>
+          <li><strong>1. Select Items:</strong> Browse our catalog and select quantities for your shop (minimum 10 total units).</li>
+          <li><strong>2. Complete Store Form:</strong> Fill out your business details and shipping destination.</li>
+          <li><strong>3. Submit Request:</strong> Send your order request directly to us.</li>
+          <li><strong>4. Order Confirmation:</strong> We verify inventory, calculate precise international shipping costs, and email/message you an official proforma invoice.</li>
+          <li><strong>5. Payment & Dispatch:</strong> Once payment is confirmed, we handcraft and dispatch your order with tracking details.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="secShipping" class="seccionBloque">
+      <div class="infoCardB2B">
+        <h3>International Shipping</h3>
+        <p>We ship worldwide directly from Argentina via reliable courier partners (DHL / FedEx / Express Postal Service). Shipping costs are calculated based on destination country, parcel weight, and dimensions. An exact shipping quote will be included in your order confirmation invoice.</p>
+      </div>
+      <div class="infoCardB2B">
+        <h3>Payment Methods</h3>
+        <p>We accept international payments through:</p>
+        <ul>
+          <li>International Bank Wire Transfer (SWIFT / ACH / SEPA)</li>
+          <li>PayPal / Credit Card payment links (international fee may apply)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="secAbout" class="seccionBloque">
+      <div class="infoCardB2B">
+        <h3>About Corre la Coneja</h3>
+        <p>Corre la Coneja is an independent artisanal studio based in Argentina. We specialize in handcrafted resin suncatchers featuring original botanical compositions and high-clarity prisms. Each piece is meticulously crafted with carefully encapsulated flowers and natural elements, created to fill retail spaces with light, warmth, and singular artistic personality.</p>
+      </div>
+    </div>
+
+    <div id="secContact" class="seccionBloque">
+      <div class="infoCardB2B">
+        <h3>B2B Customer Care</h3>
+        <p>Have questions about retail partnership or custom catalog requests?</p>
+        <ul style="list-style: none; padding-left: 0; margin-top: 10px;">
+          <li>📧 <strong>Email:</strong> wholesale@correlaconeja.com</li>
+          <li>💬 <strong>WhatsApp B2B:</strong> +54 9 2396 614552</li>
+          <li>📷 <strong>Instagram:</strong> @correlaconeja</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      <div>
+        <a onclick="mostrarSeccion('catalog')" href="javascript:void(0)">Wholesale</a> | 
+        <a onclick="mostrarSeccion('terms')" href="javascript:void(0)">Terms</a> | 
+        <a onclick="mostrarSeccion('shipping')" href="javascript:void(0)">Shipping</a> | 
+        <a onclick="mostrarSeccion('about')" href="javascript:void(0)">About Us</a> | 
+        <a onclick="mostrarSeccion('contact')" href="javascript:void(0)">Contact</a>
+      </div>
+      <p style="margin-top: 10px;">© Corre la Coneja — Handcrafted Design from Argentina</p>
+    </footer>
+  </div>
+
+  <div id="modalProducto" class="modalOverlay" onclick="cerrarModalFuera(event)">
+    <div class="modalContenido">
+      <button class="cerrarModal" onclick="cerrarModalDetalle()">×</button>
+      <div style="height: 240px; background: #f2e9dc; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
+        <img id="modalImg" src="" alt="Product" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+      <h3 id="modalNombre" style="margin: 0 0 6px; font-size: 18px; color: #332214; font-family: 'Cormorant Garamond', serif;"></h3>
+      <p id="modalDesc" style="font-size: 12.5px; color: #5a3e23; margin-bottom: 12px; line-height: 1.4;"></p>
+      <div style="margin-bottom: 15px; background: rgba(215, 192, 155, 0.2); padding: 10px; border-radius: 8px;">
+        <div id="modalPrecioFinal" style="font-size: 18px; font-weight: 700; color: #5a3e23;">$0 USD</div>
+        <div style="font-size: 11px; color: #7d5730;">Wholesale unit price</div>
+      </div>
+      <button id="btnModalAgregar" class="btnPrimary" onclick="agregarDesdeModal()">Add to Wholesale Order</button>
+    </div>
+  </div>
+
+  <div id="modalCheckout" class="modalOverlay">
+    <div class="modalContenido">
+      <button class="cerrarModal" onclick="cerrarModalCheckout()">×</button>
+      <h3 style="margin-top: 0; color: #332214; font-size: 17px; font-family: 'Cormorant Garamond', serif; border-bottom: 1px solid #d7c09b; padding-bottom: 8px;">📋 Wholesale Order Request</h3>
+      <div id="resumenCheckoutBox" style="background: rgba(215, 192, 155, 0.25); padding: 10px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #c4ae88;">
+        <div id="textoResumenTotalCheckout" style="font-size: 14px; font-weight: bold; color: #5a3e23;">Estimated Total: $0 USD</div>
+        <div id="textoResumenUnidadesCheckout" style="font-size: 11.5px; color: #7d5730;">Total Units: 0</div>
+      </div>
+      <div class="formGrupo"><label>Store / Business Name *</label><input type="text" id="b2bStoreName" placeholder="e.g. Luna Boutique"></div>
+      <div class="formGrupo"><label>Contact Name *</label><input type="text" id="b2bContactName" placeholder="e.g. Jane Doe"></div>
+      <div style="display: flex; gap: 8px;">
+        <div class="formGrupo" style="flex: 1;"><label>Country *</label><input type="text" id="b2bCountry" placeholder="e.g. United States"></div>
+        <div class="formGrupo" style="flex: 1;"><label>City / State *</label><input type="text" id="b2bCity" placeholder="e.g. Austin, TX"></div>
+      </div>
+      <div class="formGrupo"><label>Email Address *</label><input type="email" id="b2bEmail" placeholder="buyer@store.com"></div>
+      <div class="formGrupo"><label>WhatsApp / Phone (Optional)</label><input type="text" id="b2bPhone" placeholder="+1 555 123 4567"></div>
+      <div style="display: flex; gap: 8px;">
+        <div class="formGrupo" style="flex: 1;"><label>Website (Optional)</label><input type="text" id="b2bWebsite" placeholder="www.yourstore.com"></div>
+        <div class="formGrupo" style="flex: 1;"><label>Instagram Handle</label><input type="text" id="b2bInstagram" placeholder="@yourstore"></div>
+      </div>
+      <div class="formGrupo">
+        <label>Store Type *</label>
+        <select id="b2bStoreType">
+          <option value="Boutique / Gift Shop">Boutique / Gift Shop</option>
+          <option value="Home Decor Store">Home Decor Store</option>
+          <option value="Spiritual / Boho Shop">Spiritual / Boho Shop</option>
+          <option value="Online Retailer">Online Retailer</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="formGrupo"><label>Notes or Special Instructions (Optional)</label><textarea id="b2bNotes" placeholder="Additional details..." style="resize: vertical; min-height: 45px;"></textarea></div>
+      <div style="margin-bottom: 12px;">
+        <label style="font-size: 11.5px; color: #5a3e23; cursor: pointer; display: flex; align-items: flex-start; gap: 6px;">
+          <input type="checkbox" id="checkTerms" style="margin-top: 2px;">
+          <span>I accept the Wholesale Terms & understand shipping cost will be quoted upon order confirmation.</span>
+        </label>
+      </div>
+      <button class="btnPrimary" onclick="validarYEnviarPedidoB2B()">Submit Wholesale Request</button>
+    </div>
+  </div>
+  <script src="productos-international.js"></script>
+  <script>
+    let carrito = {};
+    let productoSeleccionadoModal = null;
+    let monedaActual = 'USD';
+    let idiomaActual = 'en';
+
+    const i18n = {
+      en: {
+        subtitulo: "Handmade Resin Suncatchers — Exclusive Artisanal Design from Argentina",
+        headerMinimo: "Mix & Match Minimum Order: {min} units total",
+        minimoAlcanzado: "✅ Minimum order reached ({units} units)!",
+        faltaMinimo: "⚠️ Add {diff} more units to reach minimum ({min} units required).",
+        totalUnits: "Total Units:",
+        subtotal: "Subtotal:",
+        orderEmpty: "Your order is empty.",
+        btnOrder: "Proceed to Wholesale Request"
+      },
+      es: {
+        subtitulo: "Atrapasoles artesanales de resina — Diseño exclusivo de Argentina",
+        headerMinimo: "Mínimo de compra Mix & Match: {min} unidades totales",
+        minimoAlcanzado: "✅ ¡Mínimo de compra alcanzado ({units} unidades)!",
+        faltaMinimo: "⚠️ Agregá {diff} unidades más para el mínimo ({min} requeridas).",
+        totalUnits: "Unidades Totales:",
+        subtotal: "Subtotal:",
+        orderEmpty: "Tu carrito está vacío.",
+        btnOrder: "Enviar Solicitud Mayorista"
+      }
+    };
+
+    window.onload = function() {
+      renderizarTienda();
+      actualizarCarritoUI();
+    };
+
+    function mostrarSeccion(secId, btnEl) {
+      document.querySelectorAll('.seccionBloque').forEach(s => s.classList.remove('activa'));
+      const secTarget = document.getElementById('sec' + secId.charAt(0).toUpperCase() + secId.slice(1));
+      if (secTarget) secTarget.classList.add('activa');
+
+      if (btnEl) {
+        document.querySelectorAll('.btnNavTab').forEach(b => b.classList.remove('active'));
+        btnEl.classList.add('active');
+      }
+    }
+
+    function cambiarMoneda(val) {
+      monedaActual = val;
+      renderizarTienda();
+      actualizarCarritoUI();
+    }
+
+        function cambiarIdioma(lang) {
+      idiomaActual = lang;
+      const t = i18n[lang];
+      if (document.getElementById('txtSubtitulo')) document.getElementById('txtSubtitulo').innerText = t.subtitulo;
+      
+      // Traducir menú de navegación
+      if (document.getElementById('navCatalog')) document.getElementById('navCatalog').innerText = lang === 'es' ? 'Catálogo Mayorista' : 'Wholesale Catalog';
+      if (document.getElementById('navTerms')) document.getElementById('navTerms').innerText = lang === 'es' ? 'Términos Mayoristas' : 'Wholesale Terms';
+      if (document.getElementById('navHowToOrder')) document.getElementById('navHowToOrder').innerText = lang === 'es' ? 'Cómo Comprar' : 'How to Order';
+      if (document.getElementById('navShipping')) document.getElementById('navShipping').innerText = lang === 'es' ? 'Envíos y Pagos' : 'Shipping & Payment';
+      if (document.getElementById('navAbout')) document.getElementById('navAbout').innerText = lang === 'es' ? 'Sobre Nosotros' : 'About Us';
+      if (document.getElementById('navContact')) document.getElementById('navContact').innerText = lang === 'es' ? 'Contacto' : 'Contact';
+      if (document.getElementById('txtTituloCarrito')) document.getElementById('txtTituloCarrito').innerText = lang === 'es' ? '🛒 Tu Pedido Mayorista' : '🛒 Your Wholesale Order';
+      if (document.getElementById('txtTotalUnitsLabel')) document.getElementById('txtTotalUnitsLabel').innerText = t.totalUnits;
+      if (document.getElementById('btnEnviarPedido')) document.getElementById('btnEnviarPedido').innerText = t.btnOrder;
+
+      // Volver a renderizar catálogo y carrito en el nuevo idioma
+      renderizarTienda();
+      actualizarCarritoUI();
+    }
+
+
+    function obtenerPrecioFormateado(precioUSD) {
+      let simbolo = monedaActual === 'EUR' ? '€' : '$';
+      let factor = monedaActual === 'EUR' ? 0.92 : 1.0;
+      let finalVal = (precioUSD * factor).toFixed(2);
+      return `${simbolo}${finalVal} ${monedaActual}`;
+    }
+
+            function renderizarTienda() {
+      const contenedor = document.getElementById('contenedorGrilla');
+      if (typeof productosMayoristasInt === 'undefined' || productosMayoristasInt.length === 0) {
+        contenedor.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No products found.</p>';
+        return;
+      }
+      let html = '';
+      productosMayoristasInt.forEach(prod => {
+        let fotoPortada = (prod.imagenes && prod.imagenes.length > 0) ? prod.imagenes[0] : 'logo.jpeg';
+        let esSinStock = prod.sinStock === true;
+        let precioTexto = obtenerPrecioFormateado(prod.precioUSD);
+
+        // BUSCAR TEXTO EN ESPAÑOL DESDE productos.js (productosMayoristas)
+        let prodEsp = (typeof productosMayoristas !== 'undefined') 
+          ? productosMayoristas.find(p => p.id === prod.id) 
+          : null;
+
+        let nombreMostrar = (idiomaActual === 'es' && prodEsp) ? prodEsp.nombre : prod.nombre;
+        let descMostrar = (idiomaActual === 'es' && prodEsp) ? prodEsp.descripcion : (prod.descripcion || '');
+
+        let txtBotonAgregar = esSinStock 
+          ? (idiomaActual === 'es' ? 'Sin Stock' : 'Out of stock') 
+          : (idiomaActual === 'es' ? 'Agregar' : 'Add');
+
+        let txtVerMas = idiomaActual === 'es' ? 'Ver detalles' : 'View details';
+
+        html += `
+          <div class="tarjetaProducto">
+            <div class="imagenContenedor" onclick="abrirModalDetalle('${prod.id}')">
+              ${esSinStock ? `<div class="badgeSinStock">${idiomaActual === 'es' ? 'Agotado' : 'Sold Out'}</div>` : ''}
+              <img src="${fotoPortada}" alt="${nombreMostrar}">
+              <div class="verMasOverlay">${txtVerMas}</div>
+            </div>
+            <div class="infoContenido">
+              <div>
+                <h3>${nombreMostrar}</h3>
+                <div class="descCorta">${descMostrar}</div>
+              </div>
+              <div>
+                <div class="bloquePrecios">
+                  <span class="precioMayoristaFinal">${precioTexto}</span>
+                </div>
+                <div class="accionesFila">
+                  <div class="controlCantidad">
+                    <button class="btnCantidad" onclick="modificarCantidadInput('${prod.id}', -1)" ${esSinStock ? 'disabled' : ''}>-</button>
+                    <input type="number" id="cant_${prod.id}" value="1" min="1" class="form-control" readonly ${esSinStock ? 'disabled' : ''}>
+                    <button class="btnCantidad" onclick="modificarCantidadInput('${prod.id}', 1)" ${esSinStock ? 'disabled' : ''}>+</button>
+                  </div>
+                  <button class="btnAccionCard" onclick="agregarAlPedido('${prod.id}')" ${esSinStock ? 'disabled' : ''}>${txtBotonAgregar}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      contenedor.innerHTML = html;
+    }
+
+    function modificarCantidadInput(id, delta) {
+      let inputCant = document.getElementById(`cant_${id}`);
+      if (!inputCant) return;
+      let valActual = parseInt(inputCant.value) || 1;
+      let nuevoVal = valActual + delta;
+      if (nuevoVal < 1) nuevoVal = 1;
+      inputCant.value = nuevoVal;
+    }
+
+    function buscarProducto(id) {
+      return productosMayoristasInt.find(p => String(p.id) === String(id));
+    }
+
+        function abrirModalDetalle(id) {
+      let prod = buscarProducto(id);
+      if (!prod) return;
+      productoSeleccionadoModal = prod;
+      indiceImagenModal = 0;
+
+      // BUSCAR TEXTO EN ESPAÑOL DESDE productos.js (productosMayoristas)
+      let prodEsp = (typeof productosMayoristas !== 'undefined') 
+        ? productosMayoristas.find(p => p.id === prod.id) 
+        : null;
+
+      let nombreMostrar = (idiomaActual === 'es' && prodEsp) ? prodEsp.nombre : prod.nombre;
+      let descMostrar = (idiomaActual === 'es' && prodEsp) ? prodEsp.descripcion : (prod.descripcion || '');
+
+      document.getElementById('modalNombre').innerText = nombreMostrar;
+      document.getElementById('modalDesc').innerText = descMostrar;
+      document.getElementById('modalPrecioFinal').innerText = obtenerPrecioFormateado(prod.precioUSD);
+      
+      actualizarVisorImagenModal();
+      document.getElementById('modalProducto').style.display = 'flex';
+    }
+
+
+    function cerrarModalDetalle() { document.getElementById('modalProducto').style.display = 'none'; }
+    function cerrarModalFuera(e) { if (e.target.id === 'modalProducto') cerrarModalDetalle(); }
+
+    function agregarDesdeModal() {
+      if (!productoSeleccionadoModal || productoSeleccionadoModal.sinStock) return;
+      agregarItemAlCarrito(productoSeleccionadoModal.id, 1);
+      cerrarModalDetalle();
+    }
+
+    function agregarAlPedido(id) {
+      let inputCant = document.getElementById(`cant_${id}`);
+      let qty = inputCant ? (parseInt(inputCant.value) || 1) : 1;
+      agregarItemAlCarrito(id, qty);
+    }
+
+    function agregarItemAlCarrito(id, cantidad) {
+      let prod = buscarProducto(id);
+      if (!prod) return;
+      if (carrito[id]) {
+        carrito[id].cantidad += cantidad;
+      } else {
+        carrito[id] = { id: prod.id, nombre: prod.nombre, precioUSD: prod.precioUSD, cantidad: cantidad };
+      }
+      actualizarCarritoUI();
+    }
+
+    function cambiarCantidadCarrito(id, delta) {
+      if (carrito[id]) {
+        carrito[id].cantidad += delta;
+        if (carrito[id].cantidad <= 0) delete carrito[id];
+        actualizarCarritoUI();
+      }
+    }
+
+    function calcularTotales() {
+      let keys = Object.keys(carrito);
+      let totalUnits = 0;
+      let subtotalUSD = 0;
+      keys.forEach(k => {
+        totalUnits += carrito[k].cantidad;
+        subtotalUSD += carrito[k].precioUSD * carrito[k].cantidad;
+      });
+      return { totalUnits, subtotalUSD };
+    }
+
+    function actualizarCarritoUI() {
+      let listaDiv = document.getElementById('listaItemsCarrito');
+      let totalTexto = document.getElementById('textoTotalFinal');
+      let totalUnidadesTxt = document.getElementById('textoTotalUnidades');
+      let btnEnviar = document.getElementById('btnEnviarPedido');
+      let keys = Object.keys(carrito);
+      let t = i18n[idiomaActual];
+
+      let minUnits = CONFIG_WHOLESALE.MINIMUM_WHOLESALE_UNITS;
+      document.getElementById('txtHeaderMinimo').innerText = t.headerMinimo.replace('{min}', minUnits);
+
+      if (keys.length === 0) {
+        listaDiv.innerHTML = `<p style="font-size: 12.5px; color: #7d5730; text-align: center; margin: 8px 0;">${t.orderEmpty}</p>`;
+        totalTexto.innerText = `${t.subtotal} ${obtenerPrecioFormateado(0)}`;
+        totalUnidadesTxt.innerText = `0 u.`;
+        btnEnviar.disabled = true;
+        document.getElementById('avisoMinimoContenedor').innerHTML = '';
+        return;
+      }
+
+      let htmlItems = '';
+      let totals = calcularTotales();
+
+      keys.forEach(k => {
+        let item = carrito[k];
+        let itemSub = item.precioUSD * item.cantidad;
+        htmlItems += `
+          <div class="itemCarrito">
+            <span><b>${item.nombre}</b> (${obtenerPrecioFormateado(item.precioUSD)} x ${item.cantidad})</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-weight: bold;">${obtenerPrecioFormateado(itemSub)}</span>
+              <button onclick="cambiarCantidadCarrito('${k}', -1)" style="background:#d98273; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">-</button>
+              <button onclick="cambiarCantidadCarrito('${k}', 1)" style="background:#a98357; color:white; border:none; border-radius:4px; width:20px; height:20px; cursor:pointer;">+</button>
+            </div>
+          </div>
+        `;
+      });
+
+      listaDiv.innerHTML = htmlItems;
+      totalUnidadesTxt.innerText = `${totals.totalUnits} u.`;
+      totalTexto.innerText = `${t.subtotal} ${obtenerPrecioFormateado(totals.subtotalUSD)}`;
+
+      let cumpleMinimo = totals.totalUnits >= minUnits;
+      btnEnviar.disabled = !cumpleMinimo;
+
+      if (cumpleMinimo) {
+        document.getElementById('avisoMinimoContenedor').innerHTML = `<div style="background: #e8f5e9; border: 1px solid #81c784; color: #2e7d32; padding: 6px; border-radius: 6px; font-size: 11.5px; text-align: center; margin: 8px 0;">${t.minimoAlcanzado.replace('{units}', totals.totalUnits)}</div>`;
+      } else {
+        let diff = minUnits - totals.totalUnits;
+        document.getElementById('avisoMinimoContenedor').innerHTML = `<div style="background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 6px; border-radius: 6px; font-size: 11.5px; text-align: center; margin: 8px 0;">${t.faltaMinimo.replace('{diff}', diff).replace('{min}', minUnits)}</div>`;
+      }
+    }
+
+    function abrirModalCheckout() {
+      let totals = calcularTotales();
+      document.getElementById('textoResumenTotalCheckout').innerText = `Estimated Subtotal: ${obtenerPrecioFormateado(totals.subtotalUSD)}`;
+      document.getElementById('textoResumenUnidadesCheckout').innerText = `Total Units: ${totals.totalUnits}`;
+      document.getElementById('modalCheckout').style.display = 'flex';
+    }
+
+    function cerrarModalCheckout() { document.getElementById('modalCheckout').style.display = 'none'; }
+
+    function validarYEnviarPedidoB2B() {
+      let storeName = document.getElementById('b2bStoreName').value.trim();
+      let contactName = document.getElementById('b2bContactName').value.trim();
+      let country = document.getElementById('b2bCountry').value.trim();
+      let city = document.getElementById('b2bCity').value.trim();
+      let email = document.getElementById('b2bEmail').value.trim();
+      let phone = document.getElementById('b2bPhone').value.trim();
+      let website = document.getElementById('b2bWebsite').value.trim();
+      let instagram = document.getElementById('b2bInstagram').value.trim();
+      let storeType = document.getElementById('b2bStoreType').value;
+      let notes = document.getElementById('b2bNotes').value.trim();
+      let acceptedTerms = document.getElementById('checkTerms').checked;
+
+      if (!storeName || !contactName || !country || !city || !email) {
+        alert("Please complete all required fields (*).");
+        return;
+      }
+
+      if (!acceptedTerms) {
+        alert("Please accept the Wholesale Terms to proceed.");
+        return;
+      }
+
+      let totals = calcularTotales();
+      let mensaje = `✨ *NEW WHOLESALE ORDER REQUEST* ✨\n\n` +
+                    `*Store Name:* ${storeName}\n` +
+                    `*Contact:* ${contactName}\n` +
+                    `*Location:* ${city}, ${country}\n` +
+                    `*Email:* ${email}\n` +
+                    `*Phone:* ${phone || 'N/A'}\n` +
+                    `*Store Type:* ${storeType}\n` +
+                    `*Web/IG:* ${website || ''} ${instagram || ''}\n\n` +
+                    `*ORDER ITEMS:* \n`;
+
+      Object.keys(carrito).forEach(k => {
+        let item = carrito[k];
+        mensaje += `- ${item.nombre} x ${item.cantidad} u. (${obtenerPrecioFormateado(item.precioUSD * item.cantidad)})\n`;
+      });
+
+      mensaje += `\n*Total Units:* ${totals.totalUnits} u.\n` +
+                 `*Estimated Subtotal:* ${obtenerPrecioFormateado(totals.subtotalUSD)}\n` +
+                 (notes ? `*Notes:* ${notes}\n` : '') +
+                 `\n_Please confirm inventory availability & international shipping quote._`;
+
+      window.open(`https://wa.me/${CONFIG_WHOLESALE.WHATSAPP_NUMBER}?text=` + encodeURIComponent(mensaje), '_blank');
+      cerrarModalCheckout();
+    }
+  </script>
+</body>
+</html>
