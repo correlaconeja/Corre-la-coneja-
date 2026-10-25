@@ -736,7 +736,11 @@
                  `*IMPORTE TOTAL: $${totalGeneral.toLocaleString('es-AR')}*\n\n` +
                  `Quedo a la espera de las instrucciones para coordinar el pago. ¡Gracias!`;
 
-      window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensaje), '_blank');
+  let url = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensaje);
+let link = document.createElement('a');
+link.href = url;
+link.target = '_blank';
+link.click();
     }
   </script>
 </body>
