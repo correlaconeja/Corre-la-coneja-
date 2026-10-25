@@ -151,7 +151,6 @@
     .formGrupo { margin-bottom: 12px; }
     .formGrupo label { display: block; font-size: 12.5px; font-weight: 600; color: #5a3e23; margin-bottom: 4px; }
     .formGrupo input, .formGrupo select, .formGrupo textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #c4ae88; font-family: 'Montserrat', sans-serif; font-size: 12.5px; background: #fff; }
-    .alertaExclusividad { background: #fcf0ed; border: 1px solid #d98273; color: #a63a2b; padding: 12px; border-radius: 10px; font-size: 12px; text-align: center; margin-bottom: 15px; line-height: 1.4; }
   </style>
   <div id="modalProducto" class="modalOverlay" onclick="cerrarModalFuera(event)">
     <div class="modalContenido">
@@ -225,11 +224,6 @@
           ⚠️ <b>¡ATENCIÓN!</b> Los pedidos solo se reservan una vez acreditado el pago. Los carritos sin pago no garantizan stock.
         </div>
         <button class="btnWhatsApp" style="margin-top: 10px;" onclick="validarYEnviarPedido()">Enviar Pedido por WhatsApp</button>
-      </div>
-      <div id="contenidoExclusividad" style="display: none;">
-        <div class="alertaExclusividad"><strong>⚠️ Zona con Revendedora Exclusiva</strong><br><br>Detectamos que tu localidad ya cuenta con un punto de venta o revendedor exclusivo registrado.</div>
-        <p style="font-size: 12.5px; color: #5a3e23; text-align: center; margin-bottom: 15px;">Podés consultar con nosotros vía WhatsApp para verificar disponibilidad de zona o conocer los datos de tu revendedora más cercana.</p>
-        <a id="btnWhatsappExclusividad" href="#" target="_blank" class="btnWhatsApp" style="text-decoration: none; display: block;">Consultar por WhatsApp</a>
       </div>
     </div>
   </div>
@@ -535,44 +529,13 @@
         cartel.style.display = 'none';
       }
     }
-    // --- INTEGRACIÓN AUTOMÁTICA CON GOOGLE SHEETS ---
-    let localidadesOcupadas = [];
-    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbzjGoiBHC8IvqjQnZww3yo67TJe8sCOZEazsHNPHP1zplzOBVIKkRqBLNvDt7yPa48g/exec";
-
-    function cargarLocalidadesExclusivas() {
-      fetch(URL_WEB_APP)
-        .then(response => response.json())
-        .then(data => {
-          localidadesOcupadas = data;
-          console.log("Zonas exclusivas cargadas:", localidadesOcupadas.length);
-        })
-        .catch(err => console.error("Error al cargar zonas:", err));
-    }
-
-    window.addEventListener('DOMContentLoaded', cargarLocalidadesExclusivas);
-
-    function guardarClienteEnPlanilla(datosCliente) {
-      fetch(URL_WEB_APP, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(datosCliente)
-      })
-      .then(() => {
-        console.log("Cliente registrado en Google Sheets con éxito");
-      })
-      .catch(err => console.error("Error al registrar:", err));
-    }
-    // ----------------------------------------------
-
-    function abrirModalCheckout() { 
+        function abrirModalCheckout() { 
       const modal = document.getElementById('modalCheckout');
       modal.style.display = 'flex'; 
       cambiarTipoEntrega();
       actualizarCarritoUI();
       actualizarInfoPagoUI();
       document.getElementById('contenidoCheckoutForm').style.display = 'block';
-      document.getElementById('contenidoExclusividad').style.display = 'none';
       setTimeout(() => {
         const btnFinal = modal.querySelector('.btnWhatsApp');
         if (btnFinal) {
@@ -650,7 +613,7 @@
       });
     }
 
-      function validarYEnviarPedido() {
+    function validarYEnviarPedido() {
       let nombre = document.getElementById('envNombre').value.trim(), 
           loc = document.getElementById('envLocalidad').value.trim(), 
           prov = document.getElementById('envProvincia').value.trim(), 
@@ -666,27 +629,6 @@
       if (!nombre || !loc || !prov || !car || !num || !cp || (tipo === 'domicilio' && !calle)) { 
         alert("Completá todos los campos obligatorios."); 
         return; 
-      }
-
-      let locNormalizada = loc.toLowerCase().trim();
-      let telefonoIngresado = (car + num).replace(/\D/g, "");
-
-      // Buscamos si la localidad ya figura en la base de datos de zonas ocupadas
-      let zonaOcupada = localidadesOcupadas.find(z => z.localidad.toLowerCase().trim() === locNormalizada);
-
-      if (zonaOcupada) {
-        let telefonoRegistrado = String(zonaOcupada.telefono).replace(/\D/g, "");
-
-        // Si el teléfono ingresado NO coincide con el registrado, se bloquea y manda a WhatsApp
-        if (telefonoIngresado !== telefonoRegistrado) {
-          document.getElementById('contenidoCheckoutForm').style.display = 'none';
-          let divExcl = document.getElementById('contenidoExclusividad');
-          divExcl.style.display = 'block';
-          let textoMsjExclusividad = `¡Hola! 👋 Me comuniqué desde la tienda porque soy de *${loc}* y vi que ya hay una revendedora exclusiva registrada. Quisiera consultar disponibilidad.`;
-          document.getElementById('btnWhatsappExclusividad').href = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(textoMsjExclusividad);
-          return;
-        }
-        // Si el teléfono SÍ coincide, el sistema lo deja pasar automáticamente.
       }
       
       let subtotal = calcularSubtotalProductos();
@@ -704,11 +646,6 @@
       }
 
       let totalGeneral = subtotal + costoEnvio + recargo;
-
-      guardarClienteEnPlanilla({
-        nombre, calle, localidad: loc, provincia: prov, cp, caracteristica: car, numero: num,
-        correo: document.getElementById('envCorreo').value.trim(), observaciones
-      });
 
       let mensaje = `Pedido Mayorista de *${nombre}* (${loc}, ${prov}).\n\nItems:\n`;
       Object.keys(carrito).forEach(k => {
@@ -736,13 +673,12 @@
                  `*IMPORTE TOTAL: $${totalGeneral.toLocaleString('es-AR')}*\n\n` +
                  `Quedo a la espera de las instrucciones para coordinar el pago. ¡Gracias!`;
 
-  let url = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensaje);
-let link = document.createElement('a');
-link.href = url;
-link.target = '_blank';
-link.click();
+      let url = `https://wa.me/${NUMERO_WHATSAPP}?text=` + encodeURIComponent(mensaje);
+      window.location.href = url;
     }
   </script>
 </body>
 </html>
+
+
 
